@@ -1,6 +1,6 @@
 ﻿namespace WonderFood.Core.Dtos;
 
-public class InserirClienteInput
+public class InserirClienteInputDto
 {
     public string Nome { get; set; }
     public string Email { get; set; }
