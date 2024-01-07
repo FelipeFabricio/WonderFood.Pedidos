@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using WonderFood.Core.Entities;
 using WonderFood.Core.Interfaces;
-using WonderFood.Infra.Data.Context;
+using WonderFood.Infra.Sql.Context;
 
-namespace WonderFood.Infra.Data.Repositories;
+namespace WonderFood.Infra.Sql.Repositories;
 
 public class ClienteRepository : IClienteRepository
 {
@@ -35,14 +35,9 @@ public class ClienteRepository : IClienteRepository
 
     public bool AtualizarCliente(Cliente cliente)
     {
-        var clienteCadastrado = ObterClientePorIdComTracking(cliente.Id);
+        var clienteCadastrado = ObterClientePorId(cliente.Id);
         if (clienteCadastrado == null) return false;
         _context.Clientes.Update(cliente);
         return _context.SaveChanges() > 0;
-    }
-    
-    private Cliente ObterClientePorIdComTracking(Guid id)
-    {
-        return _context.Clientes.FirstOrDefault(x => x.Id == id);
     }
 }

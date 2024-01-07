@@ -24,7 +24,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\WonderFood.Core\WonderFood.Core.csproj" />
-      <ProjectReference Include="..\WonderFood.Infra.Data\WonderFood.Infra.Data.csproj" />
+      <ProjectReference Include="..\WonderFood.Infra.Sql\WonderFood.Infra.Sql.csproj" />
       <ProjectReference Include="..\WonderFood.UseCases\WonderFood.UseCases.csproj" />
     </ItemGroup>
 

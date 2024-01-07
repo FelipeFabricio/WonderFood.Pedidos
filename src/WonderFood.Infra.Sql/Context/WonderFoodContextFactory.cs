@@ -2,12 +2,13 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace WonderFood.Infra.Data.Context
+namespace WonderFood.Infra.Sql.Context
 {
     public class WonderFoodContextFactory : IDesignTimeDbContextFactory<WonderFoodContext>
     {
         public WonderFoodContext CreateDbContext(string[] args)
         {
+            //TODO: Usar appsettings.json
             var optionsBuilder = new DbContextOptionsBuilder<WonderFoodContext>();
             var config = new ConfigurationBuilder()
                     //.SetBasePath("C:\\WonderFood\\WonderFood.sln")

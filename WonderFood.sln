@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WonderFood.Core", "src\Wond
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WonderFood.UseCases", "src\WonderFood.UseCases\WonderFood.UseCases.csproj", "{A095B9AD-A1A0-464E-A8D3-73146C807D71}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WonderFood.Infra.Data", "src\WonderFood.Infra.Data\WonderFood.Infra.Data.csproj", "{8EA12BB5-91D1-4B3E-B756-28D8496DD56D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WonderFood.Infra.Sql", "src\WonderFood.Infra.Sql\WonderFood.Infra.Sql.csproj", "{8EA12BB5-91D1-4B3E-B756-28D8496DD56D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WonderFood.Infra.Messaging", "src\WonderFood.Infra.Messaging\WonderFood.Infra.Messaging.csproj", "{0AF9A6C6-BED9-4461-B5A3-011AA438BDA3}"
 EndProject

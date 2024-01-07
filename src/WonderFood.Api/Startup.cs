@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using WonderFood.Infra.Data.Context;
-using WonderFood.Infra.Data.ServiceExtensions;
+using WonderFood.Infra.Sql.Context;
+using WonderFood.Infra.Sql.ServiceExtensions;
 using WonderFood.UseCases.ServiceExtensions;
 
 namespace WonderFood.Api
@@ -31,16 +31,24 @@ namespace WonderFood.Api
                 Configuration.GetConnectionString("DefaultConnection")));
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WonderFoodContext dbContext)
         {
             if (env.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "YourApiName v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WonderFood"));
             }
 
             app.UseHttpsRedirection();
+            app.UseRouting();
             app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+            
+            dbContext.Database.Migrate();
+            dbContext.SeedData();
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WonderFood.Core.Interfaces;
-using WonderFood.Infra.Data.Repositories;
+using WonderFood.Infra.Sql.Repositories;
 
-namespace WonderFood.Infra.Data.ServiceExtensions
+namespace WonderFood.Infra.Sql.ServiceExtensions
 {
     public static class InfraDataServiceExtensions
     {
