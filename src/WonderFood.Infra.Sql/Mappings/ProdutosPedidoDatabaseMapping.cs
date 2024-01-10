@@ -17,9 +17,5 @@ public class ProdutosPedidoDatabaseMapping : IEntityTypeConfiguration<ProdutosPe
         builder.HasOne(p => p.Pedido)
             .WithMany(p => p.Produtos)
             .HasForeignKey(p => p.PedidoId);
-
-        builder.HasOne(p => p.Produto)
-            .WithMany() 
-            .HasForeignKey(p => p.ProdutoId);
     }
 }

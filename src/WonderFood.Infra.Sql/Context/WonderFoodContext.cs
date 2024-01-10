@@ -20,10 +20,4 @@ public class WonderFoodContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(WonderFoodContext).Assembly);
         base.OnModelCreating(modelBuilder);
     }
-    
-    public void SeedData()
-    {
-        var sqlScript = File.ReadAllText("../../src/WonderFood.Infra.Sql/Scripts/SeedData.sql");
-        Database.ExecuteSqlRaw(sqlScript);
-    }
 }

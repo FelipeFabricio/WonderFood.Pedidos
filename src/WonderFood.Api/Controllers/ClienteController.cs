@@ -15,21 +15,33 @@ public class ClienteController : ControllerBase
         _useCases = useCases;
     }
 
+    /// <summary>
+    /// Obter todos os Clientes
+    /// </summary>
+    /// <response code="200">Retorna lista com todos os Clientes cadastrados</response>
     [HttpGet]
-    public ActionResult<IEnumerable<ClienteDto>> ObterTodosClientes()
+    public ActionResult<IEnumerable<ClienteOutputDto>> ObterTodosClientes()
     {
         var clientes = _useCases.ObterTodosClientes();
         return Ok(clientes);
     }
 
+    /// <summary>
+    /// Obter um Cliente por Id
+    /// </summary>
+    /// <response code="200">Retorna dados do Cliente</response>
     [HttpGet]
     [Route("{id}")]
-    public ActionResult<ClienteDto> ObterClientePorId(Guid id)
+    public ActionResult<ClienteOutputDto> ObterClientePorId(Guid id)
     {
         var cliente = _useCases.ObterClientePorId(id);
         return Ok(cliente);
     }
 
+    /// <summary>
+    /// Cadastrar um novo Cliente
+    /// </summary>
+    /// <response code="200"></response>
     [HttpPost]
     public ActionResult<bool> InserirCliente([FromBody] InserirClienteInputDto cliente)
     {
@@ -37,6 +49,10 @@ public class ClienteController : ControllerBase
         return Ok(result);
     }
 
+    /// <summary>
+    /// Atualiza os dados de um Cliente
+    /// </summary>
+    /// <response code="200"></response>
     [HttpPut]
     public ActionResult<bool> AtualizarCliente([FromBody] AtualizarClienteInputDto cliente)
     {

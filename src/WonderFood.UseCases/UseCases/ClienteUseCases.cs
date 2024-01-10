@@ -15,16 +15,16 @@ public class ClienteUseCases : IClienteUseCases
         _mappper = mappper;
     }
     
-    public IEnumerable<ClienteDto> ObterTodosClientes()
+    public IEnumerable<ClienteOutputDto> ObterTodosClientes()
     {
         var clientes = _repository.ObterTodosClientes();
-        return _mappper.Map<IEnumerable<ClienteDto>>(clientes);
+        return _mappper.Map<IEnumerable<ClienteOutputDto>>(clientes);
     }
 
-    public ClienteDto ObterClientePorId(Guid id)
+    public ClienteOutputDto ObterClientePorId(Guid id)
     {
         var cliente = _repository.ObterClientePorId(id);
-        return _mappper.Map<ClienteDto>(cliente);
+        return _mappper.Map<ClienteOutputDto>(cliente);
     }
 
     public bool InserirCliente(InserirClienteInputDto cliente)

@@ -1,6 +1,6 @@
 ﻿namespace WonderFood.Core.Dtos;
 
-public class ClienteDto
+public class ClienteOutputDto
 {
     public Guid Id { get; set; }
     public string Nome { get; set; }

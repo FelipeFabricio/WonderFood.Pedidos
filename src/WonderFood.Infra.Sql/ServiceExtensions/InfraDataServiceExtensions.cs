@@ -9,6 +9,8 @@ namespace WonderFood.Infra.Sql.ServiceExtensions
         public static void AddInfraDataServices(this IServiceCollection services)
         {
             services.AddScoped<IClienteRepository, ClienteRepository>();
+            services.AddScoped<IProdutoRepository, ProdutoRepository>();
+            services.AddScoped<IPedidoRepository, PedidoRepository>();
         }
     }
 }

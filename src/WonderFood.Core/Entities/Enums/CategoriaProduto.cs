@@ -3,7 +3,7 @@
 public enum CategoriaProduto
 {
     Lanche,
-    Bebdida,
+    Bebida,
     Sobremesa,
     Acompanhamento
 }
