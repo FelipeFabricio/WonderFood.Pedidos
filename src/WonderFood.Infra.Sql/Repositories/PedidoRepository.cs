@@ -2,6 +2,7 @@
 using WonderFood.Core.Entities;
 using WonderFood.Core.Entities.Enums;
 using WonderFood.Core.Interfaces;
+using WonderFood.Core.Interfaces.Repository;
 using WonderFood.Infra.Sql.Context;
 
 namespace WonderFood.Infra.Sql.Repositories;
@@ -26,24 +27,33 @@ public class PedidoRepository : IPedidoRepository
                 p.Status != StatusPedido.Cancelado &&
                 p.Status != StatusPedido.Finalizado)
             .Include(p => p.Produtos)
-                .ThenInclude(c => c.Produto)
+            .ThenInclude(c => c.Produto)
             .OrderByDescending(p => p.Status)
             .ThenBy(p => p.DataPedido)
             .ToList();
     }
 
-    public bool Inserir(Pedido pedido)
+    public void Inserir(Pedido pedido)
     {
-        throw new NotImplementedException();
+        _context.Pedidos.Add(pedido);
+        _context.SaveChanges();
     }
 
-    public bool AtualizarStatusPedido(Pedido pedido)
+    public void AtualizarStatusPedido(int numeroPedido, StatusPedido novoStatus)
     {
-        throw new NotImplementedException();
+        var pedido = ObterPorNumeroPedido(numeroPedido);
+        if (pedido is null) throw new Exception("Pedido não encontrado");
+        
+        pedido.Status = novoStatus;
+        _context.Pedidos.Update(pedido);
+        _context.SaveChanges();
     }
 
-    public bool Delete(int numeroPedido)
+    public void Delete(int numeroPedido)
     {
-        throw new NotImplementedException();
+        var pedido = ObterPorNumeroPedido(numeroPedido);
+        if (pedido is null) throw new Exception("Pedido não encontrado");
+        _context.Pedidos.Remove(pedido);
+        _context.SaveChanges();
     }
 }

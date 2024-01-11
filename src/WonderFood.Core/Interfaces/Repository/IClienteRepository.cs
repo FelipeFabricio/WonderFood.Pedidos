@@ -1,11 +1,11 @@
 ﻿using WonderFood.Core.Entities;
 
-namespace WonderFood.Core.Interfaces;
+namespace WonderFood.Core.Interfaces.Repository;
 
 public interface IClienteRepository
 {
     IEnumerable<Cliente> ObterTodosClientes();
     Cliente ObterClientePorId(Guid id);
-    bool InserirCliente(Cliente cliente);
-    bool AtualizarCliente(Cliente cliente);
+    void InserirCliente(Cliente cliente);
+    void AtualizarCliente(Cliente cliente);
 }

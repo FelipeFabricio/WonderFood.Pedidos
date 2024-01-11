@@ -1,11 +1,11 @@
 ﻿using WonderFood.Core.Dtos;
 
-namespace WonderFood.Core.Interfaces;
+namespace WonderFood.Core.Interfaces.UseCases;
 
 public interface IClienteUseCases
 {
-    public IEnumerable<ClienteOutputDto> ObterTodosClientes();
-    public ClienteOutputDto ObterClientePorId(Guid id);
-    public bool InserirCliente(InserirClienteInputDto cliente);
-    public bool AtualizarCliente(AtualizarClienteInputDto cliente);
+    IEnumerable<ClienteOutputDto> ObterTodosClientes();
+    ClienteOutputDto ObterClientePorId(Guid id);
+    void InserirCliente(InserirClienteInputDto cliente);
+    void AtualizarCliente(AtualizarClienteInputDto cliente);
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WonderFood.Core.Dtos;
 using WonderFood.Core.Interfaces;
 
 namespace WonderFood.Api.Controllers;
@@ -21,8 +22,14 @@ public class PedidoController  : ControllerBase
     [HttpGet]
     public IActionResult ObterPedidosEmAberto()
     {
-        var pedidos = _pedidoUseCases.ObterPedidosEmAberto();
-        return Ok(pedidos);
+        try
+        {
+            return Ok(_pedidoUseCases.ObterPedidosEmAberto());
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new { e.Message });
+        }
     }
     
     /// <summary>
@@ -32,8 +39,32 @@ public class PedidoController  : ControllerBase
     [HttpGet("{numeroPedido:int}")]
     public IActionResult ObterStatusPedido(int numeroPedido)
     {
-        var statusPagamento = _pedidoUseCases.ConsultarStatusPedido(numeroPedido);
-        return Ok(statusPagamento);
+        try
+        {
+            return Ok(_pedidoUseCases.ConsultarStatusPedido(numeroPedido));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new { e.Message });
+        }
+    }
+    
+    /// <summary>
+    /// Cadastrar um novo Pedido
+    /// </summary>
+    /// <response code="200"></response>
+    [HttpPost]
+    public IActionResult InserirPedido([FromBody] InserirPedidoInputDto produto)
+    {
+        try
+        {
+            _pedidoUseCases.Inserir(produto);
+            return StatusCode(201);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new { e.Message });
+        }
     }
     
 }

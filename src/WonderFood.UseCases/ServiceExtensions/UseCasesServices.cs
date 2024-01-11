@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WonderFood.Core.Interfaces;
-using WonderFood.UseCases.Cliente;
+using WonderFood.Core.Interfaces.UseCases;
 using WonderFood.UseCases.UseCases;
 
 namespace WonderFood.UseCases.ServiceExtensions;

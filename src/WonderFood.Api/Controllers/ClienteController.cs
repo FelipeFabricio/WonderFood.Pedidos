@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WonderFood.Core.Dtos;
 using WonderFood.Core.Interfaces;
+using WonderFood.Core.Interfaces.UseCases;
 
 namespace WonderFood.Api.Controllers;
 
@@ -22,8 +23,14 @@ public class ClienteController : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<ClienteOutputDto>> ObterTodosClientes()
     {
-        var clientes = _useCases.ObterTodosClientes();
-        return Ok(clientes);
+        try
+        {
+            return Ok(_useCases.ObterTodosClientes());
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new { e.Message });
+        }
     }
 
     /// <summary>
@@ -34,8 +41,14 @@ public class ClienteController : ControllerBase
     [Route("{id}")]
     public ActionResult<ClienteOutputDto> ObterClientePorId(Guid id)
     {
-        var cliente = _useCases.ObterClientePorId(id);
-        return Ok(cliente);
+        try
+        {
+            return Ok(_useCases.ObterClientePorId(id));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new { e.Message });
+        }
     }
 
     /// <summary>
@@ -43,10 +56,17 @@ public class ClienteController : ControllerBase
     /// </summary>
     /// <response code="200"></response>
     [HttpPost]
-    public ActionResult<bool> InserirCliente([FromBody] InserirClienteInputDto cliente)
+    public IActionResult InserirCliente([FromBody] InserirClienteInputDto cliente)
     {
-        var result = _useCases.InserirCliente(cliente);
-        return Ok(result);
+        try
+        {
+            _useCases.InserirCliente(cliente);
+            return StatusCode(201);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new { e.Message });
+        }
     }
 
     /// <summary>
@@ -54,9 +74,16 @@ public class ClienteController : ControllerBase
     /// </summary>
     /// <response code="200"></response>
     [HttpPut]
-    public ActionResult<bool> AtualizarCliente([FromBody] AtualizarClienteInputDto cliente)
+    public IActionResult AtualizarCliente([FromBody] AtualizarClienteInputDto cliente)
     {
-        var result = _useCases.AtualizarCliente(cliente);
-        return Ok(result);
+        try
+        {
+            _useCases.AtualizarCliente(cliente);
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new { e.Message });
+        }
     }
 }

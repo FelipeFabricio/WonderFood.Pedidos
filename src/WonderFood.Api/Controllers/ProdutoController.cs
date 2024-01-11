@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WonderFood.Core.Dtos;
 using WonderFood.Core.Interfaces;
+using WonderFood.Core.Interfaces.UseCases;
 
 namespace WonderFood.Api.Controllers;
 
@@ -22,8 +23,14 @@ public class ProdutoController : ControllerBase
     [HttpGet]
     public IActionResult ObterTodosProdutos()
     {
-        var produtos = _produtoUseCases.ObterTodosProdutos();
-        return Ok(produtos);
+        try
+        {
+            return Ok(_produtoUseCases.ObterTodosProdutos());
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new { e.Message });
+        }
     }
     
     /// <summary>
@@ -34,8 +41,14 @@ public class ProdutoController : ControllerBase
     [Route("{categoria:int}")]
     public ActionResult<ProdutoOutputDto>  ObterProdutosPorCategoria(int categoria)
     {
-        var produto = _produtoUseCases.ObterProdutoPorCategoria(categoria);
-        return Ok(produto);
+        try
+        {
+            return Ok(_produtoUseCases.ObterProdutoPorCategoria(categoria));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new { e.Message });
+        }
     }
     
     /// <summary>
@@ -43,9 +56,16 @@ public class ProdutoController : ControllerBase
     /// </summary>
     /// <response code="200"></response>
     [HttpPost]
-    public ActionResult<bool> InserirProduto([FromBody] InserirProdutoInputDto produto)
+    public ActionResult InserirProduto([FromBody] InserirProdutoInputDto produto)
     {
-        _produtoUseCases.InserirProduto(produto);
-        return Ok();
+        try
+        {
+            _produtoUseCases.InserirProduto(produto);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new { e.Message });
+        }
     }
 }

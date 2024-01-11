@@ -1,12 +1,13 @@
 ﻿using WonderFood.Core.Entities;
+using WonderFood.Core.Entities.Enums;
 
-namespace WonderFood.Core.Interfaces;
+namespace WonderFood.Core.Interfaces.Repository;
 
 public interface IPedidoRepository
 {
     Pedido ObterPorNumeroPedido(int numeroPedido);
     IEnumerable<Pedido> ObterPedidosEmAberto();
-    bool Inserir(Pedido pedido);
-    bool AtualizarStatusPedido(Pedido pedido);
-    bool Delete(int numeroPedido);
+    void Inserir(Pedido pedido);
+    void AtualizarStatusPedido(int numeroPedido, StatusPedido novoSStatus);
+    void Delete(int numeroPedido);
 }

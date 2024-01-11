@@ -1,11 +1,10 @@
 ﻿using WonderFood.Core.Dtos;
-using WonderFood.Core.Entities.Enums;
 
-namespace WonderFood.Core.Interfaces;
+namespace WonderFood.Core.Interfaces.UseCases;
 
 public interface IProdutoUseCases
 {
     IEnumerable<ProdutoOutputDto> ObterTodosProdutos();
     IEnumerable<ProdutoOutputDto> ObterProdutoPorCategoria(int categoria);
-    bool InserirProduto(InserirProdutoInputDto produto);
+    void InserirProduto(InserirProdutoInputDto produto);
 }

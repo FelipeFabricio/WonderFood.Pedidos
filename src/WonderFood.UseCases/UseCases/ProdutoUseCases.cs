@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using WonderFood.Core.Dtos;
+using WonderFood.Core.Entities;
 using WonderFood.Core.Entities.Enums;
-using WonderFood.Core.Interfaces;
+using WonderFood.Core.Interfaces.Repository;
+using WonderFood.Core.Interfaces.UseCases;
 
 namespace WonderFood.UseCases.UseCases;
 
@@ -34,9 +36,9 @@ public class ProdutoUseCases : IProdutoUseCases
         throw new ArgumentException("Categoria do produto inválida!");
     }
 
-    public bool InserirProduto(InserirProdutoInputDto produto)
+    public void InserirProduto(InserirProdutoInputDto produto)
     {
-        var produtoEntity = _mappper.Map<Core.Entities.Produto>(produto);
-        return _repository.Inserir(produtoEntity);
+        var produtoEntity = _mappper.Map<Produto>(produto);
+        _repository.Inserir(produtoEntity);
     }
 }

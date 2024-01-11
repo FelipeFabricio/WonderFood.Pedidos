@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using WonderFood.Core.Dtos;
-using WonderFood.Core.Interfaces;
+using WonderFood.Core.Interfaces.Repository;
+using WonderFood.Core.Interfaces.UseCases;
 
-namespace WonderFood.UseCases.Cliente;
+namespace WonderFood.UseCases.UseCases;
 
 public class ClienteUseCases : IClienteUseCases
 {
@@ -27,15 +28,15 @@ public class ClienteUseCases : IClienteUseCases
         return _mappper.Map<ClienteOutputDto>(cliente);
     }
 
-    public bool InserirCliente(InserirClienteInputDto cliente)
+    public void InserirCliente(InserirClienteInputDto cliente)
     {
         var clienteEntity = _mappper.Map<Core.Entities.Cliente>(cliente);
-        return _repository.InserirCliente(clienteEntity);   
+        _repository.InserirCliente(clienteEntity);   
     }
 
-    public bool AtualizarCliente(AtualizarClienteInputDto cliente)
+    public void AtualizarCliente(AtualizarClienteInputDto cliente)
     {
         var clienteEntity = _mappper.Map<Core.Entities.Cliente>(cliente);
-        return _repository.AtualizarCliente(clienteEntity);
+        _repository.AtualizarCliente(clienteEntity);
     }
 }

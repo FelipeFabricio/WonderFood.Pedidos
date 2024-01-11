@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WonderFood.Core.Interfaces;
+using WonderFood.Core.Interfaces.Repository;
 using WonderFood.Infra.Sql.Repositories;
 
 namespace WonderFood.Infra.Sql.ServiceExtensions

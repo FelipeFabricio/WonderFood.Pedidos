@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using WonderFood.Core.Entities;
 using WonderFood.Core.Interfaces;
+using WonderFood.Core.Interfaces.Repository;
 using WonderFood.Infra.Sql.Context;
 
 namespace WonderFood.Infra.Sql.Repositories;
@@ -27,17 +28,17 @@ public class ClienteRepository : IClienteRepository
         return _context.Clientes.AsNoTracking().FirstOrDefault(x => x.Id == id);
     }
 
-    public bool InserirCliente(Cliente cliente)
+    public void InserirCliente(Cliente cliente)
     {
         _context.Clientes.Add(cliente);
-        return _context.SaveChanges() > 0;
+        _context.SaveChanges();
     }
 
-    public bool AtualizarCliente(Cliente cliente)
+    public void AtualizarCliente(Cliente cliente)
     {
         var clienteCadastrado = ObterClientePorId(cliente.Id);
-        if (clienteCadastrado == null) return false;
+        if (clienteCadastrado == null) throw new Exception("Cliente não encontrado.");
         _context.Clientes.Update(cliente);
-        return _context.SaveChanges() > 0;
+        _context.SaveChanges();
     }
 }
