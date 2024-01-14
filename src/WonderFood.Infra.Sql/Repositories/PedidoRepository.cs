@@ -45,7 +45,6 @@ public class PedidoRepository : IPedidoRepository
         if (pedido is null) throw new Exception("Pedido não encontrado");
         
         pedido.Status = novoStatus;
-        _context.Pedidos.Update(pedido);
         _context.SaveChanges();
     }
 

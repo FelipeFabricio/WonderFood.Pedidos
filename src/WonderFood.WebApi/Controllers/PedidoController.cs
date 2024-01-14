@@ -2,7 +2,7 @@
 using WonderFood.Core.Dtos;
 using WonderFood.Core.Interfaces;
 
-namespace WonderFood.Api.Controllers;
+namespace WonderFood.WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -66,5 +66,4 @@ public class PedidoController  : ControllerBase
             return BadRequest(new { e.Message });
         }
     }
-    
 }

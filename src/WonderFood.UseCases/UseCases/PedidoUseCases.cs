@@ -1,6 +1,10 @@
 ﻿using AutoMapper;
+using MercadoPago.Client.Payment;
+using MercadoPago.Config;
+using MercadoPago.Resource.Payment;
 using WonderFood.Core.Dtos;
 using WonderFood.Core.Entities;
+using WonderFood.Core.Entities.Enums;
 using WonderFood.Core.Interfaces;
 using WonderFood.Core.Interfaces.Repository;
 
@@ -55,11 +59,21 @@ public class PedidoUseCases : IPedidoUseCases
         var pedido = _pedidoRepository.ObterPorNumeroPedido(numeroPedido);
         return _mapper.Map<StatusPedidoOutputDto>(pedido);
     }
-    
+
+    public void AtualizarStatusPedido(int numeroPedido, StatusPedido statusPedido)
+    {
+        _pedidoRepository.AtualizarStatusPedido(numeroPedido,statusPedido);
+    }
+
+    public void Deletar(int numeroPedido)
+    {
+        _pedidoRepository.Delete(numeroPedido);
+    }
+
     private void ValidarCliente(Guid clienteId)
     {
         var cliente = _clienteRepository.ObterClientePorId(clienteId);
-        if (cliente == null) throw new Exception("Cliente não encontrado");
+        if (cliente == null) throw new Exception("Cliente não encontrado.");
     }
     
     private void ValidarProdutos(IEnumerable<InserirProdutosPedidoInputDto> produtos)

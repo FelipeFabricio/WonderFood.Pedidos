@@ -1,6 +1,6 @@
 using Serilog;
 
-namespace WonderFood.Api;
+namespace WonderFood.WebApi;
 
 public class Program
 {

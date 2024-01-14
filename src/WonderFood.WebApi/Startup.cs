@@ -1,13 +1,13 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Polly;
+using Serilog;
 using WonderFood.Infra.Sql.Context;
 using WonderFood.Infra.Sql.ServiceExtensions;
 using WonderFood.UseCases.ServiceExtensions;
-using Polly;
-using Serilog;
 
-namespace WonderFood.Api
+namespace WonderFood.WebApi
 {
     public class Startup
     {

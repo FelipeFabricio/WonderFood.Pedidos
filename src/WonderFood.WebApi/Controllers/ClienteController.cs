@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WonderFood.Core.Dtos;
-using WonderFood.Core.Interfaces;
 using WonderFood.Core.Interfaces.UseCases;
 
-namespace WonderFood.Api.Controllers;
+namespace WonderFood.WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
