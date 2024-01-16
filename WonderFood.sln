@@ -23,9 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{98EB42CA
 		.gitignore = .gitignore
 		docker-compose.yml = docker-compose.yml
 		Dockerfile = Dockerfile
-		app-deployment.yml = app-deployment.yml
-		sqlserver-deployment.yml = sqlserver-deployment.yml
-		wonderfood-services.yml = wonderfood-services.yml
+		deployment.yml = deployment.yml
 	EndProjectSection
 EndProject
 Global
