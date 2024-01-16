@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wonderfood-sqlserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sqlserver
+  template:
+    metadata:
+      labels:
+        app: sqlserver
+    spec:
+      containers:
+        - name: sqlserver
+          image: mcr.microsoft.com/mssql/server:2017-latest
+          ports:
+            - containerPort: 1433
+              name: sqlserver
+              protocol: TCP
+          resources:
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+            requests:
+              cpu: "0.5"
+              memory: "512Mi"
+          env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sqlserver-password-secret
+                  key: SA_PASSWORD
+              
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wonderfood-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wonderfood-app
+  template:
+    metadata:
+      labels:
+        app: wonderfood-app
+    spec:
+      containers:
+        - name: wonderfood-app
+          image: felipefabricio/wonderfood-app:latest
+          ports:
+            - containerPort: 80
+              name: wonderfood-app
+              protocol: TCP
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: "512Mi"
+            requests:
+              cpu: "0.1"
+              memory: "256Mi"
+          env:
+          - name: ConnectionString
+            valueFrom:
+              secretKeyRef:
+                name: database-connection-secret
+                key: connectionstring
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: wonderfood-app-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: wonderfood-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: wonderfood-sqlserver-service
+spec:
+  type: ClusterIP
+  selector:
+    app: sqlserver
+  ports:
+    - protocol: TCP
+      port: 1433
+      targetPort: 1433
