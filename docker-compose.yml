@@ -10,6 +10,8 @@ services:
     ports:
       - "8000:80"
       - "8001:443"
+    environment:
+      - ConnectionString=Server=sqlserver,1433;Database=master;User Id=sa;Password=senhaForte123!;TrustServerCertificate=True;
 
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2017-latest

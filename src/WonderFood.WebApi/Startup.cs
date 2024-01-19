@@ -36,8 +36,7 @@ namespace WonderFood.WebApi
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection") ?? 
                                    Configuration["ConnectionString"];
-            
-            Log.Information(connectionString);
+
             services.AddDbContext<WonderFoodContext>(options => options.UseSqlServer(connectionString));
         }
 
@@ -45,7 +44,6 @@ namespace WonderFood.WebApi
         {
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WonderFood"));
-            //app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
@@ -71,7 +69,10 @@ namespace WonderFood.WebApi
                             $"Tentativa {retryCount} de conexão ao SQL Server falhou. Tentando novamente em {timeSpan.Seconds} segundos.");
                     });
 
-            retryPolicy.Execute(() => { dbContext.Database.Migrate(); });
+            retryPolicy.Execute(() =>
+            {
+                dbContext.Database.Migrate();
+            });
         }
     }
 }

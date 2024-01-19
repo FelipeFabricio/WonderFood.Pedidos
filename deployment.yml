@@ -34,7 +34,14 @@ spec:
                 secretKeyRef:
                   name: sqlserver-password-secret
                   key: SA_PASSWORD
-              
+          volumeMounts:
+            - mountPath: /var/opt/mssql
+              name: sqlserverdb-storage
+      volumes:
+        - name: sqlserverdb-storage
+          persistentVolumeClaim:
+            claimName: sqlserver-volume-claim
+
 ---
 
 apiVersion: apps/v1
@@ -66,12 +73,40 @@ spec:
               cpu: "0.1"
               memory: "256Mi"
           env:
-          - name: ConnectionString
-            valueFrom:
-              secretKeyRef:
-                name: database-connection-secret
-                key: connectionstring
+            - name: ConnectionString
+              valueFrom:
+                secretKeyRef:
+                  name: database-connection-secret
+                  key: connectionstring
 
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wonderfood-app-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: wonderfood-app-service
+                port:
+                  number: 80
+          - path: /swagger
+            pathType: Prefix
+            backend:
+              service:
+                name: wonderfood-app-service
+                port:
+                  number: 80
+  
 ---
 
 apiVersion: v1
@@ -79,7 +114,7 @@ kind: Service
 metadata:
   name: wonderfood-app-service
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: wonderfood-app
   ports:
@@ -101,3 +136,17 @@ spec:
     - protocol: TCP
       port: 1433
       targetPort: 1433
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sqlserver-volume-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+      
