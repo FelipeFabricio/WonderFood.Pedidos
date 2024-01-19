@@ -17,13 +17,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{F9C5B0C9-29D9-45C9-B551-E39DB548DBA1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{98EB42CA-4463-4B96-9A5C-7DEEFA956EE4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{98EB42CA-4463-4B96-9A5C-7DEEFA956EE4}"
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
 		.gitignore = .gitignore
 		docker-compose.yml = docker-compose.yml
 		Dockerfile = Dockerfile
 		deployment.yml = deployment.yml
+		SeedData.sql = SeedData.sql
 	EndProjectSection
 EndProject
 Global
