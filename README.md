@@ -19,7 +19,7 @@ O projeto é a construção de um Sistema de autoatendimento de um fast food em 
 1. .Net 7
 3. SQL Server
 4. Docker
-5. Kubernetes
+5. Kubernetes~~~~
 <br>
 
 ##  :arrow_forward: Procedimentos de execução
@@ -27,4 +27,4 @@ O projeto é a construção de um Sistema de autoatendimento de um fast food em 
 Via Docker-compose:
 
  1. Executar o comando: `docker-compose up -d` 
- 2. Acessar a aplicação usando o **SwaggerUI** através do seu localhost, na porta 80. Exemplo: http://localhost:80/swagger
+ 2. Acessar a aplicação usando o **SwaggerUI** através do seu localhost, na porta 8000. Exemplo: http://localhost:8000/swagger
