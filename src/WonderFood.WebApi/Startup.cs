@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Polly;
@@ -20,12 +21,16 @@ namespace WonderFood.WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
+
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WonderFood", Version = "v1" });
-
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
@@ -34,7 +39,7 @@ namespace WonderFood.WebApi
             services.AddInfraDataServices();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            var connectionString = Configuration.GetConnectionString("DefaultConnection") ?? 
+            var connectionString = Configuration.GetConnectionString("DefaultConnection") ??
                                    Configuration["ConnectionString"];
 
             services.AddDbContext<WonderFoodContext>(options => options.UseSqlServer(connectionString));
@@ -69,10 +74,7 @@ namespace WonderFood.WebApi
                             $"Tentativa {retryCount} de conexão ao SQL Server falhou. Tentando novamente em {timeSpan.Seconds} segundos.");
                     });
 
-            retryPolicy.Execute(() =>
-            {
-                dbContext.Database.Migrate();
-            });
+            retryPolicy.Execute(() => { dbContext.Database.Migrate(); });
         }
     }
 }

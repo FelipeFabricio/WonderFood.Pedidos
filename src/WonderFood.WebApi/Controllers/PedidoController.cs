@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WonderFood.Core.Dtos;
+using WonderFood.Core.Entities.Enums;
 using WonderFood.Core.Interfaces;
 
 namespace WonderFood.WebApi.Controllers;
@@ -59,6 +60,24 @@ public class PedidoController  : ControllerBase
         try
         {
             _pedidoUseCases.Inserir(produto);
+            return StatusCode(201);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new { e.Message });
+        }
+    }
+    
+    /// <summary>
+    /// Avançar o status de um Pedido
+    /// </summary>
+    /// <response code="201"></response>
+    [HttpPut]
+    public IActionResult AvançarPedido(int numeroPedido, StatusPedido novoStatus)
+    {
+        try
+        {
+            _pedidoUseCases.AtualizarStatusPedido(numeroPedido, novoStatus);
             return StatusCode(201);
         }
         catch (Exception e)
