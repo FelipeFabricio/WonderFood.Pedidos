@@ -81,40 +81,12 @@ spec:
 
 ---
 
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: wonderfood-app-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-spec:
-  ingressClassName: nginx
-  rules:
-    - http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: wonderfood-app-service
-                port:
-                  number: 80
-          - path: /swagger
-            pathType: Prefix
-            backend:
-              service:
-                name: wonderfood-app-service
-                port:
-                  number: 80
-  
----
-
 apiVersion: v1
 kind: Service
 metadata:
   name: wonderfood-app-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: wonderfood-app
   ports:
