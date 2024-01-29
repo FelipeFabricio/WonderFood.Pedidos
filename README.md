@@ -19,7 +19,7 @@ O projeto é a construção de um Sistema de autoatendimento de um fast food em 
 1. .Net 7
 3. SQL Server
 4. Docker
-5. Kubernetes~~~~
+5. Kubernetes
 6. AKS
 <br>
 
