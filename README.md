@@ -11,7 +11,7 @@ O projeto é a construção de um Sistema de autoatendimento de um fast food em 
 - #### Fluxo de Pedido e Pagamento: https://encurtador.com.br/puvP3
 - #### Sumário Ubíquo: https://encurtador.com.br/bfVY8
 - #### Repositório GitHub: https://github.com/FelipeFabricio/WonderFood
-- ####  Desenho Arquitetura Infraestrutura: https://encurtador.com.br/nuNOT
+- #### Desenho Arquitetura Infraestrutura: https://encurtador.com.br/nuNOT
 <br>
 
 ## :hammer_and_wrench:  Tecnologias utilizadas
@@ -19,7 +19,7 @@ O projeto é a construção de um Sistema de autoatendimento de um fast food em 
 1. .Net 7
 3. SQL Server
 4. Docker
-5. Kubernetes~~~~
+5. Kubernetes
 6. AKS
 <br>
 
