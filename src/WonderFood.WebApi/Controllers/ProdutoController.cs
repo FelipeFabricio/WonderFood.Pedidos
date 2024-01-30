@@ -19,7 +19,8 @@ public class ProdutoController : ControllerBase
     /// <summary>
     /// Obter todos os Produtos cadastrados
     /// </summary>
-    /// <response code="200"></response>
+    /// <response code="200">Dados obtidos com sucesso</response>
+    /// <response code="400">Falha ao obter Produtos</response>
     [HttpGet]
     public IActionResult ObterTodosProdutos()
     {
@@ -36,7 +37,8 @@ public class ProdutoController : ControllerBase
     /// <summary>
     /// Obter todos os Produtos de uma mesma Categoria
     /// </summary>
-    /// <response code="200"></response>
+    /// <response code="200">Dados obtidos com sucesso</response>
+    /// <response code="400">Falha ao obter Produtos</response>
     [HttpGet] 
     [Route("{categoria:int}")]
     public ActionResult<ProdutoOutputDto>  ObterProdutosPorCategoria(int categoria)
@@ -54,7 +56,8 @@ public class ProdutoController : ControllerBase
     /// <summary>
     /// Cadastrar um novo Produto
     /// </summary>
-    /// <response code="200"></response>
+    /// <response code="200">Cadastro com sucesso</response>
+    /// <response code="400">Falha ao cadastrar Produtos</response>
     [HttpPost]
     public ActionResult InserirProduto([FromBody] InserirProdutoInputDto produto)
     {
