@@ -18,7 +18,8 @@ public class ClienteController : ControllerBase
     /// <summary>
     /// Obter todos os Clientes
     /// </summary>
-    /// <response code="200">Retorna lista com todos os Clientes cadastrados</response>
+    /// <response code="200">Dados obtidos com sucesso</response>
+    /// <response code="400">Falha ao obter Clientes</response>
     [HttpGet]
     public ActionResult<IEnumerable<ClienteOutputDto>> ObterTodosClientes()
     {
@@ -35,7 +36,8 @@ public class ClienteController : ControllerBase
     /// <summary>
     /// Obter um Cliente por Id
     /// </summary>
-    /// <response code="200">Retorna dados do Cliente</response>
+    /// <response code="200">Dados obtidos com sucesso</response>
+    /// <response code="400">Falha ao obter Cliente</response>
     [HttpGet]
     [Route("{id}")]
     public ActionResult<ClienteOutputDto> ObterClientePorId(Guid id)
@@ -53,14 +55,15 @@ public class ClienteController : ControllerBase
     /// <summary>
     /// Cadastrar um novo Cliente
     /// </summary>
-    /// <response code="200"></response>
+    /// <response code="201">Criado com sucesso</response>
+    /// <response code="400">Falha ao cadastrar</response>
     [HttpPost]
     public IActionResult InserirCliente([FromBody] InserirClienteInputDto cliente)
     {
         try
         {
-            _useCases.InserirCliente(cliente);
-            return StatusCode(201);
+            var novoCliente = _useCases.InserirCliente(cliente);
+            return CreatedAtAction(nameof(ObterClientePorId), new {id = novoCliente.Id}, novoCliente);
         }
         catch (Exception e)
         {
@@ -71,7 +74,8 @@ public class ClienteController : ControllerBase
     /// <summary>
     /// Atualiza os dados de um Cliente
     /// </summary>
-    /// <response code="200"></response>
+    /// <response code="204">Atualizado com sucesso</response>
+    /// <response code="400">Falha ao atualizar</response>
     [HttpPut]
     public IActionResult AtualizarCliente([FromBody] AtualizarClienteInputDto cliente)
     {

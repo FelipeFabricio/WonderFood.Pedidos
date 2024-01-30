@@ -15,7 +15,7 @@ public class ClienteUseCases : IClienteUseCases
         _repository = repository;
         _mappper = mappper;
     }
-    
+
     public IEnumerable<ClienteOutputDto> ObterTodosClientes()
     {
         var clientes = _repository.ObterTodosClientes();
@@ -28,15 +28,17 @@ public class ClienteUseCases : IClienteUseCases
         return _mappper.Map<ClienteOutputDto>(cliente);
     }
 
-    public void InserirCliente(InserirClienteInputDto cliente)
+    public ClienteOutputDto InserirCliente(InserirClienteInputDto cliente)
     {
         var clienteEntity = _mappper.Map<Core.Entities.Cliente>(cliente);
-        _repository.InserirCliente(clienteEntity);   
+        var clienteCadastrado = _repository.InserirCliente(clienteEntity);
+        return _mappper.Map<ClienteOutputDto>(clienteCadastrado);
     }
 
-    public void AtualizarCliente(AtualizarClienteInputDto cliente)
+    public ClienteOutputDto AtualizarCliente(AtualizarClienteInputDto cliente)
     {
         var clienteEntity = _mappper.Map<Core.Entities.Cliente>(cliente);
-        _repository.AtualizarCliente(clienteEntity);
+        var clienteAlterado = _repository.AtualizarCliente(clienteEntity);
+        return _mappper.Map<ClienteOutputDto>(clienteAlterado);
     }
 }

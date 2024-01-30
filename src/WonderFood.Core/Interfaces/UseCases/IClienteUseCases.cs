@@ -6,6 +6,6 @@ public interface IClienteUseCases
 {
     IEnumerable<ClienteOutputDto> ObterTodosClientes();
     ClienteOutputDto ObterClientePorId(Guid id);
-    void InserirCliente(InserirClienteInputDto cliente);
-    void AtualizarCliente(AtualizarClienteInputDto cliente);
+    ClienteOutputDto InserirCliente(InserirClienteInputDto cliente);
+    ClienteOutputDto AtualizarCliente(AtualizarClienteInputDto cliente);
 }
