@@ -19,7 +19,8 @@ public class PedidoController  : ControllerBase
     /// <summary>
     /// Obter todos os Pedidos que estão em aberto
     /// </summary>
-    /// <response code="200"></response>
+    /// <response code="200">Dados obtidos com sucesso</response>
+    /// <response code="400">Falha ao obter Pedidos</response>
     [HttpGet]
     public IActionResult ObterPedidosEmAberto()
     {
@@ -36,7 +37,8 @@ public class PedidoController  : ControllerBase
     /// <summary>
     /// Obter o status atual de um Pedido
     /// </summary>
-    /// <response code="200"></response>
+    /// <response code="200">Dados obtidos com sucesso</response>
+    /// <response code="400">Falha ao obter Pedido</response>
     [HttpGet("{numeroPedido:int}")]
     public IActionResult ObterStatusPedido(int numeroPedido)
     {
@@ -53,7 +55,8 @@ public class PedidoController  : ControllerBase
     /// <summary>
     /// Cadastrar um novo Pedido
     /// </summary>
-    /// <response code="200"></response>
+    /// <response code="201">Cadastrado com sucesso</response>
+    /// <response code="400">Falha ao cadastrar Pedido</response>
     [HttpPost]
     public IActionResult InserirPedido([FromBody] InserirPedidoInputDto produto)
     {
@@ -71,7 +74,8 @@ public class PedidoController  : ControllerBase
     /// <summary>
     /// Avançar o status de um Pedido
     /// </summary>
-    /// <response code="201"></response>
+    /// <response code="201">Avanço status do Pedido com sucesso</response>
+    /// <response code="400">Falha ao avançar status do Pedido</response>
     [HttpPut]
     public IActionResult AvançarPedido(int numeroPedido, StatusPedido novoStatus)
     {
