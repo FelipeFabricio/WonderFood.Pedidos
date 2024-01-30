@@ -28,17 +28,19 @@ public class ClienteRepository : IClienteRepository
         return _context.Clientes.AsNoTracking().FirstOrDefault(x => x.Id == id);
     }
 
-    public void InserirCliente(Cliente cliente)
+    public Cliente InserirCliente(Cliente cliente)
     {
         _context.Clientes.Add(cliente);
         _context.SaveChanges();
+        return cliente;
     }
 
-    public void AtualizarCliente(Cliente cliente)
+    public Cliente AtualizarCliente(Cliente cliente)
     {
         var clienteCadastrado = ObterClientePorId(cliente.Id);
         if (clienteCadastrado == null) throw new Exception("Cliente não encontrado.");
         _context.Clientes.Update(cliente);
         _context.SaveChanges();
+        return cliente;
     }
 }

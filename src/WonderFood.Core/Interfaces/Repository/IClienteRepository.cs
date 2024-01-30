@@ -6,6 +6,6 @@ public interface IClienteRepository
 {
     IEnumerable<Cliente> ObterTodosClientes();
     Cliente ObterClientePorId(Guid id);
-    void InserirCliente(Cliente cliente);
-    void AtualizarCliente(Cliente cliente);
+    Cliente InserirCliente(Cliente cliente);
+    Cliente AtualizarCliente(Cliente cliente);
 }
