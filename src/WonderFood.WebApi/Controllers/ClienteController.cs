@@ -21,7 +21,7 @@ public class ClienteController : ControllerBase
     /// <response code="200">Dados obtidos com sucesso</response>
     /// <response code="400">Falha ao obter Clientes</response>
     [HttpGet]
-    public ActionResult<IEnumerable<ClienteOutputDto>> ObterTodosClientes()
+    public IActionResult ObterTodosClientes()
     {
         try
         {
@@ -38,9 +38,8 @@ public class ClienteController : ControllerBase
     /// </summary>
     /// <response code="200">Dados obtidos com sucesso</response>
     /// <response code="400">Falha ao obter Cliente</response>
-    [HttpGet]
-    [Route("{id}")]
-    public ActionResult<ClienteOutputDto> ObterClientePorId(Guid id)
+    [HttpGet("{id}")]
+    public IActionResult ObterClientePorId(Guid id)
     {
         try
         {
@@ -74,15 +73,15 @@ public class ClienteController : ControllerBase
     /// <summary>
     /// Atualiza os dados de um Cliente
     /// </summary>
-    /// <response code="204">Atualizado com sucesso</response>
+    /// <response code="200">Atualizado com sucesso</response>
     /// <response code="400">Falha ao atualizar</response>
     [HttpPut]
     public IActionResult AtualizarCliente([FromBody] AtualizarClienteInputDto cliente)
     {
         try
         {
-            _useCases.AtualizarCliente(cliente);
-            return NoContent();
+            var clienteAtualizado = _useCases.AtualizarCliente(cliente);
+            return Ok(clienteAtualizado);
         }
         catch (Exception e)
         {

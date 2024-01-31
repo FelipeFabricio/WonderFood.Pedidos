@@ -73,7 +73,6 @@ namespace WonderFood.WebApi
                         Log.Logger.Information(
                             $"Tentativa {retryCount} de conexão ao SQL Server falhou. Tentando novamente em {timeSpan.Seconds} segundos.");
                     });
-
             retryPolicy.Execute(() => { dbContext.Database.Migrate(); });
         }
     }
