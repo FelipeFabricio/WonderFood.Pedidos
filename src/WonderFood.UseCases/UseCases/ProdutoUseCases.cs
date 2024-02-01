@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using WonderFood.Core.Dtos;
+using WonderFood.Core.Dtos.Produto;
 using WonderFood.Core.Entities;
 using WonderFood.Core.Entities.Enums;
 using WonderFood.Core.Interfaces.Repository;

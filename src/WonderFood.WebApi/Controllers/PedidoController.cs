@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WonderFood.Core.Dtos;
+using WonderFood.Core.Dtos.Pedido;
 using WonderFood.Core.Entities.Enums;
-using WonderFood.Core.Interfaces;
+using WonderFood.Core.Interfaces.UseCases;
 
 namespace WonderFood.WebApi.Controllers;
 

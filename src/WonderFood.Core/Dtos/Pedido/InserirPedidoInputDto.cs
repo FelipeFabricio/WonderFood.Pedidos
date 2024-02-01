@@ -1,4 +1,6 @@
-﻿namespace WonderFood.Core.Dtos;
+﻿using WonderFood.Core.Dtos.Produto;
+
+namespace WonderFood.Core.Dtos.Pedido;
 
 public class InserirPedidoInputDto
 {

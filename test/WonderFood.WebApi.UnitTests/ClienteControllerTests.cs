@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using WonderFood.Core.Dtos;
+using WonderFood.Core.Dtos.Cliente;
 using WonderFood.Core.Interfaces.UseCases;
 using WonderFood.WebApi.Controllers;
 using WonderFood.WebApi.UnitTests.Fixtures;

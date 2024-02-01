@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using MercadoPago.Client.Payment;
-using MercadoPago.Config;
-using MercadoPago.Resource.Payment;
-using WonderFood.Core.Dtos;
+using WonderFood.Core.Dtos.Pedido;
+using WonderFood.Core.Dtos.Produto;
 using WonderFood.Core.Entities;
 using WonderFood.Core.Entities.Enums;
-using WonderFood.Core.Interfaces;
 using WonderFood.Core.Interfaces.Repository;
+using WonderFood.Core.Interfaces.UseCases;
 
 namespace WonderFood.UseCases.UseCases;
 

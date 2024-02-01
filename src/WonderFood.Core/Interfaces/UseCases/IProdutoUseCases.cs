@@ -1,4 +1,4 @@
-﻿using WonderFood.Core.Dtos;
+﻿using WonderFood.Core.Dtos.Produto;
 
 namespace WonderFood.Core.Interfaces.UseCases;
 
