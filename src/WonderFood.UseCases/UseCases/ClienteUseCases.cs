@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using WonderFood.Core.Dtos;
+using WonderFood.Core.Dtos.Cliente;
 using WonderFood.Core.Interfaces.Repository;
 using WonderFood.Core.Interfaces.UseCases;
 

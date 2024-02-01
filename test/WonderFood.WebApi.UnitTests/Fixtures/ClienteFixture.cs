@@ -1,6 +1,7 @@
 using Bogus;
 using Bogus.Extensions.Brazil;
 using WonderFood.Core.Dtos;
+using WonderFood.Core.Dtos.Cliente;
 using Xunit;
 
 namespace WonderFood.WebApi.UnitTests.Fixtures;

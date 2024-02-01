@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
-using WonderFood.Core.Dtos;
+using WonderFood.Core.Dtos.Cliente;
+using WonderFood.Core.Dtos.Pedido;
+using WonderFood.Core.Dtos.Produto;
 using WonderFood.Core.Entities;
 
 namespace WonderFood.UseCases.MappingProfiles;

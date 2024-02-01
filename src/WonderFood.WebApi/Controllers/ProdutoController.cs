@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WonderFood.Core.Dtos;
-using WonderFood.Core.Interfaces;
+using WonderFood.Core.Dtos.Produto;
 using WonderFood.Core.Interfaces.UseCases;
 
 namespace WonderFood.WebApi.Controllers;

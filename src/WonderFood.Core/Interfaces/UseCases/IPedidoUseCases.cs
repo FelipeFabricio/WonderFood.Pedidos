@@ -1,7 +1,7 @@
-﻿using WonderFood.Core.Dtos;
+﻿using WonderFood.Core.Dtos.Pedido;
 using WonderFood.Core.Entities.Enums;
 
-namespace WonderFood.Core.Interfaces;
+namespace WonderFood.Core.Interfaces.UseCases;
 
 public interface IPedidoUseCases
 {

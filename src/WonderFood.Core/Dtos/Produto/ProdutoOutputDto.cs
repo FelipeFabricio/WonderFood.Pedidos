@@ -1,6 +1,4 @@
-﻿using WonderFood.Core.Entities.Enums;
-
-namespace WonderFood.Core.Dtos;
+﻿namespace WonderFood.Core.Dtos.Produto;
 
 public class ProdutoOutputDto
 {
