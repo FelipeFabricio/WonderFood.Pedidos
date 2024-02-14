@@ -14,13 +14,23 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Configura Credenciais do AWS
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Build e push do Dockerfile no AWS ECR
+      - name: Login no Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      
+      - name: Build, Tag e Push da imagem no Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login.ecr.outputs.registry }}
+          ECR_REPOSITORY: wonderfood
+          IMAGE_TAG: latest
+          
         run: |
-          docker build -t 381491872338.dkr.ecr.us-east-1.amazonaws.com/wonderfood:latest -f Dockerfile .   
-          docker push 381491872338.dkr.ecr.us-east-1.amazonaws.com/wonderfood:latest
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile .   
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
