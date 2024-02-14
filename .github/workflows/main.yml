@@ -1,0 +1,26 @@
+name: CI-CD
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Configura Credenciais do AWS
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Build e push do Dockerfile no AWS ECR
+        run: |
+          docker build -t 381491872338.dkr.ecr.us-east-1.amazonaws.com/wonderfood:latest -f Dockerfile .   
+          docker push 381491872338.dkr.ecr.us-east-1.amazonaws.com/wonderfood:latest
