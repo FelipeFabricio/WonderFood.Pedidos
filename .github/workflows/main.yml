@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4.1.1
 
       - name: Configura Credenciais do AWS
         uses: aws-actions/configure-aws-credentials@v4
@@ -34,3 +34,23 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile .   
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+  CD:
+    runs-on: ubuntu-latest   
+    needs: [CI]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Definir Context K8S
+        uses: azure/k8s-set-context@v1
+        with:
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+          method: kubeconfig
+        
+      
+      
+
+
+      
+    
