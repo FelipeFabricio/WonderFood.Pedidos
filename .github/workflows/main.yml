@@ -28,15 +28,15 @@ jobs:
             7.0.x
 
       - name: Restore packages 
-      - run: 
+        run: 
           dotnet restore
          
       - name: Build application
-      - run: 
+        run: 
           dotnet build --configuration Release
       
       - name: Run tests
-      - run: 
+        run: 
           dotnet test --no-build --configuration Release --verbosity normal
 
       - name: Login Amazon ECR
@@ -68,6 +68,3 @@ jobs:
           kubeconfig: ${{ secrets.KUBECONFIG }}
           method: kubeconfig
         
-
-      
-    
