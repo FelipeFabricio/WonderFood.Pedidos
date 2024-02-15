@@ -20,16 +20,24 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Setup, Build and Test dotnet
+      - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: | 
             6.0.x
             7.0.x
-      - run: |
+
+      - name: Restore packages 
+      - run: 
           dotnet restore
-          dotnet build
-          dotnet test
+         
+      - name: Build application
+      - run: 
+          dotnet build --configuration Release
+      
+      - name: Run tests
+      - run: 
+          dotnet test --no-build --configuration Release --verbosity normal
 
       - name: Login Amazon ECR
         id: login-ecr
@@ -60,9 +68,6 @@ jobs:
           kubeconfig: ${{ secrets.KUBECONFIG }}
           method: kubeconfig
         
-      
-      
-
 
       
     
