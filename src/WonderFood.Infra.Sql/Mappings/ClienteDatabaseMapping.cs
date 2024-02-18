@@ -10,9 +10,9 @@ public class ClienteDatabaseMapping : IEntityTypeConfiguration<Cliente>
     {
         builder.ToTable("Clientes");
         builder.HasKey(p => p.Id);
-        builder.Property(p => p.Id).HasColumnType("uniqueidentifier").IsRequired();
-        builder.Property(p => p.Nome).HasColumnType("varchar(100)").IsRequired(false);
-        builder.Property(p => p.Cpf).HasColumnType("varchar(11)").IsRequired(false);
+        builder.Property(p => p.Id).HasColumnType("varchar(36)").IsRequired();
+        builder.Property(p => p.Nome).HasColumnType("varchar(100)").IsRequired();
+        builder.Property(p => p.Cpf).HasColumnType("varchar(11)").IsRequired();
         builder.Property(p => p.Email).HasColumnType("varchar(256)").IsRequired(false);
     }
 }

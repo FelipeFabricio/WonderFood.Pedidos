@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
 
 namespace WonderFood.Infra.Sql.Context
 {
@@ -8,14 +7,11 @@ namespace WonderFood.Infra.Sql.Context
     {
         public WonderFoodContext CreateDbContext(string[] args)
         {
-            //TODO: Usar appsettings.json
+            //TODO: Refatorar essa classe.
+            //Ela foi criada para resolver paliativamente o problema de não conseguir rodar o comando dotnet ef migrations add
             var optionsBuilder = new DbContextOptionsBuilder<WonderFoodContext>();
-            var config = new ConfigurationBuilder()
-                    //.SetBasePath("C:\\WonderFood\\WonderFood.sln")
-                    //.AddJsonFile("appsettings.json")
-                .Build();
-
-            optionsBuilder.UseSqlServer("Server=localhost,1433;Database=master;User Id=sa;Password=admin123!;TrustServerCertificate=True");
+            var serverVersion = new MySqlServerVersion(new Version(8, 0, 34));
+            optionsBuilder.UseMySql("Server=localhost;Database=wonderfood-db;Uid=userdb;Pwd=senhaForte123!;Connect Timeout=60;", serverVersion);
 
             return new WonderFoodContext(optionsBuilder.Options);
         }

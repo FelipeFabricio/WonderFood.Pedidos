@@ -39,10 +39,14 @@ namespace WonderFood.WebApi
             services.AddInfraDataServices();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            var connectionString = Configuration.GetConnectionString("DefaultConnection") ??
-                                   Configuration["ConnectionString"];
+            var connectionString = Configuration.GetConnectionString("DefaultConnection") ?? Configuration["ConnectionString"];
+            var serverVersion = new MySqlServerVersion(new Version(8, 0, 34));
 
-            services.AddDbContext<WonderFoodContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<WonderFoodContext>(
+                dbContextOptions => dbContextOptions.UseMySql(connectionString, serverVersion, mySqlOptions =>
+                {
+                    mySqlOptions.EnableRetryOnFailure();
+                }));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WonderFoodContext dbContext)
@@ -52,7 +56,6 @@ namespace WonderFood.WebApi
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-
             ExecuteDatabaseMigration(dbContext);
         }
 
@@ -71,7 +74,7 @@ namespace WonderFood.WebApi
                     (exception, timeSpan, retryCount, context) =>
                     {
                         Log.Logger.Information(
-                            $"Tentativa {retryCount} de conexão ao SQL Server falhou. Tentando novamente em {timeSpan.Seconds} segundos.");
+                            $"Tentativa {retryCount} de conexão ao MySql falhou. Tentando novamente em {timeSpan.Seconds} segundos.");
                     });
             retryPolicy.Execute(() => { dbContext.Database.Migrate(); });
         }
