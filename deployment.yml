@@ -1,7 +1,16 @@
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wonderfood
+  
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wonderfood-sqlserver
+  namespace: wonderfood
 spec:
   replicas: 1
   selector:
@@ -48,6 +57,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wonderfood-app
+  namespace: wonderfood
 spec:
   replicas: 1
   selector:
@@ -85,6 +95,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: wonderfood-app-service
+  namespace: wonderfood
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    service.beta.kubernetes.io/aws-load-balancer-internal: "true"
 spec:
   type: LoadBalancer
   selector:
@@ -100,6 +114,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: wonderfood-sqlserver-service
+  namespace: wonderfood
 spec:
   type: ClusterIP
   selector:
@@ -115,6 +130,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: sqlserver-volume-claim
+  namespace: wonderfood
 spec:
   accessModes:
     - ReadWriteOnce
@@ -128,6 +144,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: wonderfood-app-hpa
+  namespace: wonderfood
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
