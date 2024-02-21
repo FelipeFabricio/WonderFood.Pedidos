@@ -1,15 +1,8 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: wonderfood
-
----
 
 apiVersion: v1
 kind: Secret
 metadata:
   name: database-connection-secret
-  namespace: wonderfood
 type: Opaque
 data:
   connectionstring: ${{ secrets.CONNECTION_STRING }}
@@ -20,7 +13,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wonderfood-app
-  namespace: wonderfood
 spec:
   replicas: 1
   selector:
@@ -47,18 +39,13 @@ spec:
               memory: "256Mi"
           env:
             - name: ConnectionString
-              valueFrom:
-                secretKeyRef:
-                  name: database-connection-secret
-                  key: connectionstring
-
+              value: ${{ secrets.CONNECTION_STRING }}
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
   name: wonderfood-app-service
-  namespace: wonderfood
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-type: nlb
     service.beta.kubernetes.io/aws-load-balancer-internal: "true"
@@ -77,7 +64,6 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: wonderfood-app-hpa
-  namespace: wonderfood
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
