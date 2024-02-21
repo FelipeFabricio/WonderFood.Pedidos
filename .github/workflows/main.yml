@@ -78,15 +78,9 @@ jobs:
       - name: Set Context K8S
         run: aws eks update-kubeconfig --name wdf-eks-cluster --region us-east-1
 
-      - name: Debug Kubeconfig
-        run: kubectl config view
-        
-      - name: Login to Amazon ECR
+      - name: Login Amazon ECR
         id: login-ecr
-        run: echo ${{ secrets.AWS_SECRET_ACCESS_KEY }} | docker login -u AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
-
+        uses: aws-actions/amazon-ecr-login@v2
+        
       - name: Deploy to Kubernetes
-        run: |
-          kubectl apply -f deployment.yml --validate=false
-        env:
-          ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
+        run: kubectl apply -f deployment.yml --validate=false
