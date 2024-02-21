@@ -62,9 +62,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.1.1
 
-      - name: Definir Context K8S
+      - name: Set Context K8S
         uses: azure/k8s-set-context@v1
         with:
           kubeconfig: ${{ secrets.KUBECONFIG }}
           method: kubeconfig
+
+      - name: Apply K8s Manifest
+        run: kubectl apply -f deployment.yml
+      
+#      - name: Apply Migrations
+#       run: dotnet ef database update --project src/WonderFood.Infra.Sql/WonderFood.Infra.Sql.csproj
+
         
