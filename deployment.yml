@@ -1,55 +1,18 @@
-
 apiVersion: v1
 kind: Namespace
 metadata:
   name: wonderfood
-  
+
 ---
 
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Secret
 metadata:
-  name: wonderfood-sqlserver
+  name: database-connection-secret
   namespace: wonderfood
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: sqlserver
-  template:
-    metadata:
-      labels:
-        app: sqlserver
-    spec:
-      containers:
-        - name: sqlserver
-          image: mcr.microsoft.com/mssql/server:2017-latest
-          ports:
-            - containerPort: 1433
-              name: sqlserver
-              protocol: TCP
-          resources:
-            limits:
-              cpu: "1"
-              memory: "1Gi"
-            requests:
-              cpu: "0.5"
-              memory: "512Mi"
-          env:
-            - name: ACCEPT_EULA
-              value: "Y"
-            - name: SA_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: sqlserver-password-secret
-                  key: SA_PASSWORD
-          volumeMounts:
-            - mountPath: /var/opt/mssql
-              name: sqlserverdb-storage
-      volumes:
-        - name: sqlserverdb-storage
-          persistentVolumeClaim:
-            claimName: sqlserver-volume-claim
+type: Opaque
+data:
+  connectionstring: ${{ secrets.CONNECTION_STRING }}
 
 ---
 
@@ -70,7 +33,7 @@ spec:
     spec:
       containers:
         - name: wonderfood-app
-          image: felipefabricio/wonderfood-app:latest
+          image: 381491872338.dkr.ecr.us-east-1.amazonaws.com/wdf-ecr:latest
           ports:
             - containerPort: 80
               name: wonderfood-app
@@ -107,36 +70,6 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: wonderfood-sqlserver-service
-  namespace: wonderfood
-spec:
-  type: ClusterIP
-  selector:
-    app: sqlserver
-  ports:
-    - protocol: TCP
-      port: 1433
-      targetPort: 1433
-
----
-
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: sqlserver-volume-claim
-  namespace: wonderfood
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
 
 ---
 
