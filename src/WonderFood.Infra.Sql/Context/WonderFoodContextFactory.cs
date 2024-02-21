@@ -10,7 +10,7 @@ namespace WonderFood.Infra.Sql.Context
             //TODO: Refatorar essa classe.
             //Ela foi criada para resolver paliativamente o problema de não conseguir rodar o comando dotnet ef migrations add
             var optionsBuilder = new DbContextOptionsBuilder<WonderFoodContext>();
-            var serverVersion = new MySqlServerVersion(new Version(8, 0, 34));
+            var serverVersion = new MySqlServerVersion(new Version(8, 0, 36));
             optionsBuilder.UseMySql("Server=localhost;Database=wonderfood-db;Uid=userdb;Pwd=senhaForte123!;Connect Timeout=60;", serverVersion);
 
             return new WonderFoodContext(optionsBuilder.Options);
