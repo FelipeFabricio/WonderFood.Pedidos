@@ -59,6 +59,12 @@ jobs:
     needs: [CI]
     
     steps:
+      - name: Cache AWS credentials
+        uses: actions/cache@v4.0.0
+        with:
+         path: ~/.aws
+         key: aws-credentials
+    
       - name: Checkout code
         uses: actions/checkout@v4.1.1
 
