@@ -83,4 +83,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
         
       - name: Deploy to Kubernetes
-        run: kubectl apply -f deployment.yml --validate=false
+        run: |
+          kubectl get nodes -v=10
+          kubectl apply -f deployment.yml --validate=false
+          
