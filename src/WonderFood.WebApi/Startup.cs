@@ -40,7 +40,7 @@ namespace WonderFood.WebApi
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection") ?? Configuration["ConnectionString"];
-            var serverVersion = new MySqlServerVersion(new Version(8, 0, 34));
+            var serverVersion = new MySqlServerVersion(new Version(8, 0, 36));
 
             services.AddDbContext<WonderFoodContext>(
                 dbContextOptions => dbContextOptions.UseMySql(connectionString, serverVersion, mySqlOptions =>
