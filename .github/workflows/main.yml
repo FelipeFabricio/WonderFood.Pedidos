@@ -77,22 +77,18 @@ jobs:
 
       - name: Set Context K8S
         run: aws eks update-kubeconfig --name wdf-eks-cluster --region us-east-1
+
+#      - name: Set Context K8S 2
 #        uses: azure/k8s-set-context@v1
 #        with:
 #          kubeconfig: ${{ secrets.KUBECONFIG }}
 #          method: kubeconfig
-
-      - name: Set Context K8S 2
-        uses: azure/k8s-set-context@v1
-        with:
-          kubeconfig: ${{ secrets.KUBECONFIG }}
-          method: kubeconfig
           
       - name: Debug Kubeconfig
         run: kubectl config view
 
       - name: Deploy to EKS
-        run: kubectl apply -f deployment.yml
+        run: kubectl apply -f deployment.yml --validate=false
       
 #      - name: Apply Migrations
 #       run: dotnet ef database update --project src/WonderFood.Infra.Sql/WonderFood.Infra.Sql.csproj
