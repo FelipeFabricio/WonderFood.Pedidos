@@ -62,20 +62,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.1.1
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v2.0
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          version: 'v1.29.1'
+        id: install
+
+#      - name: Configure AWS Credentials
+#        uses: aws-actions/configure-aws-credentials@v4
+#        with:
+#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         aws-region: us-east-1
 
       - name: Set Context K8S
-        uses: azure/k8s-set-context@v1
-        with:
-          kubeconfig: ${{ secrets.KUBECONFIG }}
-          method: kubeconfig
+        run: aws eks update-kubeconfig --name wdf-eks-cluster --region us-east-1
+#        uses: azure/k8s-set-context@v1
+#        with:
+#          kubeconfig: ${{ secrets.KUBECONFIG }}
+#          method: kubeconfig
 
-      - name: Apply K8s Manifest
+      - name: Deploy to EKS
         run: kubectl apply -f deployment.yml
       
 #      - name: Apply Migrations
