@@ -10,17 +10,19 @@ O projeto é a construção de um Sistema de autoatendimento de um fast food em 
 - #### Diagrama Entidade Relacional: https://encurtador.com.br/pvwNO
 - #### Fluxo de Pedido e Pagamento: https://encurtador.com.br/puvP3
 - #### Sumário Ubíquo: https://encurtador.com.br/bfVY8
-- #### Repositório GitHub: https://github.com/FelipeFabricio/WonderFood
+- #### Repositório Aplicação: https://github.com/FelipeFabricio/WonderFood
+- #### Repositório Terraform K8S: https://github.com/FelipeFabricio/terraform-k8s
 - #### Desenho Arquitetura Infraestrutura: https://encurtador.com.br/nuNOT
 <br>
 
 ## :hammer_and_wrench:  Tecnologias utilizadas
 
 1. .Net 7
-3. SQL Server
+3. MySQL
 4. Docker
 5. Kubernetes
-6. AKS
+6. EKS
+7. Terraform
 <br>
 
 ##  :arrow_forward: Procedimentos de execução
