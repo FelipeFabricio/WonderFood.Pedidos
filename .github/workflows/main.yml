@@ -19,12 +19,10 @@ jobs:
           version: 'v1.29.1'
         id: install
             
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Azure Login
+        uses: Azure/login@v1.6.1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
@@ -45,23 +43,16 @@ jobs:
         run: 
           dotnet test --no-build --configuration Release --verbosity normal
 
-      - name: Login Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-      
-      - name: Build, Tag and Push image to Amazon ECR
-        id: build-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: wdf-ecr
-          IMAGE_TAG: latest
-          
+      - name: Login Azure Container Registry
+        run: az acr login --name wonderfoodacr
+
+      - name: Build, Tag e Push da Imagem para o Azure Container Registry
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile .   
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker build -t wonderfoodacr.azurecr.io/wonderfood:latest -f Dockerfile .
+          docker push wonderfoodacr.azurecr.io/wonderfood:latest
           
-      - name: Set Context K8S
-        run: aws eks update-kubeconfig --name wdf-eks-cluster --region us-east-1
+      - name: Setar Contexto K8S
+        run: az aks get-credentials --resource-group wonderfood-rg --name wonderfood-cluster
         
       - name: Deploy to Kubernetes
         run: kubectl apply -f deployment.yml
