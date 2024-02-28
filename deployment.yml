@@ -1,14 +1,4 @@
 
-apiVersion: v1
-kind: Secret
-metadata:
-  name: database-connection-secret
-type: Opaque
-data:
-  connectionstring: ${{ secrets.CONNECTION_STRING }}
-
----
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -25,7 +15,7 @@ spec:
     spec:
       containers:
         - name: wonderfood-app
-          image: 381491872338.dkr.ecr.us-east-1.amazonaws.com/wdf-ecr:latest
+          image: wonderfoodacr.azurecr.io/wonderfood:latest
           ports:
             - containerPort: 80
               name: wonderfood-app
