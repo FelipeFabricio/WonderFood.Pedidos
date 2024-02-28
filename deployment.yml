@@ -30,7 +30,6 @@ spec:
           env:
             - name: ConnectionString
               value: ${{ secrets.CONNECTION_STRING }}
-
 ---
 
 apiVersion: v1
