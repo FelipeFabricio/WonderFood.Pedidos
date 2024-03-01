@@ -1,6 +1,9 @@
 ﻿using System.Reflection;
 using System.Text.Json.Serialization;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using Polly;
 using Serilog;
@@ -21,6 +24,12 @@ namespace WonderFood.WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString = Configuration.GetConnectionString("DefaultConnection") ??
+                                   Configuration["ConnectionString"];
+
+            services.AddHealthChecks()
+                .AddMySql(connectionString);
+
             services.AddControllers()
                 .AddJsonOptions(options =>
                 {
@@ -38,15 +47,11 @@ namespace WonderFood.WebApi
             services.AddUseCasesServices();
             services.AddInfraDataServices();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-            var connectionString = Configuration.GetConnectionString("DefaultConnection") ?? Configuration["ConnectionString"];
+            
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 36));
-
             services.AddDbContext<WonderFoodContext>(
-                dbContextOptions => dbContextOptions.UseMySql(connectionString, serverVersion, mySqlOptions =>
-                {
-                    mySqlOptions.EnableRetryOnFailure();
-                }));
+                dbContextOptions => dbContextOptions.UseMySql(connectionString, serverVersion,
+                    mySqlOptions => { mySqlOptions.EnableRetryOnFailure(); }));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WonderFoodContext dbContext)
@@ -55,7 +60,21 @@ namespace WonderFood.WebApi
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WonderFood"));
             app.UseRouting();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapGet("/_health", () => Results.Ok("Healthy"));
+                endpoints.MapHealthChecks("/_ready", new HealthCheckOptions
+                {
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+                    ResultStatusCodes =
+                    {
+                        [HealthStatus.Healthy] = StatusCodes.Status200OK,
+                        [HealthStatus.Degraded] = StatusCodes.Status200OK,
+                        [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
+                    }
+                });
+            });
             ExecuteDatabaseMigration(dbContext);
         }
 
@@ -73,8 +92,7 @@ namespace WonderFood.WebApi
                     },
                     (exception, timeSpan, retryCount, context) =>
                     {
-                        Log.Logger.Information(
-                            $"Tentativa {retryCount} de conexão ao MySql falhou. Tentando novamente em {timeSpan.Seconds} segundos.");
+                        Log.Logger.Error($"Tentativa {retryCount} de conexão ao MySql falhou. Tentando novamente em {timeSpan.Seconds} segundos.");
                     });
             retryPolicy.Execute(() => { dbContext.Database.Migrate(); });
         }
