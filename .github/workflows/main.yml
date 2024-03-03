@@ -51,6 +51,10 @@ jobs:
           docker build -t wonderfoodacr.azurecr.io/wonderfood:latest -f Dockerfile .
           docker push wonderfoodacr.azurecr.io/wonderfood:latest
           
+      - name: Decode base64 Secret
+        id: decode_secret
+        run: echo -n ${{ secrets.CONNECTION_STRING }} | base64 -d
+        
       - name: Setar Contexto K8S
         run: az aks get-credentials --resource-group wonderfood-rg --name wonderfood-cluster
         
