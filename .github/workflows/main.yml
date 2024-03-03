@@ -13,8 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.1.1
 
-      
-
       - name: Efetua Login no Azure
         uses: Azure/login@v1.6.1
         with:
