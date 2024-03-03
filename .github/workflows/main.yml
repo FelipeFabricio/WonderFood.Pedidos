@@ -55,6 +55,9 @@ jobs:
         id: decode_secret
         run: echo -n ${{ secrets.CONNECTION_STRING }} | base64 -d
         
+      - name: Read ConnectionString
+        run: echo ${{ steps.decode_secret.outputs.stdout }}
+        
       - name: Setar Contexto K8S
         run: az aks get-credentials --resource-group wonderfood-rg --name wonderfood-cluster
         
