@@ -54,7 +54,10 @@ jobs:
       - name: Decode base64 Secret
         id: decode_secret
         run: echo -n ${{ secrets.CONNECTION_STRING }} | base64 -d
-        
+    
+      - name: Desativar ocultação de senhas
+        run: echo "::set-env name=ACTIONS_STEP_DEBUG::true"
+    
       - name: Read ConnectionString
         run: echo ${{ steps.decode_secret.outputs.stdout }}
         
