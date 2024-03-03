@@ -50,7 +50,7 @@ jobs:
         run: |
           docker build -t wonderfoodacr.azurecr.io/wonderfood:latest -f Dockerfile .
           docker push wonderfoodacr.azurecr.io/wonderfood:latest
-        
+          
       - name: Setar Contexto K8S
         run: az aks get-credentials --resource-group wonderfood-rg --name wonderfood-cluster
         
