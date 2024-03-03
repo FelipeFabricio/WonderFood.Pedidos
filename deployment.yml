@@ -59,6 +59,8 @@ kind: Service
 metadata:
   name: wonderfood-app-service
   namespace: wonderfood
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
 spec:
   type: LoadBalancer
   selector:

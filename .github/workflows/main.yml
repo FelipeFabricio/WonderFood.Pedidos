@@ -13,10 +13,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.1.1
 
+      
+
       - name: Efetua Login no Azure
         uses: Azure/login@v1.6.1
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
+          
+      - name: Cache Azure CLI context
+        uses: actions/cache@v4.0.1
+        with:
+          path: ~/.azure
+          key: azure-context-1
 
       - name: Instalação do .NET
         uses: actions/setup-dotnet@v4
@@ -53,6 +61,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.1.1
+
+      - name: Restaurar Azure CLI context do cache
+        uses: actions/cache@v4.0.1
+        with:
+          path: ~/.azure
+          key: azure-context-1"
 
       - name: Instalação do kubectl
         uses: azure/setup-kubectl@v2.0
