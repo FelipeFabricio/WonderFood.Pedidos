@@ -58,6 +58,7 @@ jobs:
         run: |
           kubectl config set-context --current --namespace=wonderfood
           kubectl create secret generic mysql-connection-secret \
+            --dry-run=client \
             --from-literal=connectionString='${{ secrets.CONNECTION_STRING }}'
           kubectl apply -f deployment.yml
           
