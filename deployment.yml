@@ -12,7 +12,7 @@ metadata:
   namespace: wonderfood
 type: Opaque
 data:
-  connectionString: ${{ steps.decode_secret.outputs.stdout }}
+    connectionString: echo -n "${{ secrets.CONNECTION_STRING }}" | base64
 
 ---
 
