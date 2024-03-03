@@ -55,5 +55,9 @@ jobs:
         run: az aks get-credentials --resource-group wonderfood-rg --name wonderfood-cluster
         
       - name: Deploy to Kubernetes
-        run: kubectl apply -f deployment.yml
+        run: |
+          kubectl apply -f deployment.yml
+          kubectl create secret generic mysql-connection-secret \
+            --from-literal=connectionString='${{ secrets.CONNECTION_STRING }}'
+          
           
