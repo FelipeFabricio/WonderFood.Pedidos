@@ -32,13 +32,13 @@ spec:
               path: /_health
               port: 80
             initialDelaySeconds: 30
-            periodSeconds: 60
+            periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /_ready
               port: 80
-            initialDelaySeconds: 5
-            periodSeconds: 60
+            initialDelaySeconds: 30
+            periodSeconds: 700 #Por questões de custo da base de dados, o tempo de verificação foi aumentado
           resources:
             limits:
               cpu: "0.5"
@@ -52,6 +52,7 @@ spec:
                 secretKeyRef:
                   name: mysql-connection-secret
                   key: connectionString
+                  
 ---
 
 apiVersion: v1
@@ -59,8 +60,6 @@ kind: Service
 metadata:
   name: wonderfood-app-service
   namespace: wonderfood
-  annotations:
-    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
 spec:
   type: LoadBalancer
   selector:
