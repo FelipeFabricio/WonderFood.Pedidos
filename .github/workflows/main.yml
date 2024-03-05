@@ -71,8 +71,8 @@ jobs:
       - name: Deploy do Manifesto no AKS
         run: |
           kubectl apply -f deployment.yml
-          kubectl config set-context --current --namespace=wonderfood
           kubectl create secret generic mysql-connection-secret \
+            --namespace=wonderfood
             --dry-run=client \
             --from-literal=connectionString='${{ secrets.CONNECTION_STRING }}'
           
