@@ -67,11 +67,10 @@ jobs:
         
       - name: Configuração do Context Kubernetes no Azure
         run: az aks get-credentials --resource-group wonderfood-rg --name wonderfood-cluster
-        
-      - name: Criar arquivo temporário com o secret
-        run: echo -n "${{ secrets.CONNECTION_STRING }}" > /tmp/mysql_secret.txt
-        
+
       - name: Deploy do Manifesto no AKS
         run: |
           kubectl apply -f deployment.yml
-            
+          kubectl create secret generic mysql-connection-secret \
+            --dry-run=client \
+            --from-literal=connectionString='${{ secrets.CONNECTION_STRING }}'
