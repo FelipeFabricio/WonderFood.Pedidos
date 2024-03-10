@@ -9,10 +9,10 @@ public class ProdutosPedidoDatabaseMapping : IEntityTypeConfiguration<ProdutosPe
     public void Configure(EntityTypeBuilder<ProdutosPedido> builder)
     {
         builder.ToTable("ProdutosPedido");
-        builder.HasKey(p => new { p.PedidoId, p.ProdutoId }); // Composite key
-        builder.Property(p => p.PedidoId).HasColumnType("int").IsRequired();
-        builder.Property(p => p.ProdutoId).HasColumnType("").IsRequired();
-        builder.Property(p => p.Quantidade).HasColumnType("int").IsRequired();
+        builder.HasKey(p => new { p.PedidoId, p.ProdutoId });
+        builder.Property(p => p.PedidoId).HasColumnType("varchar(36)").IsRequired();
+        builder.Property(p => p.ProdutoId).HasColumnType("varchar(36)").IsRequired();
+        builder.Property(p => p.Quantidade).HasColumnType("tinyint unsigned").IsRequired();
 
         builder.HasOne(p => p.Pedido)
             .WithMany(p => p.Produtos)
