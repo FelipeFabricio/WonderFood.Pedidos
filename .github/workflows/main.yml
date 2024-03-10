@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-
+  
 jobs:
   CI:
     runs-on: ubuntu-latest
@@ -59,10 +59,6 @@ jobs:
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
           
-      - name: Set up environment
-        run: |
-          echo "KUBECTL_MYSQLSECRET=$(echo -n "${{ secrets.CONNECTION_STRING }}" | base64)" >> $GITHUB_ENV
-
       - name: Instalação do kubectl
         uses: azure/setup-kubectl@v2.0
         with:
@@ -76,5 +72,5 @@ jobs:
         run: |
           kubectl apply -f deployment.yml
         env:
-          KUBECTL_MYSQLSECRET: $KUBECTL_MYSQLSECRET 
+          KUBECTL_MYSQLSECRET: ${{ secrets.CONNECTION_STRING }}
             
