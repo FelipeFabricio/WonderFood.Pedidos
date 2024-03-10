@@ -71,6 +71,4 @@ jobs:
       - name: Deploy do Manifesto no AKS
         run: |
           kubectl apply -f deployment.yml
-          kubectl create secret generic mysql-connection-secret \
-            --dry-run=client \
-            --from-literal=connectionString='${{ secrets.CONNECTION_STRING }}'
+          kubectl create secret generic mysql-connection-secret --from-literal=connectionString='${{ secrets.CONNECTION_STRING }}'
