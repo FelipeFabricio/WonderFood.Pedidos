@@ -10,7 +10,7 @@ namespace WonderFood.Infra.Sql.Mappings
         {
             builder.ToTable("Pedidos");
             builder.HasKey(p => p.Id);
-            builder.Property(p => p.Id).HasColumnType("varchar(36)").IsRequired();
+            builder.Property(p => p.Id).HasColumnType("int").IsRequired();
             builder.Property(p => p.DataPedido).HasColumnType("datetime").IsRequired();
             builder.Property(p => p.Status).HasConversion<short>().IsRequired();
             builder.Property(p => p.ValorTotal).HasColumnType("decimal(8,2)").IsRequired();
