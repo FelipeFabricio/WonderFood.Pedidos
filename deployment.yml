@@ -31,7 +31,7 @@ spec:
               path: /_ready
               port: 80
             initialDelaySeconds: 30
-            periodSeconds: 700 #Por questões de custo da base de dados, o tempo de verificação foi aumentado
+            periodSeconds: 60
           resources:
             limits:
               cpu: "0.5"
