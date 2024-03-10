@@ -12,7 +12,10 @@ metadata:
   namespace: wonderfood
 type: Opaque
 data:
-  connectionString: $KUBECTL_MYSQLSECRET
+  connectionString: |
+    {{ with .Files.Get "/tmp/mysql_secret.txt" }}
+      {{ . | b64enc | quote }}
+    {{ end }}
   
 ---
 
