@@ -5,6 +5,17 @@ metadata:
 
 ---
 
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-connection-secret
+  namespace: wonderfood
+type: Opaque
+data:
+  connectionString: $KUBECTL_MYSQLSECRET
+  
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
