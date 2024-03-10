@@ -4,10 +4,7 @@ on:
   push:
     branches:
       - master
-  
-env:
-  KUBECTL_MYSQLSECRET: ${{ secrets.CONNECTION_STRING }}
-  
+      
 jobs:
   CI:
     runs-on: ubuntu-latest
@@ -71,12 +68,10 @@ jobs:
       - name: Configuração do Context Kubernetes no Azure
         run: az aks get-credentials --resource-group wonderfood-rg --name wonderfood-cluster
         
-      - name: Codificar CONNECTION_STRING para base64
-        run: echo "KUBECTL_MYSQLSECRET=$(echo -n "${{ secrets.CONNECTION_STRING }}" | base64)" >> $GITHUB_ENV
+      - name: Criar arquivo temporário com o secret
+        run: echo -n "${{ secrets.CONNECTION_STRING }}" > /tmp/mysql_secret.txt
         
       - name: Deploy do Manifesto no AKS
         run: |
           kubectl apply -f deployment.yml
-        env:
-          KUBECTL_MYSQLSECRET: $KUBECTL_MYSQLSECRET
             
