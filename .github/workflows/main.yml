@@ -58,6 +58,10 @@ jobs:
         uses: Azure/login@v1.6.1
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
+          
+      - name: Set up environment
+        run: |
+          echo "KUBECTL_MYSQLSECRET=$(echo -n "${{ secrets.CONNECTION_STRING }}" | base64)" >> $GITHUB_ENV
 
       - name: Instalação do kubectl
         uses: azure/setup-kubectl@v2.0
@@ -71,9 +75,6 @@ jobs:
       - name: Deploy do Manifesto no AKS
         run: |
           kubectl apply -f deployment.yml
-          kubectl create secret generic mysql-connection-secret \
-            --namespace=wonderfood \
-            --dry-run=client \
-            --from-literal=connectionString='${{ secrets.CONNECTION_STRING }}'
-          
+        env:
+          KUBECTL_MYSQLSECRET: $KUBECTL_MYSQLSECRET 
             
