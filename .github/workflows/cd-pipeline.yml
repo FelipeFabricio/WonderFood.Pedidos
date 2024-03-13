@@ -1,0 +1,34 @@
+name: CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+      
+jobs:
+  CD:
+    runs-on: ubuntu-latest
+    needs: CI
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Efetua Login no Azure
+        uses: Azure/login@v1.6.1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+
+      - name: Instalação do kubectl
+        uses: azure/setup-kubectl@v2.0
+        with:
+          version: 'v1.29.1'
+        id: install
+
+      - name: Configuração do Context Kubernetes no Azure
+        run: az aks get-credentials --resource-group wonderfood-rg --name wonderfood-cluster
+
+      - name: Deploy do Manifesto no AKS
+        run: |
+          kubectl apply -f deployment.yml
+          kubectl create secret generic mysql-connection-secret --from-literal=connectionString='${{ secrets.CONNECTION_STRING }}'

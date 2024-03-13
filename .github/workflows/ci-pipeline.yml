@@ -1,0 +1,46 @@
+name: CI Pipeline
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Efetua Login no Azure
+        uses: Azure/login@v1.6.1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+
+      - name: Instalação do .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            6.0.x
+            7.0.x
+
+      - name: Restaura as dependências do projeto
+        run:
+          dotnet restore
+
+      - name: Build da aplicação
+        run:
+          dotnet build --configuration Release
+
+      - name: Executa os Testes Unitários
+        run:
+          dotnet test --no-build --configuration Release --verbosity normal
+
+      - name: Efetua login no ACR
+        run: az acr login --name wonderfoodacr
+
+      - name: Build, Tag e Push da Imagem para o ACR
+        run: |
+          docker build -t wonderfoodacr.azurecr.io/wonderfood:latest -f Dockerfile .
+          docker push wonderfoodacr.azurecr.io/wonderfood:latest
