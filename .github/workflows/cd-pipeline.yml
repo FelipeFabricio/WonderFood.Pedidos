@@ -24,6 +24,9 @@ jobs:
           version: 'v1.29.1'
         id: install
 
+      - name: Efetua login no ACR
+        run: az acr login --name wonderfoodacr
+
       - name: Configuração do Context Kubernetes no Azure
         run: az aks get-credentials --resource-group wonderfood-rg --name wonderfood-cluster
 
