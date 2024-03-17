@@ -24,9 +24,6 @@ jobs:
           version: 'v1.29.1'
         id: install
 
-      - name: Efetua login no ACR
-        run: az acr login --name wonderfoodacr
-
       - name: Configuração do Context Kubernetes no Azure
         run: az aks get-credentials --resource-group wonderfood-rg --name wonderfood-cluster
 
@@ -34,3 +31,8 @@ jobs:
         run: |
           kubectl apply -f deployment.yml
           kubectl create secret generic mysql-connection-secret --from-literal=connectionString='${{ secrets.CONNECTION_STRING }}'
+          kubectl create secret docker-registry dockerhub-secret \
+              --docker-server=https://index.docker.io/v1/ \
+              --docker-username='${{ secrets.DOCKERHUB_USERNAME }}' \
+              --docker-password='${{ secrets.DOCKERHUB_PASSWORD }}' \
+              --docker-email='${{ secrets.DOCKERHUB_EMAIL }}'

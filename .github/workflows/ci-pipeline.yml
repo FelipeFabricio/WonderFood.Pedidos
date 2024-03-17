@@ -17,7 +17,7 @@ jobs:
         uses: Azure/login@v1.6.1
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
-
+                
       - name: Instalação do .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -33,14 +33,17 @@ jobs:
         run:
           dotnet build --configuration Release
 
-      - name: Executa os Testes Unitários
+      - name: Executa Testes Unitários
         run:
           dotnet test --no-build --configuration Release --verbosity normal
 
-      - name: Efetua login no ACR
-        run: az acr login --name wonderfoodacr
-
-      - name: Build, Tag e Push da Imagem para o ACR
+      - name: Login no DockerHub
+        uses: docker/login-action@v3.1.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      
+      - name: Build, Tag e Push da Imagem para o DockerHub
         run: |
-          docker build -t wonderfoodacr.azurecr.io/wonderfood:latest -f Dockerfile .
-          docker push wonderfoodacr.azurecr.io/wonderfood:latest
+          docker build -t felipefabricio/wonderfood:latest -f Dockerfile .
+          docker push felipefabricio/wonderfood:latest               

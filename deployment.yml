@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: wonderfood-app
-          image: wonderfoodacr.azurecr.io/wonderfood:latest
+          image: felipefabricio/wonderfood:latest
           ports:
             - containerPort: 80
               name: wonderfood-app
@@ -31,7 +31,7 @@ spec:
               path: /_ready
               port: 80
             initialDelaySeconds: 30
-            periodSeconds: 60
+            periodSeconds: 600
           resources:
             limits:
               cpu: "0.5"
@@ -45,7 +45,9 @@ spec:
                 secretKeyRef:
                   name: mysql-connection-secret
                   key: connectionString
-                  
+      imagePullSecrets:
+        - name: dockerhub-secret
+
 ---
 
 apiVersion: v1
