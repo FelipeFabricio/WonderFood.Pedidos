@@ -27,6 +27,7 @@ jobs:
       - name: Configuração do Context Kubernetes no Azure
         run: az aks get-credentials --resource-group wonderfood-rg --name wonderfood-cluster
 
+
       - name: Deploy do Manifesto no AKS
         run: |
           kubectl apply -f deployment.yml
