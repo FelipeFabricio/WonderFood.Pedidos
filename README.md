@@ -10,9 +10,9 @@ O projeto é a construção de um Sistema de autoatendimento de um fast food em 
 - #### Diagrama Entidade Relacional: https://encurtador.com.br/pvwNO
 - #### Fluxo de Pedido e Pagamento: https://encurtador.com.br/puvP3
 - #### Sumário Ubíquo: https://encurtador.com.br/bfVY8
-- #### Repositório Aplicação: https://github.com/FelipeFabricio/WonderFood
 - #### Repositório Terraform K8S: https://github.com/FelipeFabricio/terraform-k8s
-- #### Desenho Arquitetura Infraestrutura: https://encurtador.com.br/nuNOT
+- #### Arquitetura Infraestrutura: https://encurtador.com.br/nuNOT
+- #### Fluxo Autenticação: https://encurtador.com.br/vTX01
 <br>
 
 ## :hammer_and_wrench:  Tecnologias utilizadas
