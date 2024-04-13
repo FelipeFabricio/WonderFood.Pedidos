@@ -25,13 +25,7 @@ public class PedidoUseCases : IPedidoUseCases
         _produtoRepository = produtoRepository;
         _mapper = mapper;
     }
-    
-    public IEnumerable<PedidosOutputDto> ObterPedidosEmAberto()
-    {
-        var pedidos = _pedidoRepository.ObterPedidosEmAberto();
-        return _mapper.Map<IEnumerable<PedidosOutputDto>>(pedidos);
-    }
-    
+   
     public void Inserir(InserirPedidoInputDto pedidoInputDto)
     {
         ValidarCliente(pedidoInputDto.ClienteId);
@@ -42,7 +36,13 @@ public class PedidoUseCases : IPedidoUseCases
         CalcularValorTotal(pedido);
         _pedidoRepository.Inserir(pedido);
     }
-
+    
+    public StatusPedidoOutputDto ConsultarStatusPedido(int numeroPedido)
+    {
+        var pedido = _pedidoRepository.ObterPorNumeroPedido(numeroPedido);
+        return _mapper.Map<StatusPedidoOutputDto>(pedido);
+    }
+    
     private void CalcularValorTotal(Pedido pedido)
     {
         foreach (var produto in pedido.Produtos)
@@ -51,23 +51,7 @@ public class PedidoUseCases : IPedidoUseCases
             pedido.ValorTotal += produtoEntity.Valor * produto.Quantidade;
         }
     }
-
-    public StatusPedidoOutputDto ConsultarStatusPedido(int numeroPedido)
-    {
-        var pedido = _pedidoRepository.ObterPorNumeroPedido(numeroPedido);
-        return _mapper.Map<StatusPedidoOutputDto>(pedido);
-    }
-
-    public void AtualizarStatusPedido(int numeroPedido, StatusPedido statusPedido)
-    {
-        _pedidoRepository.AtualizarStatusPedido(numeroPedido,statusPedido);
-    }
-
-    public void Deletar(int numeroPedido)
-    {
-        _pedidoRepository.Delete(numeroPedido);
-    }
-
+    
     private void ValidarCliente(Guid clienteId)
     {
         var cliente = _clienteRepository.ObterClientePorId(clienteId);

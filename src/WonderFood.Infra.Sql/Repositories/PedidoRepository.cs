@@ -21,38 +21,9 @@ public class PedidoRepository : IPedidoRepository
         return _context.Pedidos.FirstOrDefault(p => p.NumeroPedido == numeroPedido);
     }
 
-    public IEnumerable<Pedido> ObterPedidosEmAberto()
-    {
-        return _context.Pedidos.Where(p =>
-                p.Status != StatusPedido.Cancelado &&
-                p.Status != StatusPedido.Finalizado)
-            .Include(p => p.Produtos)
-            .ThenInclude(c => c.Produto)
-            .OrderByDescending(p => p.Status)
-            .ThenBy(p => p.DataPedido)
-            .ToList();
-    }
-
     public void Inserir(Pedido pedido)
     {
         _context.Pedidos.Add(pedido);
-        _context.SaveChanges();
-    }
-
-    public void AtualizarStatusPedido(int numeroPedido, StatusPedido novoStatus)
-    {
-        var pedido = ObterPorNumeroPedido(numeroPedido);
-        if (pedido is null) throw new Exception("Pedido não encontrado");
-        
-        pedido.Status = novoStatus;
-        _context.SaveChanges();
-    }
-
-    public void Delete(int numeroPedido)
-    {
-        var pedido = ObterPorNumeroPedido(numeroPedido);
-        if (pedido is null) throw new Exception("Pedido não encontrado");
-        _context.Pedidos.Remove(pedido);
         _context.SaveChanges();
     }
 }

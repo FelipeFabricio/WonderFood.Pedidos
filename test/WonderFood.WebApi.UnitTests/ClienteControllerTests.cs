@@ -26,36 +26,6 @@ public class ClienteControllerTests
 
     [Fact]
     [Trait("Controllers", "Cliente")]
-    public void ObterTodosClientes_DeveRetornarTodosClientesEStatusOK_QuandoHouverClientesCadastrados()
-    {
-        //Arrange
-        var clientesCadastrados = _clienteFixture.GerarListaClienteOutputDtoValido();
-        _clienteUseCases.ObterTodosClientes().Returns(clientesCadastrados);
-
-        //Act
-        var resultado = (OkObjectResult)_sut.ObterTodosClientes();
-
-        //Assert
-        resultado.StatusCode.Should().Be(200);
-        resultado.Value.As<IEnumerable<ClienteOutputDto>>().Should().BeEquivalentTo(clientesCadastrados);
-    }
-    
-    [Fact]
-    [Trait("Controllers", "Cliente")]
-    public void ObterTodosClientes_DeveRetornarBadRequest_QuandoUmaExceptionForLancada()
-    {
-        //Arrange
-        _clienteUseCases.ObterTodosClientes().Throws(new Exception());
-
-        //Act
-        var resultado = (BadRequestObjectResult)_sut.ObterTodosClientes();
-
-        //Assert
-        resultado.StatusCode.Should().Be(400);
-    }
-    
-    [Fact]
-    [Trait("Controllers", "Cliente")]
     public void ObterClientePorId_DeveRetornarClienteEStatusOK_QuandoHouverClienteCadastrado()
     {
         //Arrange
@@ -112,38 +82,6 @@ public class ClienteControllerTests
 
         //Act
         var resultado = (BadRequestObjectResult)_sut.InserirCliente(clienteInput);
-
-        //Assert
-        resultado.StatusCode.Should().Be(400);
-    }
-    
-    [Fact]
-    [Trait("Controllers", "Cliente")]
-    public void AtualizarCliente_DeveRetornarClienteEStatusOk_QuandoClienteAtualizado()
-    {
-        //Arrange
-        var clienteInput = _clienteFixture.GerarAtualizarClienteInputDtoValido();
-        var clienteOutput = _clienteFixture.GerarClienteOutputDtoValido();
-        _clienteUseCases.AtualizarCliente(clienteInput).Returns(clienteOutput);
-        
-        //Act
-        var resultado = (OkObjectResult)_sut.AtualizarCliente(clienteInput);
-
-        //Assert
-        resultado.StatusCode.Should().Be(200);
-        resultado.Value.As<ClienteOutputDto>().Should().BeEquivalentTo(clienteOutput);
-    }
-    
-    [Fact]
-    [Trait("Controllers", "Cliente")]
-    public void AtualizarCliente_DeveRetornarBadRequest_QuandoUmaExceptionForLancada()
-    {
-        //Arrange
-        var clienteInput = _clienteFixture.GerarAtualizarClienteInputDtoValido();
-        _clienteUseCases.AtualizarCliente(clienteInput).Throws(new Exception());
-
-        //Act
-        var resultado = (BadRequestObjectResult)_sut.AtualizarCliente(clienteInput);
 
         //Assert
         resultado.StatusCode.Should().Be(400);

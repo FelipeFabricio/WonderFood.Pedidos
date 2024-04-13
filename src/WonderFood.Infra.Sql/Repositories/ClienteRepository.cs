@@ -18,11 +18,6 @@ public class ClienteRepository : IClienteRepository
         _mapper = mapper;
     }
     
-    public IEnumerable<Cliente> ObterTodosClientes()
-    {
-        return _context.Clientes.AsNoTracking().AsEnumerable();
-    }
-
     public Cliente ObterClientePorId(Guid id)
     {
         return _context.Clientes.AsNoTracking().FirstOrDefault(x => x.Id == id);
@@ -31,15 +26,6 @@ public class ClienteRepository : IClienteRepository
     public Cliente InserirCliente(Cliente cliente)
     {
         _context.Clientes.Add(cliente);
-        _context.SaveChanges();
-        return cliente;
-    }
-
-    public Cliente AtualizarCliente(Cliente cliente)
-    {
-        var clienteCadastrado = ObterClientePorId(cliente.Id);
-        if (clienteCadastrado == null) throw new Exception("Cliente não encontrado.");
-        _context.Clientes.Update(cliente);
         _context.SaveChanges();
         return cliente;
     }

@@ -15,25 +15,7 @@ public class PedidoController  : ControllerBase
     {
         _pedidoUseCases = pedidoUseCases;
     }
-    
-    /// <summary>
-    /// Obter todos os Pedidos que estão em aberto
-    /// </summary>
-    /// <response code="200">Dados obtidos com sucesso</response>
-    /// <response code="400">Falha ao obter Pedidos</response>
-    [HttpGet]
-    public IActionResult ObterPedidosEmAberto()
-    {
-        try
-        {
-            return Ok(_pedidoUseCases.ObterPedidosEmAberto());
-        }
-        catch (Exception e)
-        {
-            return BadRequest(new { e.Message });
-        }
-    }
-    
+
     /// <summary>
     /// Obter o status atual de um Pedido
     /// </summary>
@@ -63,25 +45,6 @@ public class PedidoController  : ControllerBase
         try
         {
             _pedidoUseCases.Inserir(produto);
-            return StatusCode(201);
-        }
-        catch (Exception e)
-        {
-            return BadRequest(new { e.Message });
-        }
-    }
-    
-    /// <summary>
-    /// Avançar o status de um Pedido
-    /// </summary>
-    /// <response code="201">Avanço status do Pedido com sucesso</response>
-    /// <response code="400">Falha ao avançar status do Pedido</response>
-    [HttpPut]
-    public IActionResult AvançarPedido(int numeroPedido, StatusPedido novoStatus)
-    {
-        try
-        {
-            _pedidoUseCases.AtualizarStatusPedido(numeroPedido, novoStatus);
             return StatusCode(201);
         }
         catch (Exception e)
