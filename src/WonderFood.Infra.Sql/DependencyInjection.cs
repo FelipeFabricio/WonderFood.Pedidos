@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using WonderFood.Core.Interfaces;
 using WonderFood.Core.Interfaces.Repository;
 using WonderFood.Infra.Sql.Repositories;
 
-namespace WonderFood.Infra.Sql.ServiceExtensions
+namespace WonderFood.Infra.Sql
 {
-    public static class InfraDataServiceExtensions
+    public static class DependencyInjection
     {
         public static void AddInfraDataServices(this IServiceCollection services)
         {

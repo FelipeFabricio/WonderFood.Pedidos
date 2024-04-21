@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WonderFood.Infra.Sql.Context;
 
@@ -10,9 +11,11 @@ using WonderFood.Infra.Sql.Context;
 namespace WonderFood.Infra.Sql.Migrations
 {
     [DbContext(typeof(WonderFoodContext))]
-    partial class WonderFoodContextModelSnapshot : ModelSnapshot
+    [Migration("20240415224533_AdicionaCampoFormaPagamento")]
+    partial class AdicionaCampoFormaPagamento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

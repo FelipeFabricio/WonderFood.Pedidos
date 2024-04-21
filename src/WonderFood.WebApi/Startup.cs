@@ -7,9 +7,11 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using Polly;
 using Serilog;
+using Wonderfood.Infra.Bus;
+using Wonderfood.Infra.Bus.Settings;
+using WonderFood.Infra.Sql;
 using WonderFood.Infra.Sql.Context;
-using WonderFood.Infra.Sql.ServiceExtensions;
-using WonderFood.UseCases.ServiceExtensions;
+using WonderFood.UseCases;
 
 namespace WonderFood.WebApi
 {
@@ -24,6 +26,8 @@ namespace WonderFood.WebApi
        
        public void ConfigureServices(IServiceCollection services)
        {
+           services.Configure<AzureServiceBusSettings>(Configuration.GetSection("AzureServiceBusSettings"));
+           
            var connectionString = Configuration.GetConnectionString("DefaultConnection") ??
                                   Configuration["ConnectionString"];
            
@@ -45,6 +49,7 @@ namespace WonderFood.WebApi
            });
            services.AddUseCasesServices();
            services.AddInfraDataServices();
+           services.AddAzureServiceBusServices();
            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
           
            var serverVersion = new MySqlServerVersion(new Version(8, 0, 36));

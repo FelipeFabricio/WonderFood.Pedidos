@@ -13,6 +13,7 @@ namespace WonderFood.Core.Entities
         public decimal ValorTotal { get; set; }
         public IEnumerable<ProdutosPedido> Produtos { get; set; }
         public Cliente Cliente { get; set; }
+        public FormaPagamento FormaPagamento { get; set; }
         public void PreencherDataPedido() => DataPedido = DateTime.Now;
     }
 }

@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using WonderFood.Core.Interfaces;
 using WonderFood.Core.Interfaces.UseCases;
 using WonderFood.UseCases.UseCases;
 
-namespace WonderFood.UseCases.ServiceExtensions;
+namespace WonderFood.UseCases;
 
-public static class UseCasesServices
+public static class DependecyInjection
 {
     public static void AddUseCasesServices(this IServiceCollection services)
     {
