@@ -7,11 +7,11 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using Polly;
 using Serilog;
+using WonderFood.Application;
 using Wonderfood.Infra.Bus;
 using Wonderfood.Infra.Bus.Settings;
 using WonderFood.Infra.Sql;
 using WonderFood.Infra.Sql.Context;
-using WonderFood.UseCases;
 
 namespace WonderFood.WebApi
 {
@@ -37,6 +37,7 @@ namespace WonderFood.WebApi
                .AddJsonOptions(options =>
                {
                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                   options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                });
 
            services.AddEndpointsApiExplorer();
@@ -47,8 +48,8 @@ namespace WonderFood.WebApi
                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                c.IncludeXmlComments(xmlPath);
            });
-           services.AddUseCasesServices();
-           services.AddInfraDataServices();
+           services.AddApplication();
+           services.AddSqlInfrastructure();
            services.AddAzureServiceBusServices();
            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
           

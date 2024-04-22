@@ -10,12 +10,12 @@
       <PackageReference Include="MassTransit" Version="8.2.1" />
       <PackageReference Include="MassTransit.Abstractions" Version="8.2.1" />
       <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="8.2.1" />
+      <PackageReference Include="MediatR" Version="12.1.1" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\WonderFood.Core\WonderFood.Core.csproj" />
-      <ProjectReference Include="..\WonderFood.Core\WonderFood.Core.csproj" />
+      <ProjectReference Include="..\WonderFood.Application\WonderFood.Application.csproj" />
       <ProjectReference Include="..\Wonderfood.Models\Wonderfood.Models.csproj" />
     </ItemGroup>
 

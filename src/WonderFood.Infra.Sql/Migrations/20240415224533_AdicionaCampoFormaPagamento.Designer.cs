@@ -22,7 +22,7 @@ namespace WonderFood.Infra.Sql.Migrations
                 .HasAnnotation("ProductVersion", "7.0.16")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("WonderFood.Core.Entities.Cliente", b =>
+            modelBuilder.Entity("WonderFood.Domain.Entities.Cliente", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,7 +44,7 @@ namespace WonderFood.Infra.Sql.Migrations
                     b.ToTable("Clientes", (string)null);
                 });
 
-            modelBuilder.Entity("WonderFood.Core.Entities.Pedido", b =>
+            modelBuilder.Entity("WonderFood.Domain.Entities.Pedido", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
@@ -83,7 +83,7 @@ namespace WonderFood.Infra.Sql.Migrations
                     b.ToTable("Pedidos", (string)null);
                 });
 
-            modelBuilder.Entity("WonderFood.Core.Entities.Produto", b =>
+            modelBuilder.Entity("WonderFood.Domain.Entities.Produto", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
@@ -107,7 +107,7 @@ namespace WonderFood.Infra.Sql.Migrations
                     b.ToTable("Produtos", (string)null);
                 });
 
-            modelBuilder.Entity("WonderFood.Core.Entities.ProdutosPedido", b =>
+            modelBuilder.Entity("WonderFood.Domain.Entities.ProdutosPedido", b =>
                 {
                     b.Property<string>("PedidoId")
                         .HasColumnType("varchar(36)");
@@ -125,9 +125,9 @@ namespace WonderFood.Infra.Sql.Migrations
                     b.ToTable("ProdutosPedido", (string)null);
                 });
 
-            modelBuilder.Entity("WonderFood.Core.Entities.Pedido", b =>
+            modelBuilder.Entity("WonderFood.Domain.Entities.Pedido", b =>
                 {
-                    b.HasOne("WonderFood.Core.Entities.Cliente", "Cliente")
+                    b.HasOne("WonderFood.Domain.Entities.Cliente", "Cliente")
                         .WithMany()
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -136,15 +136,15 @@ namespace WonderFood.Infra.Sql.Migrations
                     b.Navigation("Cliente");
                 });
 
-            modelBuilder.Entity("WonderFood.Core.Entities.ProdutosPedido", b =>
+            modelBuilder.Entity("WonderFood.Domain.Entities.ProdutosPedido", b =>
                 {
-                    b.HasOne("WonderFood.Core.Entities.Pedido", "Pedido")
+                    b.HasOne("WonderFood.Domain.Entities.Pedido", "Pedido")
                         .WithMany("Produtos")
                         .HasForeignKey("PedidoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WonderFood.Core.Entities.Produto", "Produto")
+                    b.HasOne("WonderFood.Domain.Entities.Produto", "Produto")
                         .WithMany()
                         .HasForeignKey("ProdutoId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -155,7 +155,7 @@ namespace WonderFood.Infra.Sql.Migrations
                     b.Navigation("Produto");
                 });
 
-            modelBuilder.Entity("WonderFood.Core.Entities.Pedido", b =>
+            modelBuilder.Entity("WonderFood.Domain.Entities.Pedido", b =>
                 {
                     b.Navigation("Produtos");
                 });

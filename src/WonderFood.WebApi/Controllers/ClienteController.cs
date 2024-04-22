@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WonderFood.Core.Dtos;
-using WonderFood.Core.Dtos.Cliente;
-using WonderFood.Core.Interfaces.UseCases;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using WonderFood.Application.Clientes.Commands.InserirCliente;
+using WonderFood.Application.Clientes.Queries.ObterCliente;
+using WonderFood.Domain.Dtos.Cliente;
 
 namespace WonderFood.WebApi.Controllers;
 
@@ -9,11 +10,11 @@ namespace WonderFood.WebApi.Controllers;
 [Route("api/[controller]")]
 public class ClienteController : ControllerBase
 {
-    private readonly IClienteUseCases _useCases;
+    private readonly ISender _mediator;
 
-    public ClienteController(IClienteUseCases useCases)
+    public ClienteController(ISender mediator)
     {
-        _useCases = useCases;
+        _mediator = mediator;
     }
 
     /// <summary>
@@ -22,11 +23,13 @@ public class ClienteController : ControllerBase
     /// <response code="200">Dados obtidos com sucesso</response>
     /// <response code="400">Falha ao obter Cliente</response>
     [HttpGet("{id}")]
-    public IActionResult ObterClientePorId(Guid id)
+    public async Task<IActionResult> ObterClientePorId(Guid id)
     {
         try
         {
-            return Ok(_useCases.ObterClientePorId(id));
+            var command = new ObterClienteQuery(id);
+            var response = await _mediator.Send(command);
+            return Ok(response);
         }
         catch (Exception e)
         {
@@ -40,12 +43,13 @@ public class ClienteController : ControllerBase
     /// <response code="201">Criado com sucesso</response>
     /// <response code="400">Falha ao cadastrar</response>
     [HttpPost]
-    public IActionResult InserirCliente([FromBody] InserirClienteInputDto cliente)
+    public async Task<IActionResult> InserirCliente([FromBody] InserirClienteInputDto cliente)
     {
         try
         {
-            var novoCliente = _useCases.InserirCliente(cliente);
-            return CreatedAtAction(nameof(ObterClientePorId), new {id = novoCliente.Id}, novoCliente);
+            var command = new InserirClienteCommand(cliente);
+            var response = await _mediator.Send(command);
+            return CreatedAtAction(nameof(ObterClientePorId), new {id = response.Id}, response);
         }
         catch (Exception e)
         {

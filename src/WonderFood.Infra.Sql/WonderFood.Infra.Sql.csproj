@@ -20,7 +20,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\WonderFood.Core\WonderFood.Core.csproj" />
+      <ProjectReference Include="..\WonderFood.Application\WonderFood.Application.csproj" />
+      <ProjectReference Include="..\WonderFood.Domain\WonderFood.Domain.csproj" />
     </ItemGroup>
 
 </Project>
