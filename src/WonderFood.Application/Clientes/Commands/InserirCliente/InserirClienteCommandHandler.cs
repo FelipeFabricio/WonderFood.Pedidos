@@ -21,7 +21,9 @@ public class InserirClienteCommandHandler : IRequestHandler<InserirClienteComman
 
     public async Task<ClienteOutputDto> Handle(InserirClienteCommand request, CancellationToken cancellationToken)
     {
-        await _clienteRepository.InserirCliente(_mapper.Map<Cliente>(request.Cliente));
+        var cliente = new Cliente(request.Cliente.Nome, request.Cliente.Email, request.Cliente.Cpf);
+
+        await _clienteRepository.InserirCliente(cliente);
         await  _unitOfWork.CommitChangesAsync();
         return _mapper.Map<ClienteOutputDto>(request.Cliente);
     }
