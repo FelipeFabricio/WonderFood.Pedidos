@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using WonderFood.Domain.Entities.Enums;
 
 namespace WonderFood.Domain.Entities;
@@ -31,10 +32,10 @@ public class Pedido
     private static void PreencherListaProdutos(IEnumerable<ProdutosPedido> produtos)
     {
         var produtosPedidos = produtos.ToList();
-        if(!produtosPedidos.Any()) 
+        if (!produtosPedidos.Any())
             throw new Exception("A lista de produtos não pode ser vazia.");
-        
-        if(produtosPedidos.Any(p => p.Quantidade <= 0))
+
+        if (produtosPedidos.Any(p => p.Quantidade <= 0))
             throw new Exception("A quantidade de produtos não pode ser menor ou igual a zero.");
     }
 
@@ -45,12 +46,12 @@ public class Pedido
             ValorTotal += produtosPedido.Produto.Valor * produtosPedido.Quantidade;
         }
     }
-    
+
     public void AlterarStatusPedido(StatusPedido status)
     {
         if (Status == status)
             throw new Exception("Status atual é o mesmo que o status informado.");
-        
+
         switch (Status)
         {
             case StatusPedido.AguardandoPagamento
@@ -94,5 +95,10 @@ public class Pedido
                 Status = status;
                 break;
         }
+    }
+
+    //Para funcionando do EFcore
+    private Pedido()
+    {
     }
 }

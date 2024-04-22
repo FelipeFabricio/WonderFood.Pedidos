@@ -1,10 +1,9 @@
 using Azure.Messaging.ServiceBus;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
-using WonderFood.Application.Extensions;
 using Wonderfood.Infra.Bus.Consumers;
 using Wonderfood.Infra.Bus.Settings;
-using Wonderfood.Models.Events;
+using WonderFood.Application.Extensions;
 
 namespace Wonderfood.Infra.Bus;
 

@@ -15,24 +15,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{3627D3A9-C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{0ACDC4AE-8F48-4F36-8B50-E1F167AE5E91}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{F9C5B0C9-29D9-45C9-B551-E39DB548DBA1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{98EB42CA-4463-4B96-9A5C-7DEEFA956EE4}"
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
 		.gitignore = .gitignore
+		deployment.yml = deployment.yml
 		docker-compose.yml = docker-compose.yml
 		Dockerfile = Dockerfile
-		deployment.yml = deployment.yml
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{F9C5B0C9-29D9-45C9-B551-E39DB548DBA1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DB9F0B97-C933-4312-83EC-5163EEF76C25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WonderFood.Core.UnitTests", "test\WonderFood.Core.UnitTests\WonderFood.Core.UnitTests.csproj", "{EE67A35B-9515-485D-A415-CFCA2B156622}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WonderFood.UseCases.UnitTests", "test\WonderFood.UseCases.UnitTests\WonderFood.UseCases.UnitTests.csproj", "{0336BB51-DBAE-419E-9CC4-A9A8EA25C4BD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WonderFood.WebApi.UnitTests", "test\WonderFood.WebApi.UnitTests\WonderFood.WebApi.UnitTests.csproj", "{EE8458FA-CDB4-4561-8EE6-04C8401402DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WonderFood.WebApi.UnitTests", "test\WonderFood.WebApi.UnitTests\WonderFood.WebApi.UnitTests.csproj", "{EE8458FA-CDB4-4561-8EE6-04C8401402DB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wonderfood.Infra.Bus", "src\Wonderfood.Infra.Bus\Wonderfood.Infra.Bus.csproj", "{59C8721C-C886-4AC3-87BB-B82C0539EF5A}"
 EndProject
@@ -60,14 +56,6 @@ Global
 		{3D877577-EE19-4779-9E0F-599204B5398E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D877577-EE19-4779-9E0F-599204B5398E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D877577-EE19-4779-9E0F-599204B5398E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EE67A35B-9515-485D-A415-CFCA2B156622}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE67A35B-9515-485D-A415-CFCA2B156622}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EE67A35B-9515-485D-A415-CFCA2B156622}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EE67A35B-9515-485D-A415-CFCA2B156622}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0336BB51-DBAE-419E-9CC4-A9A8EA25C4BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0336BB51-DBAE-419E-9CC4-A9A8EA25C4BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0336BB51-DBAE-419E-9CC4-A9A8EA25C4BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0336BB51-DBAE-419E-9CC4-A9A8EA25C4BD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EE8458FA-CDB4-4561-8EE6-04C8401402DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EE8458FA-CDB4-4561-8EE6-04C8401402DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE8458FA-CDB4-4561-8EE6-04C8401402DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -89,8 +77,6 @@ Global
 		{A095B9AD-A1A0-464E-A8D3-73146C807D71} = {3627D3A9-CE8C-4FAF-9739-6348F22FE1F3}
 		{8EA12BB5-91D1-4B3E-B756-28D8496DD56D} = {0ACDC4AE-8F48-4F36-8B50-E1F167AE5E91}
 		{3D877577-EE19-4779-9E0F-599204B5398E} = {F9C5B0C9-29D9-45C9-B551-E39DB548DBA1}
-		{EE67A35B-9515-485D-A415-CFCA2B156622} = {DB9F0B97-C933-4312-83EC-5163EEF76C25}
-		{0336BB51-DBAE-419E-9CC4-A9A8EA25C4BD} = {DB9F0B97-C933-4312-83EC-5163EEF76C25}
 		{EE8458FA-CDB4-4561-8EE6-04C8401402DB} = {DB9F0B97-C933-4312-83EC-5163EEF76C25}
 		{59C8721C-C886-4AC3-87BB-B82C0539EF5A} = {0ACDC4AE-8F48-4F36-8B50-E1F167AE5E91}
 		{36213AEF-5B78-487F-99AC-14E9A4A6795B} = {F9C5B0C9-29D9-45C9-B551-E39DB548DBA1}
