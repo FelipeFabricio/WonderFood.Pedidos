@@ -15,33 +15,31 @@ public class InserirPedidoCommandHandler : IRequestHandler<InserirPedidoCommand,
     private readonly IClienteRepository _clienteRepository;
     private readonly IProdutoRepository _produtoRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
     private readonly IBus _bus;
 
-    public InserirPedidoCommandHandler(IPedidoRepository pedidoRepository, 
-        IUnitOfWork unitOfWork, IClienteRepository clienteRepository, 
-        IProdutoRepository produtoRepository, IBus  bus, IMapper mapper)
+    public InserirPedidoCommandHandler(IPedidoRepository pedidoRepository,
+        IUnitOfWork unitOfWork, IClienteRepository clienteRepository,
+        IProdutoRepository produtoRepository, IBus bus)
     {
         _pedidoRepository = pedidoRepository;
         _unitOfWork = unitOfWork;
         _clienteRepository = clienteRepository;
         _produtoRepository = produtoRepository;
         _bus = bus;
-        _mapper = mapper;
     }
 
     public async Task<Unit> Handle(InserirPedidoCommand request, CancellationToken cancellationToken)
     {
-        ValidarCliente(request.Pedido.ClienteId);
-        ValidarProdutos(request.Pedido.Produtos);
-        
-        var pedido = _mapper.Map<Pedido>(request.Pedido);
-        
-        pedido.PreencherDataPedido();
-        await CalcularValorTotal(pedido);   
+        await ValidarCliente(request.Pedido.ClienteId);
+        var listaProdutosPedido = await PreencherListaProdutosPedido(request.Pedido.Produtos);
+
+        var pedido = new Pedido(request.Pedido.ClienteId,
+            listaProdutosPedido,
+            Domain.Entities.Enums.FormaPagamento.Dinheiro);
+
         await _pedidoRepository.Inserir(pedido);
         await _unitOfWork.CommitChangesAsync();
-        
+
         var pagamentoSolicitadoEvent = new PagamentoSolicitadoEvent
         {
             IdPedido = pedido.Id,
@@ -50,35 +48,37 @@ public class InserirPedidoCommandHandler : IRequestHandler<InserirPedidoCommand,
             IdCliente = pedido.ClienteId,
             DataConfirmacaoPedido = pedido.DataPedido,
         };
-        
+
         await _bus.Publish(pagamentoSolicitadoEvent, cancellationToken);
         return Unit.Value;
     }
-      
-    private async Task CalcularValorTotal(Pedido pedido)
+
+    private async Task ValidarCliente(Guid clienteId)
     {
-        foreach (var produto in pedido.Produtos)
-        {
-            var produtoEntity = await _produtoRepository.ObterProdutoPorId(produto.ProdutoId);
-            if(produtoEntity is null)
-                throw new Exception($"Produto {produto.ProdutoId} não encontrado.");
-            
-            pedido.ValorTotal += produtoEntity.Valor * produto.Quantidade;
-        }
-    }
-    
-    private void ValidarCliente(Guid clienteId)
-    {
-        var cliente = _clienteRepository.ObterClientePorId(clienteId);
+        var cliente = await _clienteRepository.ObterClientePorId(clienteId);
         if (cliente == null) throw new Exception("Cliente não encontrado.");
     }
-    
-    private void ValidarProdutos(IEnumerable<InserirProdutosPedidoInputDto> produtos)
+
+    //Rever possível uso do Task.WhenAll para melhorar performance
+    private async Task<List<ProdutosPedido>> PreencherListaProdutosPedido( IEnumerable<InserirProdutosPedidoInputDto> produtos)
     {
+        var tasks = new List<Task<Produto>>();
+        var produtosValidos = new List<ProdutosPedido>();
+
         foreach (var produto in produtos)
         {
-            var produtoEntity = _produtoRepository.ObterProdutoPorId(produto.ProdutoId);
-            if (produtoEntity == null) throw new Exception($"Produto {produto.ProdutoId} não encontrado.");
+            var produtoEntity = await _produtoRepository.ObterProdutoPorId(produto.ProdutoId);
+            if (produtoEntity == null)
+                throw new Exception($"Produto {produto.ProdutoId} não encontrado.");
+
+            produtosValidos.Add(new ProdutosPedido
+            {
+                ProdutoId = produtoEntity.Id,
+                Quantidade = produto.Quantidade,
+                Produto = produtoEntity
+            });
         }
+        
+        return produtosValidos;
     }
 }

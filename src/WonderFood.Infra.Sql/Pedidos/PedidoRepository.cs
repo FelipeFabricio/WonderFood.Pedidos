@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WonderFood.Application.Common.Interfaces;
 using WonderFood.Domain.Entities;
-using WonderFood.Domain.Entities.Enums;
 using WonderFood.Infra.Sql.Context;
 
 namespace WonderFood.Infra.Sql.Pedidos;
@@ -25,18 +24,25 @@ public class PedidoRepository : IPedidoRepository
             .FirstOrDefaultAsync(p => p.NumeroPedido == numeroPedido);
     }
 
+    public Task<Pedido?> ObterPorId(Guid id)
+    {
+        return _context.Pedidos
+            .Include(c => c.Cliente)
+            .Include(p => p.Produtos)
+                .ThenInclude(p => p.Produto)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Id == id);
+    }
+
     public Task Inserir(Pedido pedido)
     {
         _context.Pedidos.Add(pedido);
         return Task.CompletedTask;
     }
 
-    public async Task AtualizarStatusPedido(Guid idPedido, StatusPedido statusPedido)
+    public async Task Atualizar(Pedido pedido)
     {
-        await _context.Pedidos
-            .Where(p => p.Id == idPedido)
-            .ExecuteUpdateAsync(setter => setter
-                .SetProperty(p => p.Status, statusPedido)
-            );
+        _context.Pedidos.Update(pedido);
+        await _context.SaveChangesAsync();
     }
 }

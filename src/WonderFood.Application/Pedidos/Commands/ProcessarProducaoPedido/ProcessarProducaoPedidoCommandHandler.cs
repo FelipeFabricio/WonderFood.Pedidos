@@ -24,12 +24,18 @@ public class ProcessarProducaoPedidoCommandHandler : IRequestHandler<ProcessarPr
     {
         StatusPedido novoStatusPedido = request.StatusPagamento switch
         {
-            SituacaoPagamento.PagamentoAprovado => StatusPedido.EmPreparacao,
+            SituacaoPagamento.PagamentoAprovado => StatusPedido.AguardandoPreparo,
             SituacaoPagamento.PagamentoRecusado => StatusPedido.Cancelado,
-            _ => throw new ArgumentOutOfRangeException(nameof(request.StatusPagamento), $"Situação Pagamento inválida: {request.StatusPagamento}")
+            _ => throw new Exception($"Situação Pagamento inválida: {request.StatusPagamento}")
         };
         
-        await _pedidoRepository.AtualizarStatusPedido(request.IdPedido, novoStatusPedido);
+        var pedido = await _pedidoRepository.ObterPorId(request.IdPedido);
+        if(pedido is null)
+            throw new Exception($"Pedido não encontrado com o Id informado: {request.IdPedido}");
+        
+        pedido.AlterarStatusPedido(novoStatusPedido);
+        
+        await _pedidoRepository.Atualizar(pedido);
         await _unitOfWork.CommitChangesAsync();
         
         //await _bus.Publish(pagamentoSolicitadoEvent, cancellationToken);

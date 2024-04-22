@@ -3,9 +3,11 @@
 public enum StatusPedido
 {
     AguardandoPagamento,
-    Recebido,
-    EmPreparacao,
-    Pronto,
-    Finalizado,
+    PagamentoAprovado,
+    PagamentoRecusado,
+    AguardandoPreparo,
+    PreparoIniciado,
+    ProntoParaRetirada,
+    PedidoRetirado,
     Cancelado
 }
