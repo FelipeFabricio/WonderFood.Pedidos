@@ -1,29 +1,36 @@
+using Azure.Identity;
 using Azure.Messaging.ServiceBus;
+using Azure.Security.KeyVault.Secrets;
 using MassTransit;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Wonderfood.Infra.Bus.Consumers;
-using Wonderfood.Infra.Bus.Settings;
-using WonderFood.Application.Extensions;
+using WonderFood.Infra.Bus.Consumers;
 
-namespace Wonderfood.Infra.Bus;
+namespace WonderFood.Infra.Bus;
 
 public static class DependencyInjection
 {
-    public static void AddAzureServiceBusServices(this IServiceCollection services)
+    public static void AddAzureServiceBusServices(this IServiceCollection services, IConfiguration configuration)
     {
-        var settings = services.CarregarSettings<AzureServiceBusSettings>();
+        var connectionString = GetConnectionString(configuration);
         services.AddMassTransit(x =>
         {
             x.AddConsumer<PagamentosSolicitadosConsumer>();
             x.SetKebabCaseEndpointNameFormatter();
             x.UsingAzureServiceBus((context, cfg) =>
             {
-                cfg.Host(settings.ConnectionString,
+                cfg.Host(connectionString,
                     h => { h.TransportType = ServiceBusTransportType.AmqpWebSockets; });
 
                 cfg.ConfigureEndpoints(context);
                 cfg.UseServiceBusMessageScheduler();
             });
         });
+    }
+    
+    private static string GetConnectionString(IConfiguration configuration)
+    {
+        var secretClient = new SecretClient(new Uri(configuration["AzureKeyVaultUri"]!), new DefaultAzureCredential());
+        return secretClient.GetSecret("wdf-pedidos-bus-connection").Value.Value;
     }
 }

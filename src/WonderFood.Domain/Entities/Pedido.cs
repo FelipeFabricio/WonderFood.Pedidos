@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using WonderFood.Domain.Entities.Enums;
 
 namespace WonderFood.Domain.Entities;
@@ -12,7 +11,7 @@ public class Pedido
     public string? Observacao { get; init; }
     public DateTime DataPedido { get; init; }
     public StatusPedido Status { get; private set; }
-    public IEnumerable<ProdutosPedido> Produtos { get; init; }
+    public IEnumerable<ProdutosPedido> Produtos { get; private set; }
     public Cliente Cliente { get; set; }
     public FormaPagamento FormaPagamento { get; init; }
 
@@ -29,7 +28,7 @@ public class Pedido
         CalcularValorTotal();
     }
 
-    private static void PreencherListaProdutos(IEnumerable<ProdutosPedido> produtos)
+    private void PreencherListaProdutos(IEnumerable<ProdutosPedido> produtos)
     {
         var produtosPedidos = produtos.ToList();
         if (!produtosPedidos.Any())
@@ -37,6 +36,11 @@ public class Pedido
 
         if (produtosPedidos.Any(p => p.Quantidade <= 0))
             throw new Exception("A quantidade de produtos não pode ser menor ou igual a zero.");
+        
+        foreach (var produto in produtosPedidos)
+            produto.PedidoId = Id;
+        
+        Produtos = produtosPedidos;
     }
 
     private void CalcularValorTotal()

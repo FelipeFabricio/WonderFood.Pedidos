@@ -1,11 +1,10 @@
-using AutoMapper;
 using MassTransit;
 using MediatR;
 using WonderFood.Application.Common.Interfaces;
 using WonderFood.Domain.Dtos.Produto;
 using WonderFood.Domain.Entities;
-using Wonderfood.Models.Enums;
-using Wonderfood.Models.Events;
+using WonderFood.Models.Enums;
+using WonderFood.Models.Events;
 
 namespace WonderFood.Application.Pedidos.Commands.InserirPedido;
 
@@ -37,6 +36,10 @@ public class InserirPedidoCommandHandler : IRequestHandler<InserirPedidoCommand,
             listaProdutosPedido,
             Domain.Entities.Enums.FormaPagamento.Dinheiro);
 
+        //TODO: Remover isso. Sendo para corrigir problema no EF ao salvar o Pedido
+        foreach (var produtosPedido in pedido.Produtos)
+            produtosPedido.Produto = null;
+        
         await _pedidoRepository.Inserir(pedido);
         await _unitOfWork.CommitChangesAsync();
 

@@ -29,8 +29,8 @@ public class Produto
 
     private void ValidarNome(string nome)
     {
-        if(string.IsNullOrWhiteSpace(nome))
-            throw new ArgumentException("Nome do produto é obrigatório");
+        if(string.IsNullOrWhiteSpace(nome) || nome.Length < 3)
+            throw new ArgumentException("Nome do produto precisa ter no mínimo 3 caractere");
 
         Nome = nome;
     }

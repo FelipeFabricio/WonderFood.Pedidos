@@ -9,7 +9,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\WonderFood.Domain\WonderFood.Domain.csproj"/>
-        <ProjectReference Include="..\Wonderfood.Models\Wonderfood.Models.csproj" />
+        <ProjectReference Include="..\WonderFood.Models\WonderFood.Models.csproj" />
     </ItemGroup>
 
     <ItemGroup>

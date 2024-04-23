@@ -1,4 +1,4 @@
-namespace Wonderfood.Infra.Bus.Settings;
+namespace WonderFood.Infra.Bus.Settings;
 
 public class AzureServiceBusSettings
 {

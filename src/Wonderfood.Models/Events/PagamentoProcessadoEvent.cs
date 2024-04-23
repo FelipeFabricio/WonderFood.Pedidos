@@ -1,6 +1,6 @@
-using Wonderfood.Models.Enums;
+using WonderFood.Models.Enums;
 
-namespace Wonderfood.Models.Events;
+namespace WonderFood.Models.Events;
 
 public class PagamentoProcessadoEvent
 {

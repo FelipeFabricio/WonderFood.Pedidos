@@ -4,10 +4,10 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <PackageId>Wonderfood.Pedidos.Models</PackageId>
+        <PackageId>WonderFood.Pedidos.Models</PackageId>
         <Version>1.0.0</Version>
         <Authors>Felipe Fabricio</Authors>
-        <Company>Wonderfood</Company>
+        <Company>WonderFood</Company>
         <PackageDescription>PACKAGE_DESCRIPTION</PackageDescription>
         <RepositoryUrl>https://github.com/OWNER/REPOSITORY</RepositoryUrl>
     </PropertyGroup>

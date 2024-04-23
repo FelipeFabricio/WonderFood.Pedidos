@@ -1,4 +1,4 @@
-namespace Wonderfood.Models.Enums;
+namespace WonderFood.Models.Enums;
 
 public enum SituacaoPagamento
 {

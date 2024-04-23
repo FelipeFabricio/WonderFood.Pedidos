@@ -1,10 +1,10 @@
 using MassTransit;
 using MediatR;
 using WonderFood.Application.Pedidos.Commands.IniciarProducaoPedido;
-using Wonderfood.Models.Enums;
-using Wonderfood.Models.Events;
+using WonderFood.Models.Enums;
+using WonderFood.Models.Events;
 
-namespace Wonderfood.Infra.Bus.Consumers;
+namespace WonderFood.Infra.Bus.Consumers;
 
 public class PagamentosSolicitadosConsumer : IConsumer<PagamentoSolicitadoEvent>
 {

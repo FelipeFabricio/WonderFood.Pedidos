@@ -1,5 +1,5 @@
 using MediatR;
-using Wonderfood.Models.Enums;
+using WonderFood.Models.Enums;
 
 namespace WonderFood.Application.Pedidos.Commands.IniciarProducaoPedido;
 

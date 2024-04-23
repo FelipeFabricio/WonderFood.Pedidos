@@ -8,8 +8,7 @@ using Microsoft.OpenApi.Models;
 using Polly;
 using Serilog;
 using WonderFood.Application;
-using Wonderfood.Infra.Bus;
-using Wonderfood.Infra.Bus.Settings;
+using WonderFood.Infra.Bus;
 using WonderFood.Infra.Sql;
 using WonderFood.Infra.Sql.Context;
 
@@ -26,13 +25,6 @@ namespace WonderFood.WebApi
        
        public void ConfigureServices(IServiceCollection services)
        {
-           services.Configure<AzureServiceBusSettings>(Configuration.GetSection("AzureServiceBusSettings"));
-           
-           var connectionString = Configuration.GetConnectionString("DefaultConnection") ??
-                                  Configuration["ConnectionString"];
-           
-           services.AddHealthChecks().AddMySql(connectionString);
-           
            services.AddControllers()
                .AddJsonOptions(options =>
                {
@@ -49,14 +41,9 @@ namespace WonderFood.WebApi
                c.IncludeXmlComments(xmlPath);
            });
            services.AddApplication();
-           services.AddSqlInfrastructure();
-           services.AddAzureServiceBusServices();
+           services.AddSqlInfrastructure(Configuration);
+           services.AddAzureServiceBusServices(Configuration);
            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-          
-           var serverVersion = new MySqlServerVersion(new Version(8, 0, 36));
-           services.AddDbContext<WonderFoodContext>(
-               dbContextOptions => dbContextOptions.UseMySql(connectionString, serverVersion,
-                   mySqlOptions => { mySqlOptions.EnableRetryOnFailure(); }));
        }
        
        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WonderFoodContext dbContext)
@@ -95,7 +82,7 @@ namespace WonderFood.WebApi
                        TimeSpan.FromSeconds(16),
                        TimeSpan.FromSeconds(32),
                    },
-                   (exception, timeSpan, retryCount, context) =>
+                   (_, timeSpan, retryCount, _) =>
                    {
                        Log.Logger.Error($"Tentativa {retryCount} de conexão ao MySql falhou. Tentando novamente em {timeSpan.Seconds} segundos.");
                    });

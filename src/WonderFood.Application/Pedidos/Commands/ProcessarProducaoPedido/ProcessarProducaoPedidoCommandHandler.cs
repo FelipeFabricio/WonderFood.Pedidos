@@ -3,7 +3,7 @@ using MediatR;
 using WonderFood.Application.Common.Interfaces;
 using WonderFood.Application.Pedidos.Commands.IniciarProducaoPedido;
 using WonderFood.Domain.Entities.Enums;
-using Wonderfood.Models.Enums;
+using WonderFood.Models.Enums;
 
 namespace WonderFood.Application.Pedidos.Commands.ProcessarProducaoPedido;
 

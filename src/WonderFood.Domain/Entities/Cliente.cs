@@ -12,7 +12,7 @@ public class Cliente
     public Cliente(string nome, string email, string cpf)
     {
         Id = Guid.NewGuid();
-        Nome = nome;
+        ValidarNome(nome);
         ValidarEmail(email);
         ValidarCpf(cpf);
     }

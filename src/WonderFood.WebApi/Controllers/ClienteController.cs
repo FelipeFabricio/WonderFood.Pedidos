@@ -48,8 +48,8 @@ public class ClienteController : ControllerBase
         try
         {
             var command = new InserirClienteCommand(cliente);
-            var response = await _mediator.Send(command);
-            return CreatedAtAction(nameof(ObterClientePorId), new {id = response.Id}, response);
+            await _mediator.Send(command);
+            return StatusCode(201);
         }
         catch (Exception e)
         {
