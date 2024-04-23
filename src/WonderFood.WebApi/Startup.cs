@@ -1,10 +1,8 @@
-﻿using System.Reflection;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.OpenApi.Models;
 using Polly;
 using Serilog;
 using WonderFood.Application;
@@ -33,23 +31,16 @@ namespace WonderFood.WebApi
                });
 
            services.AddEndpointsApiExplorer();
-           services.AddSwaggerGen(c =>
-           {
-               c.SwaggerDoc("v1", new OpenApiInfo { Title = "WonderFood", Version = "v1" });
-               var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-               var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-               c.IncludeXmlComments(xmlPath);
-           });
            services.AddApplication();
            services.AddSqlInfrastructure(Configuration);
-           services.AddAzureServiceBusServices(Configuration);
+           services.AddAzureServiceBus(Configuration);
+           services.AddSwagger();
            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
        }
        
        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WonderFoodContext dbContext)
        {
-           app.UseSwagger();
-           app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WonderFood"));
+           app.UseSwaggerMiddleware();
            app.UseRouting();
            app.UseAuthorization();
            app.UseEndpoints(endpoints =>

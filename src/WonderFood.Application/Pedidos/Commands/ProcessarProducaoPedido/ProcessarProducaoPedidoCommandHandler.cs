@@ -1,24 +1,15 @@
 using MassTransit;
 using MediatR;
 using WonderFood.Application.Common.Interfaces;
-using WonderFood.Application.Pedidos.Commands.IniciarProducaoPedido;
 using WonderFood.Domain.Entities.Enums;
 using WonderFood.Models.Enums;
 
 namespace WonderFood.Application.Pedidos.Commands.ProcessarProducaoPedido;
 
-public class ProcessarProducaoPedidoCommandHandler : IRequestHandler<ProcessarProducaoPedidoCommand, Unit>
+public class ProcessarProducaoPedidoCommandHandler(IPedidoRepository pedidoRepository, IUnitOfWork unitOfWork, IBus bus)
+    : IRequestHandler<ProcessarProducaoPedidoCommand, Unit>
 {
-    private readonly IPedidoRepository _pedidoRepository;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IBus _bus;
-
-    public ProcessarProducaoPedidoCommandHandler(IPedidoRepository pedidoRepository, IUnitOfWork unitOfWork, IBus bus)
-    {
-        _pedidoRepository = pedidoRepository;
-        _unitOfWork = unitOfWork;
-        _bus = bus;
-    }
+    private readonly IBus _bus = bus;
 
     public async Task<Unit> Handle(ProcessarProducaoPedidoCommand request, CancellationToken cancellationToken)
     {
@@ -29,14 +20,14 @@ public class ProcessarProducaoPedidoCommandHandler : IRequestHandler<ProcessarPr
             _ => throw new Exception($"Situação Pagamento inválida: {request.StatusPagamento}")
         };
         
-        var pedido = await _pedidoRepository.ObterPorId(request.IdPedido);
+        var pedido = await pedidoRepository.ObterPorId(request.IdPedido);
         if(pedido is null)
             throw new Exception($"Pedido não encontrado com o Id informado: {request.IdPedido}");
         
         pedido.AlterarStatusPedido(novoStatusPedido);
         
-        await _pedidoRepository.Atualizar(pedido);
-        await _unitOfWork.CommitChangesAsync();
+        await pedidoRepository.Atualizar(pedido);
+        await unitOfWork.CommitChangesAsync();
         
         //await _bus.Publish(pagamentoSolicitadoEvent, cancellationToken);
         return Unit.Value;

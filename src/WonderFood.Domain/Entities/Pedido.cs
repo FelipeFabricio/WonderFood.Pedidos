@@ -47,7 +47,7 @@ public class Pedido
     {
         foreach (var produtosPedido in Produtos)
         {
-            ValorTotal += produtosPedido.Produto.Valor * produtosPedido.Quantidade;
+            ValorTotal += produtosPedido.ValorProduto * produtosPedido.Quantidade;
         }
     }
 

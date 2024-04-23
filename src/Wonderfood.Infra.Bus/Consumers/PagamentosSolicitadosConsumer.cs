@@ -1,6 +1,6 @@
 using MassTransit;
 using MediatR;
-using WonderFood.Application.Pedidos.Commands.IniciarProducaoPedido;
+using WonderFood.Application.Pedidos.Commands.ProcessarProducaoPedido;
 using WonderFood.Models.Enums;
 using WonderFood.Models.Events;
 

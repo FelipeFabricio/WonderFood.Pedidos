@@ -10,7 +10,7 @@ namespace WonderFood.Infra.Bus;
 
 public static class DependencyInjection
 {
-    public static void AddAzureServiceBusServices(this IServiceCollection services, IConfiguration configuration)
+    public static void AddAzureServiceBus(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = GetConnectionString(configuration);
         services.AddMassTransit(x =>

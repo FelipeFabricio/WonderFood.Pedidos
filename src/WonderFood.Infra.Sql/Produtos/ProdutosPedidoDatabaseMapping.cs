@@ -13,7 +13,7 @@ public class ProdutosPedidoDatabaseMapping : IEntityTypeConfiguration<ProdutosPe
         builder.Property(p => p.PedidoId).HasColumnType("varchar(36)").IsRequired();
         builder.Property(p => p.ProdutoId).HasColumnType("varchar(36)").IsRequired();
         builder.Property(p => p.Quantidade).HasColumnType("tinyint unsigned").IsRequired();
-
+        builder.Property(p => p.ValorProduto).HasColumnType("decimal(8,2)").IsRequired();
         builder.HasOne(p => p.Pedido)
             .WithMany(p => p.Produtos)
             .HasForeignKey(p => p.PedidoId);
