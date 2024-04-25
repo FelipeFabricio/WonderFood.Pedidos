@@ -12,12 +12,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.1.1
-
-      - name: Efetua Login no Azure
-        uses: Azure/login@v1.6.1
         with:
-          creds: '${{ secrets.AZURE_CREDENTIALS }}'
-                
+          fetch-depth: 0 
+
       - name: Instalação do .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -37,13 +34,17 @@ jobs:
         run:
           dotnet test --no-build --configuration Release --verbosity normal
 
-      - name: Login no DockerHub
-        uses: docker/login-action@v3.1.0
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      
-      - name: Build, Tag e Push da Imagem para o DockerHub
+
+      - name: Install SonarCloud scanners
         run: |
-          docker build -t felipefabricio/wonderfood:latest -f Dockerfile .
-          docker push felipefabricio/wonderfood:latest               
+          dotnet tool install --global dotnet-sonarscanner
+          
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          dotnet-sonarscanner begin /k:"felipefabricio" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet build
+          dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
