@@ -2,9 +2,14 @@ name: CI Pipeline
 
 on:
   pull_request:
-  workflow_dispatch:
     branches:
       - master
+      
+  workflow_dispatch:
+  push:
+    branches:
+      - dev
+      - Homolog
 
 jobs:
   CI:
@@ -15,7 +20,7 @@ jobs:
         uses: actions/checkout@v4.1.1
         with:
           fetch-depth: 0 
-          
+
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
@@ -25,19 +30,13 @@ jobs:
         run: |
           dotnet tool install --global dotnet-sonarscanner
           dotnet tool install --global dotnet-coverage
-          
+
       - name: Build and analyze solution
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_SONAR_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet-sonarscanner begin 
-            /k:"FelipeFabricio_wonderfood-pedidos" 
-            /o:"felipefabricio" 
-            /d:sonar.login="${{ secrets.SONAR_TOKEN }}" 
-            /d:sonar.host.url="https://sonarcloud.io"
-            /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+          dotnet-sonarscanner begin /k:"FelipeFabricio_wonderfood-pedidos" /o:"felipefabricio" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml 
           dotnet build --no-incremental
           dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
-          dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-  
+          dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
