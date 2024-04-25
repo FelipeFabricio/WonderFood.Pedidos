@@ -10,8 +10,6 @@ services:
     ports:
       - "8000:80"
       - "8001:443"
-    environment:
-      - ConnectionString=Server=mysql;Database=wonderfood-db;Uid=userdb;Pwd=senhaForte123!;Connect Timeout=60;
 
   mysql:
     image: mysql:8.0.36

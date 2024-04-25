@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WonderFood.Core.Dtos.Pedido;
-using WonderFood.Core.Entities.Enums;
-using WonderFood.Core.Interfaces.UseCases;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using WonderFood.Application.Pedidos.Commands.InserirPedido;
+using WonderFood.Application.Pedidos.Queries.ObterPedido;
+using WonderFood.Domain.Dtos.Pedido;
 
 namespace WonderFood.WebApi.Controllers;
 
@@ -9,42 +10,26 @@ namespace WonderFood.WebApi.Controllers;
 [Route("api/[controller]")]
 public class PedidoController  : ControllerBase
 {
-    private readonly IPedidoUseCases _pedidoUseCases;
-    
-    public PedidoController(IPedidoUseCases pedidoUseCases)
+    private readonly ISender _mediator;
+
+    public PedidoController(ISender mediator)
     {
-        _pedidoUseCases = pedidoUseCases;
+        _mediator = mediator;
     }
-    
+
     /// <summary>
-    /// Obter todos os Pedidos que estão em aberto
-    /// </summary>
-    /// <response code="200">Dados obtidos com sucesso</response>
-    /// <response code="400">Falha ao obter Pedidos</response>
-    [HttpGet]
-    public IActionResult ObterPedidosEmAberto()
-    {
-        try
-        {
-            return Ok(_pedidoUseCases.ObterPedidosEmAberto());
-        }
-        catch (Exception e)
-        {
-            return BadRequest(new { e.Message });
-        }
-    }
-    
-    /// <summary>
-    /// Obter o status atual de um Pedido
+    /// Obter Pedido por Número do Pedido
     /// </summary>
     /// <response code="200">Dados obtidos com sucesso</response>
     /// <response code="400">Falha ao obter Pedido</response>
     [HttpGet("{numeroPedido:int}")]
-    public IActionResult ObterStatusPedido(int numeroPedido)
+    public async Task<IActionResult> ObterPedido(int numeroPedido)
     {
         try
         {
-            return Ok(_pedidoUseCases.ConsultarStatusPedido(numeroPedido));
+            var command = new ObterPedidoQuery(numeroPedido);
+            var response = await _mediator.Send(command);
+            return Ok(response);
         }
         catch (Exception e)
         {
@@ -58,30 +43,12 @@ public class PedidoController  : ControllerBase
     /// <response code="201">Cadastrado com sucesso</response>
     /// <response code="400">Falha ao cadastrar Pedido</response>
     [HttpPost]
-    public IActionResult InserirPedido([FromBody] InserirPedidoInputDto produto)
+    public async Task<IActionResult> InserirPedido([FromBody] InserirPedidoInputDto produto)
     {
         try
         {
-            _pedidoUseCases.Inserir(produto);
-            return StatusCode(201);
-        }
-        catch (Exception e)
-        {
-            return BadRequest(new { e.Message });
-        }
-    }
-    
-    /// <summary>
-    /// Avançar o status de um Pedido
-    /// </summary>
-    /// <response code="201">Avanço status do Pedido com sucesso</response>
-    /// <response code="400">Falha ao avançar status do Pedido</response>
-    [HttpPut]
-    public IActionResult AvançarPedido(int numeroPedido, StatusPedido novoStatus)
-    {
-        try
-        {
-            _pedidoUseCases.AtualizarStatusPedido(numeroPedido, novoStatus);
+            var command = new InserirPedidoCommand(produto);
+            await _mediator.Send(command);
             return StatusCode(201);
         }
         catch (Exception e)

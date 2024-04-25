@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WonderFood.Core.Dtos.Produto;
-using WonderFood.Core.Interfaces.UseCases;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using WonderFood.Application.Produtos.Commands.InserirProduto;
+using WonderFood.Application.Produtos.Queries.ObterTodosProdutos;
+using WonderFood.Domain.Dtos.Produto;
 
 namespace WonderFood.WebApi.Controllers;
 
@@ -8,24 +10,26 @@ namespace WonderFood.WebApi.Controllers;
 [Route("api/[controller]")]
 public class ProdutoController : ControllerBase
 {
-    private readonly IProdutoUseCases _produtoUseCases;
-    
-    public ProdutoController(IProdutoUseCases produtoUseCases)
+    private readonly ISender _mediator;
+
+    public ProdutoController(ISender mediator)
     {
-        _produtoUseCases = produtoUseCases;
+        _mediator = mediator;
     }
-    
+
+
     /// <summary>
     /// Obter todos os Produtos cadastrados
     /// </summary>
     /// <response code="200">Dados obtidos com sucesso</response>
     /// <response code="400">Falha ao obter Produtos</response>
     [HttpGet]
-    public IActionResult ObterTodosProdutos()
+    public async Task<IActionResult> ObterTodosProdutos()
     {
         try
         {
-            return Ok(_produtoUseCases.ObterTodosProdutos());
+            var response = await _mediator.Send(new ObterTodosProdutosQuery());
+            return Ok(response);
         }
         catch (Exception e)
         {
@@ -33,37 +37,20 @@ public class ProdutoController : ControllerBase
         }
     }
     
-    /// <summary>
-    /// Obter todos os Produtos de uma mesma Categoria
-    /// </summary>
-    /// <response code="200">Dados obtidos com sucesso</response>
-    /// <response code="400">Falha ao obter Produtos</response>
-    [HttpGet] 
-    [Route("{categoria:int}")]
-    public ActionResult<ProdutoOutputDto>  ObterProdutosPorCategoria(int categoria)
-    {
-        try
-        {
-            return Ok(_produtoUseCases.ObterProdutoPorCategoria(categoria));
-        }
-        catch (Exception e)
-        {
-            return BadRequest(new { e.Message });
-        }
-    }
-    
+
     /// <summary>
     /// Cadastrar um novo Produto
     /// </summary>
-    /// <response code="200">Cadastro com sucesso</response>
+    /// <response code="201">Cadastro com sucesso</response>
     /// <response code="400">Falha ao cadastrar Produtos</response>
     [HttpPost]
-    public ActionResult InserirProduto([FromBody] InserirProdutoInputDto produto)
+    public async Task<ActionResult> InserirProduto([FromBody] InserirProdutoInputDto produto)
     {
         try
         {
-            _produtoUseCases.InserirProduto(produto);
-            return Ok();
+            var command = new InserirProdutoCommand(produto);
+            await _mediator.Send(command);
+            return StatusCode(201);
         }
         catch (Exception e)
         {
