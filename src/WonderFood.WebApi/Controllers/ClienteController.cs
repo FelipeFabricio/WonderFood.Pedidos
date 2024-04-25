@@ -40,7 +40,7 @@ public class ClienteController : ControllerBase
     /// <summary>
     /// Cadastrar um novo Cliente
     /// </summary>
-    /// <response code="201">Criado com sucesso</response>
+    /// <response code="204">Criado com sucesso</response>
     /// <response code="400">Falha ao cadastrar</response>
     [HttpPost]
     public async Task<IActionResult> InserirCliente([FromBody] InserirClienteInputDto cliente)
@@ -49,7 +49,7 @@ public class ClienteController : ControllerBase
         {
             var command = new InserirClienteCommand(cliente);
             await _mediator.Send(command);
-            return StatusCode(201);
+            return NoContent();
         }
         catch (Exception e)
         {
