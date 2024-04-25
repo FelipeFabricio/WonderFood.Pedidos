@@ -4,86 +4,38 @@ on:
   pull_request:
     branches:
       - master
-      - 
+      
   workflow_dispatch:
   push:
     branches:
       - dev
       - Homolog
 
-jobs: 
-  build:
-    name: Build and analyze
-    runs-on: windows-latest
+  CI:
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Set up JDK 17
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+        with:
+          fetch-depth: 0 
+
+      - name: Set up JDK
         uses: actions/setup-java@v1
         with:
           java-version: 17
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v3
-        with:
-          path: ~\sonar\cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-          
-      - name: Cache SonarCloud scanner
-        id: cache-sonar-scanner
-        uses: actions/cache@v3
-        with:
-          path: .\.sonar\scanner
-          key: ${{ runner.os }}-sonar-scanner
-          restore-keys: ${{ runner.os }}-sonar-scanner
-          
-      - name: Install SonarCloud scanner
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: powershell
+
+      - name: Install SonarCloud Scanners
         run: |
-          New-Item -Path .\.sonar\scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-          dotnet tool install dotnet-coverage --tool-path .\.sonar\scanner
-          
-      - name: Build and analyze
+          dotnet tool install --global dotnet-sonarscanner
+          dotnet tool install --global dotnet-coverage
+
+      - name: Build and analyze solution
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_SONAR_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"FelipeFabricio_wonderfood-pedidos" /o:"felipefabricio" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          .\.sonar\scanner\dotnet build --no-incremental
-          .\.sonar\scanner\dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-  
-#  
-#  CI:
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4.1.1
-#        with:
-#          fetch-depth: 0 
-#
-#      - name: Set up JDK
-#        uses: actions/setup-java@v1
-#        with:
-#          java-version: 17
-#
-#      - name: Install SonarCloud Scanners
-#        run: |
-#          dotnet tool install --global dotnet-sonarscanner
-#          dotnet tool install --global dotnet-coverage
-#
-#      - name: Build and analyze solution
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_SONAR_TOKEN }}
-#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#        run: |
-#          dotnet-sonarscanner begin /k:"FelipeFabricio_wonderfood-pedidos" /o:"felipefabricio" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml 
-#          dotnet build --no-incremental
-#          dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
-#          dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          dotnet-sonarscanner begin /k:"FelipeFabricio_wonderfood-pedidos" /o:"felipefabricio" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml 
+          dotnet build --no-incremental
+          dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
+          dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
