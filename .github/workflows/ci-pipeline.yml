@@ -19,15 +19,12 @@ jobs:
       - name: Instalação do .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: |
-            6.0.x
-            7.0.x
-            8.0.x
+          dotnet-version: 7.0.x
 
       - name: Restaura as dependências do projeto
         run:
-          dotnet restore
-
+          dotnet restore --no-cache
+ 
       - name: Build da aplicação
         run:
           dotnet build --configuration Release
