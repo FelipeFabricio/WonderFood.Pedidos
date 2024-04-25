@@ -4,6 +4,12 @@ on:
   pull_request:
     branches:
       - master
+      
+  workflow_dispatch:
+  push:
+    branches:
+      - dev
+      - Homolog
 
 jobs:
   CI:
@@ -12,35 +18,25 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.1.1
-
-      - name: Efetua Login no Azure
-        uses: Azure/login@v1.6.1
         with:
-          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+          fetch-depth: 0 
 
-      - name: Instalação do .NET
-        uses: actions/setup-dotnet@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v1
         with:
-          dotnet-version: |
-            6.0.x
-            7.0.x
+          java-version: 17
 
-      - name: Restaura as dependências do projeto
-        run:
-          dotnet restore
-
-      - name: Build da aplicação
-        run:
-          dotnet build --configuration Release
-
-      - name: Executa os Testes Unitários
-        run:
-          dotnet test --no-build --configuration Release --verbosity normal
-
-      - name: Efetua login no ACR
-        run: az acr login --name wonderfoodacr
-
-      - name: Build, Tag e Push da Imagem para o ACR
+      - name: Install SonarCloud Scanners
         run: |
-          docker build -t wonderfoodacr.azurecr.io/wonderfood:latest -f Dockerfile .
-          docker push wonderfoodacr.azurecr.io/wonderfood:latest
+          dotnet tool install --global dotnet-sonarscanner
+          dotnet tool install --global dotnet-coverage
+
+      - name: Build and analyze solution
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          dotnet-sonarscanner begin /k:"FelipeFabricio_wonderfood-pedidos" /o:"felipefabricio" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml 
+          dotnet build --no-incremental
+          dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
+          dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"

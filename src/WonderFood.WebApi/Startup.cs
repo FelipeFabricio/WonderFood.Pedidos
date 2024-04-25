@@ -1,15 +1,14 @@
-﻿using System.Reflection;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.OpenApi.Models;
 using Polly;
 using Serilog;
+using WonderFood.Application;
+using WonderFood.Infra.Bus;
+using WonderFood.Infra.Sql;
 using WonderFood.Infra.Sql.Context;
-using WonderFood.Infra.Sql.ServiceExtensions;
-using WonderFood.UseCases.ServiceExtensions;
 
 namespace WonderFood.WebApi
 {
@@ -24,39 +23,24 @@ namespace WonderFood.WebApi
        
        public void ConfigureServices(IServiceCollection services)
        {
-           var connectionString = Configuration.GetConnectionString("DefaultConnection") ??
-                                  Configuration["ConnectionString"];
-           
-           services.AddHealthChecks().AddMySql(connectionString);
-           
            services.AddControllers()
                .AddJsonOptions(options =>
                {
                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                   options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                });
 
            services.AddEndpointsApiExplorer();
-           services.AddSwaggerGen(c =>
-           {
-               c.SwaggerDoc("v1", new OpenApiInfo { Title = "WonderFood", Version = "v1" });
-               var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-               var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-               c.IncludeXmlComments(xmlPath);
-           });
-           services.AddUseCasesServices();
-           services.AddInfraDataServices();
+           services.AddApplication();
+           services.AddSqlInfrastructure(Configuration);
+           services.AddAzureServiceBus(Configuration);
+           services.AddSwagger();
            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-          
-           var serverVersion = new MySqlServerVersion(new Version(8, 0, 36));
-           services.AddDbContext<WonderFoodContext>(
-               dbContextOptions => dbContextOptions.UseMySql(connectionString, serverVersion,
-                   mySqlOptions => { mySqlOptions.EnableRetryOnFailure(); }));
        }
        
        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WonderFoodContext dbContext)
        {
-           app.UseSwagger();
-           app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WonderFood"));
+           app.UseSwaggerMiddleware();
            app.UseRouting();
            app.UseAuthorization();
            app.UseEndpoints(endpoints =>
@@ -89,7 +73,7 @@ namespace WonderFood.WebApi
                        TimeSpan.FromSeconds(16),
                        TimeSpan.FromSeconds(32),
                    },
-                   (exception, timeSpan, retryCount, context) =>
+                   (_, timeSpan, retryCount, _) =>
                    {
                        Log.Logger.Error($"Tentativa {retryCount} de conexão ao MySql falhou. Tentando novamente em {timeSpan.Seconds} segundos.");
                    });

@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using WonderFood.Core.Entities;
+using WonderFood.Application.Common.Interfaces;
+using WonderFood.Domain.Entities;
 
 namespace WonderFood.Infra.Sql.Context;
 
-public class WonderFoodContext : DbContext
+public class WonderFoodContext : DbContext, IUnitOfWork
 {
     public DbSet<Cliente> Clientes { get; set; }
     public DbSet<Produto> Produtos { get; set; }
@@ -19,5 +20,10 @@ public class WonderFoodContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(WonderFoodContext).Assembly);
         base.OnModelCreating(modelBuilder);
+    }
+
+    public async Task CommitChangesAsync()
+    {
+        await SaveChangesAsync();
     }
 }
