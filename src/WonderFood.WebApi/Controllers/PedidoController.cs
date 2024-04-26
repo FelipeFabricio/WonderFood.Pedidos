@@ -40,7 +40,7 @@ public class PedidoController  : ControllerBase
     /// <summary>
     /// Cadastrar um novo Pedido
     /// </summary>
-    /// <response code="201">Cadastrado com sucesso</response>
+    /// <response code="204">Cadastrado com sucesso</response>
     /// <response code="400">Falha ao cadastrar Pedido</response>
     [HttpPost]
     public async Task<IActionResult> InserirPedido([FromBody] InserirPedidoInputDto produto)
@@ -49,7 +49,7 @@ public class PedidoController  : ControllerBase
         {
             var command = new InserirPedidoCommand(produto);
             await _mediator.Send(command);
-            return StatusCode(201);
+            return NoContent();
         }
         catch (Exception e)
         {
