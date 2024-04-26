@@ -10,9 +10,7 @@ public static class DependencyInjection
 {
     public static void AddAzureServiceBus(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection") ??
-                               configuration["ServiceBusConnectionString"];
-        
+        var connectionString = configuration["SERVICEBUS_CONNECTION"];
         services.AddMassTransit(x =>
         {
             x.AddConsumer<PagamentosSolicitadosConsumer>();

@@ -40,17 +40,16 @@ spec:
               cpu: "0.1"
               memory: "256Mi"
           env:
-            - name: MySqlConnectionString
+            - name: MYSQL_CONNECTION
               valueFrom:
                 secretKeyRef:
                   name: mysql-connection-secret
                   key: mysql-connectionString
-            - name: ServiceBusConnectionString
+            - name: SERVICEBUS_CONNECTION
               valueFrom:
                 secretKeyRef:
                   name: servicebus-connection-secret
-                  key: servicebus-connectionString
-            
+                  key: servicebus-connectionString          
       imagePullSecrets:
         - name: dockerhub-secret
 

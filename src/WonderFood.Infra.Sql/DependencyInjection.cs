@@ -13,8 +13,7 @@ namespace WonderFood.Infra.Sql
     {
         public static void AddSqlInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("DefaultConnection") ??
-                                   configuration["MySqlConnectionString"];
+            var connectionString = configuration["MYSQL_CONNECTION"];
             
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 36));
             services.AddDbContext<WonderFoodContext>(
@@ -25,6 +24,7 @@ namespace WonderFood.Infra.Sql
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
             services.AddScoped<IPedidoRepository, PedidoRepository>();
             services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<WonderFoodContext>());
+            
             services.AddHealthChecks().AddMySql(connectionString);
         }
     }

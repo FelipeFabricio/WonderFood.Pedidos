@@ -415,3 +415,4 @@ obj/
 /.env.local
 /test/**/coverageresults/
 /test/**/TestResults/
+/.env
