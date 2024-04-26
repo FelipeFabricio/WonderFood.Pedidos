@@ -1,6 +1,4 @@
-using Azure.Identity;
 using Azure.Messaging.ServiceBus;
-using Azure.Security.KeyVault.Secrets;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +10,9 @@ public static class DependencyInjection
 {
     public static void AddAzureServiceBus(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = GetConnectionString(configuration);
+        var connectionString = configuration.GetConnectionString("DefaultConnection") ??
+                               configuration["ServiceBusConnectionString"];
+        
         services.AddMassTransit(x =>
         {
             x.AddConsumer<PagamentosSolicitadosConsumer>();
@@ -26,11 +26,5 @@ public static class DependencyInjection
                 cfg.UseServiceBusMessageScheduler();
             });
         });
-    }
-    
-    private static string GetConnectionString(IConfiguration configuration)
-    {
-        var secretClient = new SecretClient(new Uri(configuration["AzureKeyVaultUri"]!), new DefaultAzureCredential());
-        return secretClient.GetSecret("wdf-pedidos-bus-connection").Value.Value;
     }
 }

@@ -1,6 +1,4 @@
-﻿using Azure.Identity;
-using Azure.Security.KeyVault.Secrets;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WonderFood.Application.Common.Interfaces;
@@ -15,7 +13,8 @@ namespace WonderFood.Infra.Sql
     {
         public static void AddSqlInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = GetConnectionString(configuration);
+            var connectionString = configuration.GetConnectionString("DefaultConnection") ??
+                                   configuration["MySqlConnectionString"];
             
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 36));
             services.AddDbContext<WonderFoodContext>(
@@ -27,14 +26,6 @@ namespace WonderFood.Infra.Sql
             services.AddScoped<IPedidoRepository, PedidoRepository>();
             services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<WonderFoodContext>());
             services.AddHealthChecks().AddMySql(connectionString);
-        }
-        
-        private static string GetConnectionString(IConfiguration configuration)
-        {
-            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            var keyName = environment == "Development" ? "wdf-pedidos-mysql-connection-dev" : "wdf-pedidos-mysql-connection";
-            var secretClient = new SecretClient(new Uri(configuration["AzureKeyVaultUri"]!), new DefaultAzureCredential());
-            return secretClient.GetSecret(keyName).Value.Value;
         }
     }
 }
