@@ -27,4 +27,8 @@
       <ProjectReference Include="..\WonderFood.Domain\WonderFood.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage" />
+    </ItemGroup>
+
 </Project>

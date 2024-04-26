@@ -10,7 +10,7 @@ public class ClienteFixtureCollection : ICollectionFixture<ClienteFixture>
 {
 }
 
-public class ClienteFixture : IDisposable
+public class ClienteFixture
 {
     public ClienteOutputDto GerarClienteOutputDtoValido()
     {
@@ -29,29 +29,5 @@ public class ClienteFixture : IDisposable
             .RuleFor(c => c.Email, f => f.Person.Email)
             .RuleFor(c => c.Nome, f => f.Person.FullName)
             .Generate();
-    }
-    
-    public AtualizarClienteInputDto GerarAtualizarClienteInputDtoValido()
-    {
-        return new Faker<AtualizarClienteInputDto>("pt_BR")
-            .RuleFor(c => c.Id, f => f.Random.Guid())
-            .RuleFor(c => c.Cpf, f => f.Person.Cpf())
-            .RuleFor(c => c.Email, f => f.Person.Email)
-            .RuleFor(c => c.Nome, f => f.Person.FullName)
-            .Generate();
-    }
-
-    public IEnumerable<ClienteOutputDto> GerarListaClienteOutputDtoValido()
-    {
-        var cliente = new Faker<ClienteOutputDto>("pt_BR")
-            .RuleFor(c => c.Id, f => f.Random.Guid())
-            .RuleFor(c => c.Cpf, f => f.Person.Cpf())
-            .RuleFor(c => c.Email, f => f.Person.Email)
-            .RuleFor(c => c.Nome, f => f.Person.FullName);
-        return cliente.Generate(3);
-    }
-
-    public void Dispose()
-    {
     }
 }
