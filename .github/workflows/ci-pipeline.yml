@@ -55,12 +55,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin 
-            /k:"FelipeFabricio_wonderfood-pedidos" 
-            /o:"felipefabricio" 
-            /d:sonar.login="${{ secrets.SONAR_TOKEN }}" 
-            /d:sonar.host.url="https://sonarcloud.io"         
-            /d:sonar.cs.opencover.reportsPaths=/*/.xml
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"FelipeFabricio_wonderfood-pedidos" /o:"felipefabricio" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths=/*/.xml
           dotnet build --no-incremental
           coverlet .\test\WonderFood.WebApi.UnitTests\bin\Debug\net7.0\WonderFood.WebApi.UnitTests.dll --target "dotnet" --targetargs "test --no-build" -f=opencover -o="coverage.opencover.xml"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
