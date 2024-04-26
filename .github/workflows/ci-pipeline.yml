@@ -47,7 +47,7 @@ jobs:
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-          dotnet tool install dotnet-coverage --tool-path .\.sonar\scanner
+          dotnet tool install --global coverlet.console
 
       - name: Build and analyze
         env:
@@ -55,8 +55,12 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"FelipeFabricio_wonderfood-pedidos" /o:"felipefabricio" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml /d:sonar.cs.xunit.reportsPaths=coverage.xml /d:sonar.verbose=true	
-          dotnet restore
-          dotnet build --no-restore --configuration Release 
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"FelipeFabricio_wonderfood-pedidos" /o:"felipefabricio" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths=coverage.xml /p:CoverletOutputFormat=opencover
+          dotnet build --no-incremental --configuration Release 
+          coverlet .\test\WonderFood.WebApi.UnitTests\bin\Debug\net7.0\WonderFood.WebApi.UnitTests.dll
+            --target "dotnet" 
+            --targetargs "test --no-build" 
+            -f=opencover 
+            -o="coverage.opencover.xml" 
           .\.sonar\scanner\dotnet-coverage collect 'dotnet test' -f xml -o 'coverage.xml'
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
