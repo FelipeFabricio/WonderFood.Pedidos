@@ -2,6 +2,7 @@ using NSubstitute;
 using WonderFood.Application.Common.Interfaces;
 using WonderFood.Application.Produtos.Commands.InserirProduto;
 using WonderFood.Application.UnitTests.Produto.Factory;
+using Xunit;
 
 namespace WonderFood.Application.UnitTests.Produto;
 

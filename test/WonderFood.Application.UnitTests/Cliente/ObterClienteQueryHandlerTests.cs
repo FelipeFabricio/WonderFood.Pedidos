@@ -4,6 +4,7 @@ using NSubstitute.ReturnsExtensions;
 using WonderFood.Application.Clientes.Queries.ObterCliente;
 using WonderFood.Application.Common.Interfaces;
 using WonderFood.Application.UnitTests.Cliente.Factory;
+using Xunit;
 
 namespace WonderFood.Application.UnitTests.Cliente;
 

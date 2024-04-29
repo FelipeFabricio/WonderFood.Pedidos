@@ -5,6 +5,7 @@ using WonderFood.Application.Common.Interfaces;
 using WonderFood.Application.Produtos.Queries.ObterTodosProdutos;
 using WonderFood.Application.UnitTests.Produto.Factory;
 using WonderFood.Domain.Dtos.Produto;
+using Xunit;
 
 namespace WonderFood.Application.UnitTests.Produto;
 

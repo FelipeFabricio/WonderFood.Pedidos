@@ -4,6 +4,7 @@ using NSubstitute;
 using WonderFood.Application.Clientes.Commands.InserirCliente;
 using WonderFood.Application.Common.Interfaces;
 using WonderFood.Application.UnitTests.Cliente.Factory;
+using Xunit;
 
 namespace WonderFood.Application.UnitTests.Cliente;
 
