@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WonderFood.Models", "src\Wo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WonderFood.Infra.Bus", "src\WonderFood.Infra.Bus\WonderFood.Infra.Bus.csproj", "{CC6CD542-915A-4E9B-AF3B-68AAB0E712FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WonderFood.Application.UnitTests", "test\WonderFood.Application.UnitTests\WonderFood.Application.UnitTests.csproj", "{172D9742-3F3B-4C9C-933E-02BA829E9833}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{CC6CD542-915A-4E9B-AF3B-68AAB0E712FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC6CD542-915A-4E9B-AF3B-68AAB0E712FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC6CD542-915A-4E9B-AF3B-68AAB0E712FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{172D9742-3F3B-4C9C-933E-02BA829E9833}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{172D9742-3F3B-4C9C-933E-02BA829E9833}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{172D9742-3F3B-4C9C-933E-02BA829E9833}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{172D9742-3F3B-4C9C-933E-02BA829E9833}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +86,7 @@ Global
 		{EE8458FA-CDB4-4561-8EE6-04C8401402DB} = {DB9F0B97-C933-4312-83EC-5163EEF76C25}
 		{32562899-5C72-4985-93B8-406009C09672} = {F9C5B0C9-29D9-45C9-B551-E39DB548DBA1}
 		{CC6CD542-915A-4E9B-AF3B-68AAB0E712FF} = {0ACDC4AE-8F48-4F36-8B50-E1F167AE5E91}
+		{172D9742-3F3B-4C9C-933E-02BA829E9833} = {DB9F0B97-C933-4312-83EC-5163EEF76C25}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DCB04442-DC0A-47F1-AA43-B3C6DAAAAFB6}
