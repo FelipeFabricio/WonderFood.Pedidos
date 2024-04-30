@@ -13,7 +13,7 @@ public class InserirPedidoCommandHandler(
     IUnitOfWork unitOfWork,
     IClienteRepository clienteRepository,
     IProdutoRepository produtoRepository,
-    IBus bus)
+    IPublishEndpoint bus)
     : IRequestHandler<InserirPedidoCommand, Unit>
 {
     public async Task<Unit> Handle(InserirPedidoCommand request, CancellationToken cancellationToken)
@@ -44,10 +44,9 @@ public class InserirPedidoCommandHandler(
     private async Task ValidarCliente(Guid clienteId)
     {
         var cliente = await clienteRepository.ObterClientePorId(clienteId);
-        if (cliente == null) throw new Exception("Cliente não encontrado.");
+        if (cliente == null) throw new ArgumentException("Cliente não encontrado.");
     }
-
-    //TODO: Rever possível uso do Task.WhenAll para melhorar performance
+    
     private async Task<List<ProdutosPedido>> PreencherListaProdutosPedido( IEnumerable<InserirProdutosPedidoInputDto> produtos)
     {
         var produtosValidos = new List<ProdutosPedido>();
@@ -56,7 +55,7 @@ public class InserirPedidoCommandHandler(
         {
             var produtoEntity = await produtoRepository.ObterProdutoPorId(produto.ProdutoId);
             if (produtoEntity == null)
-                throw new Exception($"Produto {produto.ProdutoId} não encontrado.");
+                throw new ArgumentException($"Produto {produto.ProdutoId} não encontrado.");
 
             produtosValidos.Add(new ProdutosPedido
             {

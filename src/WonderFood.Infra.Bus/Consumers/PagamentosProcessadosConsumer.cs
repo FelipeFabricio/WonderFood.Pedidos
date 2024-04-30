@@ -6,18 +6,17 @@ using WonderFood.Models.Events;
 
 namespace WonderFood.Infra.Bus.Consumers;
 
-public class PagamentosSolicitadosConsumer : IConsumer<PagamentoSolicitadoEvent>
+public class PagamentosProcessadosConsumer : IConsumer<PagamentoProcessadoEvent>
 {
     private readonly ISender _mediator;
 
-    public PagamentosSolicitadosConsumer(ISender mediator)
+    public PagamentosProcessadosConsumer(ISender mediator)
     {
         _mediator = mediator;
     }
 
-    public async Task Consume(ConsumeContext<PagamentoSolicitadoEvent> context)
+    public async Task Consume(ConsumeContext<PagamentoProcessadoEvent> context)
     {
-        //TODO: Implementar a lógica de iniciar a produção do pedido
         var message = new PagamentoProcessadoEvent()
         {
             IdPedido = context.Message.IdPedido,
