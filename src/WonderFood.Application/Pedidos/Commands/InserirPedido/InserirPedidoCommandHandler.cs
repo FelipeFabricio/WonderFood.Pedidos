@@ -1,6 +1,8 @@
+using AutoMapper;
 using MassTransit;
 using MediatR;
 using WonderFood.Application.Common.Interfaces;
+using WonderFood.Domain.Dtos.Pedido;
 using WonderFood.Domain.Dtos.Produto;
 using WonderFood.Domain.Entities;
 using WonderFood.Models.Enums;
@@ -13,17 +15,19 @@ public class InserirPedidoCommandHandler(
     IUnitOfWork unitOfWork,
     IClienteRepository clienteRepository,
     IProdutoRepository produtoRepository,
-    IPublishEndpoint bus)
-    : IRequestHandler<InserirPedidoCommand, Unit>
+    IPublishEndpoint bus,
+    IMapper mapper)
+    : IRequestHandler<InserirPedidoCommand, InserirPedidoOutputDto>
 {
-    public async Task<Unit> Handle(InserirPedidoCommand request, CancellationToken cancellationToken)
+    public async Task<InserirPedidoOutputDto> Handle(InserirPedidoCommand request, CancellationToken cancellationToken)
     {
         await ValidarCliente(request.Pedido.ClienteId);
         var listaProdutosPedido = await PreencherListaProdutosPedido(request.Pedido.Produtos);
 
         var pedido = new Pedido(request.Pedido.ClienteId,
             listaProdutosPedido,
-            Domain.Entities.Enums.FormaPagamento.Dinheiro);
+            request.Pedido.FormaPagamento,
+            request.Pedido.Observacao);
         
         await pedidoRepository.Inserir(pedido);
         await unitOfWork.CommitChangesAsync();
@@ -37,8 +41,8 @@ public class InserirPedidoCommandHandler(
             DataConfirmacaoPedido = pedido.DataPedido,
         };
 
-        await bus.Publish(pagamentoSolicitadoEvent, cancellationToken);
-        return Unit.Value;
+        //await bus.Publish(pagamentoSolicitadoEvent, cancellationToken);
+        return mapper.Map<InserirPedidoOutputDto>(pedido);
     }
 
     private async Task ValidarCliente(Guid clienteId)

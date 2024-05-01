@@ -21,6 +21,7 @@ public class AutoMapperMappingProfile : Profile
         CreateMap<Pedido, StatusPedidoOutputDto>().ReverseMap();
         CreateMap<Pedido, PedidosOutputDto>().ReverseMap();
         CreateMap<Pedido, InserirPedidoInputDto>().ReverseMap();
+        CreateMap<Pedido, InserirPedidoOutputDto>().ReverseMap();
         
         CreateMap<ProdutosPedido,InserirProdutosPedidoInputDto>().ReverseMap();
         CreateMap<ProdutosPedido, ProdutosPedidoOutputDto>()
