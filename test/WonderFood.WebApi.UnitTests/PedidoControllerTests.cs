@@ -30,7 +30,7 @@ public class PedidoControllerTests
     public async Task ObterPedido_DeveRetornarPedido_QuandoHouverPedidoCadastrado()
     {
         //Arrange
-        var pedidoResponse = _pedidoFixture.GerarPedidosOutputDtoValido();
+        var pedidoResponse = _pedidoFixture.GerarPedidosOutputDto();
         _mediator.Send(Arg.Any<ObterPedidoQuery>()).Returns(pedidoResponse);
     
         //Act
@@ -60,14 +60,16 @@ public class PedidoControllerTests
     public async Task InserirPedido_DeveRetornarNoContent_QuandoCadastroPedidoForRealizado()
     {
         //Arrange
-        var pedidoRequest = _pedidoFixture.GerarInserirPedidoInputDtoValido();
-        _mediator.Send(Arg.Any<InserirPedidoCommand>()).Returns(Unit.Value);
-    
+        var pedidoRequest = _pedidoFixture.GerarInserirPedidoInputDto();
+        var pedidoResponse = _pedidoFixture.GerarPedidosOutputDto();
+        _mediator.Send(Arg.Any<InserirPedidoCommand>()).Returns(pedidoResponse);
+        
         //Act
-        var resultado = (NoContentResult)await _sut.InserirPedido(pedidoRequest);
+        var resultado = (OkObjectResult)await _sut.InserirPedido(pedidoRequest);
     
         //Assert
-        resultado.StatusCode.Should().Be(204);
+        resultado.StatusCode.Should().Be(200);
+        resultado.Value.As<PedidosOutputDto>().Should().BeEquivalentTo(pedidoResponse);
     }
     
     [Fact]
@@ -75,7 +77,7 @@ public class PedidoControllerTests
     public async Task InserirPedido_DeveRetornarBadRequest_QuandoUmaExceptionForLancada()
     {
         //Arrange
-        var pedidoRequest = _pedidoFixture.GerarInserirPedidoInputDtoValido();
+        var pedidoRequest = _pedidoFixture.GerarInserirPedidoInputDto();
         _mediator.Send(Arg.Any<InserirPedidoCommand>()).Throws(new Exception());
     
         //Act

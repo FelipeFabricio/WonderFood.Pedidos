@@ -16,17 +16,17 @@ public class PedidoFixtureCollection : ICollectionFixture<PedidoFixture>
 public class PedidoFixture
 {
     
-    public InserirPedidoInputDto GerarInserirPedidoInputDtoValido()
+    public InserirPedidoInputDto GerarInserirPedidoInputDto()
     {
         return new Faker<InserirPedidoInputDto>("pt_BR")
             .RuleFor(c => c.ClienteId, f => f.Random.Guid())
             .RuleFor(c => c.Observacao, f => f.Lorem.Sentence())
             .RuleFor(c => c.FormaPagamento, f => f.PickRandom<FormaPagamento>())
-            .RuleFor(c => c.Produtos, _ => GerarLInserirProdutosPedidoInputDtoValido(3))
+            .RuleFor(c => c.Produtos, _ => GerarLInserirProdutosPedidoInputDto(3))
             .Generate();
     }
     
-    public PedidosOutputDto GerarPedidosOutputDtoValido()
+    public PedidosOutputDto GerarPedidosOutputDto()
     {
         return new Faker<PedidosOutputDto>("pt_BR")
             .RuleFor(c => c.Id, f => f.Random.Guid())
@@ -37,11 +37,11 @@ public class PedidoFixture
             .RuleFor(c => c.NumeroPedido, _ => 1)
             .RuleFor(c => c.Observacao, f => f.Lorem.Sentence())
             .RuleFor(c => c.FormaPagamento, f => f.PickRandom<FormaPagamento>())
-            .RuleFor(c => c.Produtos, _ => GerarListaProdutosPedidoOutputDtoValido(3))
+            .RuleFor(c => c.Produtos, _ => GerarListaProdutosPedidoOutputDto(3))
             .Generate();
     }
     
-    public IEnumerable<ProdutosPedidoOutputDto> GerarListaProdutosPedidoOutputDtoValido(int quantidade)
+    public IEnumerable<ProdutosPedidoOutputDto> GerarListaProdutosPedidoOutputDto(int quantidade)
     {
         return new Faker<ProdutosPedidoOutputDto>("pt_BR")
 
@@ -53,7 +53,7 @@ public class PedidoFixture
             .Generate(quantidade);
     }
     
-    public IEnumerable<InserirProdutosPedidoInputDto> GerarLInserirProdutosPedidoInputDtoValido(int quantidade)
+    public IEnumerable<InserirProdutosPedidoInputDto> GerarLInserirProdutosPedidoInputDto(int quantidade)
     {
         return new Faker<InserirProdutosPedidoInputDto>("pt_BR")
             .RuleFor(c => c.ProdutoId, f => f.Random.Guid())

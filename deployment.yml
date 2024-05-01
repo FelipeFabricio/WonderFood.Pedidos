@@ -45,11 +45,6 @@ spec:
                 secretKeyRef:
                   name: mysql-connection-secret
                   key: connectionString
-            - name: SERVICEBUS_CONNECTION
-              valueFrom:
-                secretKeyRef:
-                  name: servicebus-connection-secret
-                  key: connectionString          
       imagePullSecrets:
         - name: dockerhub-secret
 

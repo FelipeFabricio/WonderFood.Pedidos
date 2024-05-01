@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Serilog;
 
 namespace WonderFood.WebApi;
 
-public class Program
+[ExcludeFromCodeCoverage]
+public static class Program
 {
     public static void Main(string[] args)
     {
