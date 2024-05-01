@@ -4,39 +4,44 @@ on:
   pull_request:
     branches:
       - master
-      
+  
   workflow_dispatch:
   push:
     branches:
-      - dev
-      - Homolog
+      - development
 
 jobs:
   CI:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.1.1
         with:
-          fetch-depth: 0 
+          fetch-depth: 0
 
-      - name: Set up JDK
-        uses: actions/setup-java@v1
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
         with:
           java-version: 17
+          distribution: 'zulu'
 
-      - name: Install SonarCloud Scanners
+      - name: Install SonarCloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: powershell
         run: |
-          dotnet tool install --global dotnet-sonarscanner
-          dotnet tool install --global dotnet-coverage
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+          dotnet tool install --global coverlet.console
 
-      - name: Build and analyze solution
+      - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_SONAR_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: powershell
         run: |
-          dotnet-sonarscanner begin /k:"FelipeFabricio_wonderfood-pedidos" /o:"felipefabricio" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml 
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"FelipeFabricio_wonderfood-pedidos" /o:"felipefabricio" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths=/*/.xml
           dotnet build --no-incremental
-          dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
-          dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          coverlet .\test\WonderFood.WebApi.UnitTests\bin\Debug\net7.0\WonderFood.WebApi.UnitTests.dll --target "dotnet" --targetargs "test --no-build" -f=opencover -o="coverage.opencover.xml"
+          coverlet .\test\WonderFood.Application.UnitTests\bin\Debug\net7.0\WonderFood.Application.UnitTests.dll --target "dotnet" --targetargs "test --no-build" -f=opencover -o="coverage.opencover.xml"
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"

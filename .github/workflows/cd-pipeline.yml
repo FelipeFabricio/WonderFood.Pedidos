@@ -40,10 +40,4 @@ jobs:
 
 
       - name: Deploy do Manifesto no AKS
-        run: |
-          kubectl apply -f deployment.yml
-          kubectl create secret docker-registry dockerhub-secret \
-              --docker-server=https://index.docker.io/v1/ \
-              --docker-username='${{ secrets.DOCKERHUB_USERNAME }}' \
-              --docker-password='${{ secrets.DOCKERHUB_PASSWORD }}' \
-              --docker-email='${{ secrets.DOCKERHUB_EMAIL }}'
+        run: kubectl apply -f deployment.yml

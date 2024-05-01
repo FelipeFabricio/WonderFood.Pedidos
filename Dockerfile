@@ -10,7 +10,6 @@ COPY ["src/WonderFood.WebApi/WonderFood.WebApi.csproj", "src/WonderFood.WebApi/"
 COPY ["src/WonderFood.Domain/WonderFood.Domain.csproj", "src/WonderFood.Domain/"]
 COPY ["src/WonderFood.Infra.Sql/WonderFood.Infra.Sql.csproj", "src/WonderFood.Infra.Sql/"]
 COPY ["src/WonderFood.Application/WonderFood.Application.csproj", "src/WonderFood.Application/"]
-COPY ["src/WonderFood.Infra.Bus/WonderFood.Infra.Bus.csproj", "src/WonderFood.Infra.Bus/"]
 COPY ["src/WonderFood.Models/WonderFood.Models.csproj", "src/WonderFood.Models/"]
 RUN dotnet restore "src/WonderFood.WebApi/WonderFood.WebApi.csproj"
 COPY . .

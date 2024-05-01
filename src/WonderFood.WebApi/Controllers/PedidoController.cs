@@ -40,16 +40,16 @@ public class PedidoController  : ControllerBase
     /// <summary>
     /// Cadastrar um novo Pedido
     /// </summary>
-    /// <response code="201">Cadastrado com sucesso</response>
+    /// <response code="200">Cadastrado com sucesso</response>
     /// <response code="400">Falha ao cadastrar Pedido</response>
     [HttpPost]
-    public async Task<IActionResult> InserirPedido([FromBody] InserirPedidoInputDto produto)
+    public async Task<IActionResult> InserirPedido([FromBody] InserirPedidoInputDto pedidoInput)
     {
         try
         {
-            var command = new InserirPedidoCommand(produto);
-            await _mediator.Send(command);
-            return StatusCode(201);
+            var command = new InserirPedidoCommand(pedidoInput);
+            var pedidoCadastrado = await _mediator.Send(command);
+            return Ok(pedidoCadastrado);
         }
         catch (Exception e)
         {

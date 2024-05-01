@@ -41,7 +41,7 @@ public class ProdutoController : ControllerBase
     /// <summary>
     /// Cadastrar um novo Produto
     /// </summary>
-    /// <response code="201">Cadastro com sucesso</response>
+    /// <response code="204">Cadastro com sucesso</response>
     /// <response code="400">Falha ao cadastrar Produtos</response>
     [HttpPost]
     public async Task<ActionResult> InserirProduto([FromBody] InserirProdutoInputDto produto)
@@ -50,7 +50,7 @@ public class ProdutoController : ControllerBase
         {
             var command = new InserirProdutoCommand(produto);
             await _mediator.Send(command);
-            return StatusCode(201);
+            return NoContent();
         }
         catch (Exception e)
         {
