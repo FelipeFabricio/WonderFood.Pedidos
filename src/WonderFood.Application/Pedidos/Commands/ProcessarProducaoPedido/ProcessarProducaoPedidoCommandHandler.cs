@@ -1,4 +1,3 @@
-using MassTransit;
 using MediatR;
 using WonderFood.Application.Common.Interfaces;
 using WonderFood.Domain.Entities.Enums;
@@ -6,7 +5,7 @@ using WonderFood.Models.Enums;
 
 namespace WonderFood.Application.Pedidos.Commands.ProcessarProducaoPedido;
 
-public class ProcessarProducaoPedidoCommandHandler(IPedidoRepository pedidoRepository, IUnitOfWork unitOfWork, IPublishEndpoint bus)
+public class ProcessarProducaoPedidoCommandHandler(IPedidoRepository pedidoRepository, IUnitOfWork unitOfWork)
     : IRequestHandler<ProcessarProducaoPedidoCommand, Unit>
 {
     public async Task<Unit> Handle(ProcessarProducaoPedidoCommand request, CancellationToken cancellationToken)

@@ -7,7 +7,6 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Polly;
 using Serilog;
 using WonderFood.Application;
-using WonderFood.Infra.Bus;
 using WonderFood.Infra.Sql;
 using WonderFood.Infra.Sql.Context;
 
@@ -35,7 +34,6 @@ namespace WonderFood.WebApi
            services.AddEndpointsApiExplorer();
            services.AddApplication();
            services.AddSqlInfrastructure(Configuration);
-           services.AddAzureServiceBus(Configuration);
            services.AddSwagger();
            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
        }

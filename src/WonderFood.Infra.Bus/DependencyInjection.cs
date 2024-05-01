@@ -11,7 +11,7 @@ public static class DependencyInjection
 {
     public static void AddAzureServiceBus(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration["SERVICEBUS_CONNECTION"];
+        var connectionString = "sb://wonderfood.servicebus.windows.net/;SharedAccessKeyName=wonderfood-pedidos;SharedAccessKey=HYIj5W+MoepQvOE5WEQjnHsI42l/zt1dj+ASbNvQ2Js=";
 
         services.AddMassTransit(x =>
         {
