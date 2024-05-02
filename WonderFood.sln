@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WonderFood.Application.Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WonderFood.BDD.Tests", "test\WonderFood.BDD.Tests\WonderFood.BDD.Tests.csproj", "{3DEAED18-BFD3-4592-80E1-CAD286FCE142}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WonderFood.ExternalServices", "src\WonderFood.ExternalServices\WonderFood.ExternalServices.csproj", "{9AEE2042-8843-474D-9D88-9CE9E14B3037}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,10 @@ Global
 		{3DEAED18-BFD3-4592-80E1-CAD286FCE142}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DEAED18-BFD3-4592-80E1-CAD286FCE142}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DEAED18-BFD3-4592-80E1-CAD286FCE142}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AEE2042-8843-474D-9D88-9CE9E14B3037}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AEE2042-8843-474D-9D88-9CE9E14B3037}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AEE2042-8843-474D-9D88-9CE9E14B3037}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AEE2042-8843-474D-9D88-9CE9E14B3037}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +93,7 @@ Global
 		{32562899-5C72-4985-93B8-406009C09672} = {F9C5B0C9-29D9-45C9-B551-E39DB548DBA1}
 		{172D9742-3F3B-4C9C-933E-02BA829E9833} = {DB9F0B97-C933-4312-83EC-5163EEF76C25}
 		{3DEAED18-BFD3-4592-80E1-CAD286FCE142} = {DB9F0B97-C933-4312-83EC-5163EEF76C25}
+		{9AEE2042-8843-474D-9D88-9CE9E14B3037} = {0ACDC4AE-8F48-4F36-8B50-E1F167AE5E91}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DCB04442-DC0A-47F1-AA43-B3C6DAAAAFB6}
