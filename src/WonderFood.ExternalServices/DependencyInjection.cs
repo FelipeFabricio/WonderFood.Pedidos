@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Configuration;
+using System.Net.Http.Headers;
 using Microsoft.Extensions.DependencyInjection;
 using WonderFood.Application.Common.Interfaces;
 using WonderFood.ExternalServices.Services;
@@ -7,24 +7,21 @@ namespace WonderFood.ExternalServices;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddExternalServices(this IServiceCollection services, IConfiguration configuration)
+    public static void AddExternalServices(this IServiceCollection services)
     {
         services.AddHttpClient<IWonderFoodPagamentoExternal, WonderFoodPagamentoExternal>(client =>
         {
-            client.BaseAddress = new Uri(configuration["ExternalServices:WonderFoodPagamentos:BaseUrl"]);
             client.Timeout = TimeSpan.FromSeconds(30);
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         });
         
         services.AddHttpClient<IWonderFoodProducaoExternal, WonderFoodProducaoExternal>(client =>
         {
-            client.BaseAddress = new Uri(configuration["ExternalServices:WonderfoodProducao:BaseUrl"]);
             client.Timeout = TimeSpan.FromSeconds(30);
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         });
 
-        return services;
+        services.AddScoped<IWonderFoodPagamentoExternal, WonderFoodPagamentoExternal>();
+        services.AddScoped<IWonderFoodProducaoExternal, WonderFoodProducaoExternal>();
     }
 }

@@ -4,6 +4,8 @@ using WonderFood.Application.Common.Interfaces;
 using WonderFood.Domain.Dtos.Pedido;
 using WonderFood.Domain.Dtos.Produto;
 using WonderFood.Domain.Entities;
+using WonderFood.Models.Enums;
+using WonderFood.Models.Events;
 
 namespace WonderFood.Application.Pedidos.Commands.InserirPedido;
 
@@ -12,6 +14,7 @@ public class InserirPedidoCommandHandler(
     IUnitOfWork unitOfWork,
     IClienteRepository clienteRepository,
     IProdutoRepository produtoRepository,
+    IWonderFoodPagamentoExternal pagamentosExternal,
     IMapper mapper)
     : IRequestHandler<InserirPedidoCommand, PedidosOutputDto>
 {
@@ -27,9 +30,24 @@ public class InserirPedidoCommandHandler(
         
         await pedidoRepository.Inserir(pedido);
         await unitOfWork.CommitChangesAsync();
-
         var pedidoCadastrado = await pedidoRepository.ObterPorId(pedido.Id);
+        
+        await EnviarSolicitacaoPagamento(pedido);
+
         return mapper.Map<PedidosOutputDto>(pedidoCadastrado);
+    }
+
+    private async Task EnviarSolicitacaoPagamento(Pedido pedido)
+    {
+        var pagamentoSolicitado = new PagamentoSolicitadoEvent
+        {
+            IdPedido = pedido.Id,
+            ValorTotal = pedido.ValorTotal,
+            FormaPagamento = (FormaPagamento)pedido.FormaPagamento,
+            IdCliente = pedido.ClienteId,
+            DataConfirmacaoPedido = DateTime.Now
+        };
+        await pagamentosExternal.EnviarSolicitacaoPagamento(pagamentoSolicitado);
     }
 
     private async Task ValidarCliente(Guid clienteId)

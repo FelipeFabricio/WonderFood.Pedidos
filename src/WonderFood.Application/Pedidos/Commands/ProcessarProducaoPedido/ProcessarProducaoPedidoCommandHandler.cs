@@ -12,11 +12,11 @@ public class ProcessarProducaoPedidoCommandHandler(IPedidoRepository pedidoRepos
     {
         var novoStatusPedido = request.StatusPagamento switch
         {
-            SituacaoPagamento.PagamentoAprovado => StatusPedido.PagamentoAprovado,
-            SituacaoPagamento.PagamentoRecusado => StatusPedido.PagamentoRecusado,
+            StatusPagamento.PagamentoAprovado => StatusPedido.PagamentoAprovado,
+            StatusPagamento.PagamentoRecusado => StatusPedido.PagamentoRecusado,
             _ => throw new ArgumentException($"Situação Pagamento inválida: {request.StatusPagamento}")
         };
-        
+
         var pedido = await pedidoRepository.ObterPorId(request.IdPedido);
         if(pedido is null)
             throw new ArgumentException($"Pedido não encontrado com o Id informado: {request.IdPedido}");
@@ -25,7 +25,6 @@ public class ProcessarProducaoPedidoCommandHandler(IPedidoRepository pedidoRepos
         
         await pedidoRepository.Atualizar(pedido);
         await unitOfWork.CommitChangesAsync();
-        
         return Unit.Value;
     }
 }

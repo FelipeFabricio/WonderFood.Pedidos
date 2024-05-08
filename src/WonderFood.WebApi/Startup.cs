@@ -32,10 +32,12 @@ namespace WonderFood.WebApi
                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                });
 
+           services.Configure<ExternalServicesSettings>(Configuration.GetSection("ExternalServicesSettings"));
            services.AddEndpointsApiExplorer();
            services.AddApplication();
-           services.Configure<ExternalServicesSettings>(Configuration.GetSection("ExternalServicesSettings"));
+           services.AddExternalServices();
            services.AddSqlInfrastructure(Configuration);
+           
            services.AddSwagger();
            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
        }
@@ -77,7 +79,7 @@ namespace WonderFood.WebApi
                    },
                    (_, timeSpan, retryCount, _) =>
                    {
-                       Log.Logger.Error($"Tentativa {retryCount} de conexão ao MySql falhou. Tentando novamente em {timeSpan.Seconds} segundos.");
+                       Log.Logger.Error("Tentativa {0} de conexão ao MySql falhou. Tentando novamente em {1} segundos.", retryCount, timeSpan.Seconds);
                    });
            retryPolicy.Execute(() => { dbContext.Database.Migrate(); });
        }
