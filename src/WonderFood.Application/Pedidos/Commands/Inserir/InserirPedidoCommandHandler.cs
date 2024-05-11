@@ -7,7 +7,7 @@ using WonderFood.Domain.Entities;
 using WonderFood.Models.Enums;
 using WonderFood.Models.Events;
 
-namespace WonderFood.Application.Pedidos.Commands.InserirPedido;
+namespace WonderFood.Application.Pedidos.Commands.Inserir;
 
 public class InserirPedidoCommandHandler(
     IPedidoRepository pedidoRepository,
@@ -56,9 +56,9 @@ public class InserirPedidoCommandHandler(
         if (cliente == null) throw new ArgumentException("Cliente não encontrado.");
     }
     
-    private async Task<List<ProdutosPedido>> PreencherListaProdutosPedido( IEnumerable<InserirProdutosPedidoInputDto> produtos)
+    private async Task<List<Domain.Entities.ProdutosPedido>> PreencherListaProdutosPedido( IEnumerable<InserirProdutosPedidoInputDto> produtos)
     {
-        var produtosValidos = new List<ProdutosPedido>();
+        var produtosValidos = new List<Domain.Entities.ProdutosPedido>();
 
         foreach (var produto in produtos)
         {
@@ -66,7 +66,7 @@ public class InserirPedidoCommandHandler(
             if (produtoEntity == null)
                 throw new ArgumentException($"Produto {produto.ProdutoId} não encontrado.");
 
-            produtosValidos.Add(new ProdutosPedido
+            produtosValidos.Add(new Domain.Entities.ProdutosPedido
             {
                 ProdutoId = produtoEntity.Id,
                 Quantidade = produto.Quantidade,

@@ -30,6 +30,5 @@ namespace WonderFood.Infra.Sql
             services.AddHealthChecks().AddMySql(connectionString);
             
         }
-
     }
 }

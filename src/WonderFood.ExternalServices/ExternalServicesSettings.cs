@@ -15,5 +15,5 @@ public class WonderfoodPagamentos
 public class WonderfoodProducao
 {
     public string BaseUrl { get; set; }
-    public string PagamentoProcessado { get; set; }
+    public string IniciarProducao { get; set; }
 }

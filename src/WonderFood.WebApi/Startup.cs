@@ -25,6 +25,7 @@ namespace WonderFood.WebApi
        
        public void ConfigureServices(IServiceCollection services)
        {
+           services.Configure<ExternalServicesSettings>(Configuration.GetSection("ExternalServicesSettings"));
            services.AddControllers()
                .AddJsonOptions(options =>
                {
@@ -32,12 +33,10 @@ namespace WonderFood.WebApi
                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                });
 
-           services.Configure<ExternalServicesSettings>(Configuration.GetSection("ExternalServicesSettings"));
            services.AddEndpointsApiExplorer();
            services.AddApplication();
            services.AddExternalServices();
            services.AddSqlInfrastructure(Configuration);
-           
            services.AddSwagger();
            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
        }

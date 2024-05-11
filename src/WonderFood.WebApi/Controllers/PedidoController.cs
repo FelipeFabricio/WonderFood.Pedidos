@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using WonderFood.Application.Pedidos.Commands.InserirPedido;
+using WonderFood.Application.Pedidos.Commands.Inserir;
 using WonderFood.Application.Pedidos.Queries.ObterPedido;
 using WonderFood.Domain.Dtos.Pedido;
 

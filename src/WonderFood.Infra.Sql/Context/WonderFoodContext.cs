@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using WonderFood.Application.Common.Interfaces;
 using WonderFood.Domain.Entities;
 

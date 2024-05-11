@@ -1,14 +1,19 @@
 using MediatR;
 using WonderFood.Application.Common.Interfaces;
+using WonderFood.Application.Pedidos.Commands.EnviarParaProducao;
 using WonderFood.Domain.Entities.Enums;
 using WonderFood.Models.Enums;
 
-namespace WonderFood.Application.Pedidos.Commands.ProcessarProducaoPedido;
+namespace WonderFood.Application.Pedidos.Commands.ProcessarPagamento;
 
-public class ProcessarProducaoPedidoCommandHandler(IPedidoRepository pedidoRepository, IUnitOfWork unitOfWork)
-    : IRequestHandler<ProcessarProducaoPedidoCommand, Unit>
+public class ProcessarPagamentoPedidoCommandHandler(
+    IPedidoRepository pedidoRepository,
+    IUnitOfWork unitOfWork,
+    ISender sender
+)
+    : IRequestHandler<ProcessarPagamentoPedidoCommand, Unit>
 {
-    public async Task<Unit> Handle(ProcessarProducaoPedidoCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(ProcessarPagamentoPedidoCommand request, CancellationToken cancellationToken)
     {
         var novoStatusPedido = request.StatusPagamento switch
         {
@@ -18,13 +23,16 @@ public class ProcessarProducaoPedidoCommandHandler(IPedidoRepository pedidoRepos
         };
 
         var pedido = await pedidoRepository.ObterPorId(request.IdPedido);
-        if(pedido is null)
+        if (pedido is null)
             throw new ArgumentException($"Pedido não encontrado com o Id informado: {request.IdPedido}");
-        
+
         pedido.AlterarStatusPedido(novoStatusPedido);
-        
+
         await pedidoRepository.Atualizar(pedido);
         await unitOfWork.CommitChangesAsync();
+
+        await sender.Send(new EnviarPedidoProducaoCommand(pedido), default);
+        
         return Unit.Value;
     }
 }

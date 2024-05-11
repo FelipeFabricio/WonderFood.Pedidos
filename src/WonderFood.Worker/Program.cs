@@ -1,6 +1,7 @@
 using WonderFood.Application;
 using WonderFood.ExternalServices;
 using WonderFood.Infra.Sql;
+using WonderFood.Worker;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,16 +13,11 @@ builder.Services.AddSqlInfrastructure(builder.Configuration);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwagger();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
+app.UseSwaggerMiddleware();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

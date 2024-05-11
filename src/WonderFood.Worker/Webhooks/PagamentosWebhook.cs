@@ -1,9 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using WonderFood.Application.Pedidos.Commands.ProcessarProducaoPedido;
+using WonderFood.Application.Pedidos.Commands.ProcessarPagamento;
 using WonderFood.Models.Events;
 
-namespace WonderFood.Worker.Controllers;
+namespace WonderFood.Worker.Webhooks;
 
 [Route("/webhook/pagamentos")]
 public class PagamentosWebhook : ControllerBase
@@ -25,13 +25,13 @@ public class PagamentosWebhook : ControllerBase
     {
         try
         {
-            var command = new ProcessarProducaoPedidoCommand(payload.IdPedido, payload.StatusPagamento);
+            var command = new ProcessarPagamentoPedidoCommand(payload.IdPedido, payload.StatusPagamento);
             await _mediator.Send(command);
             return Ok();
         }
         catch (Exception e)
         {
-            return StatusCode(400, new { e.Message});
+            return StatusCode(400, new { e.Message });
         }
     }
 }
