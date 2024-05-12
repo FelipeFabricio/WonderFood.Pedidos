@@ -1,19 +1,34 @@
 version: '3.8'
 
 services:
-  app:
-    container_name: app-pedidos
+  worker:
+    image: felipefabricio/wdf.pedidos.worker
+    container_name: pedidos-worker
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Worker.Dockerfile
     depends_on:
       - mysql
     ports:
-      - "8000:80"
-      - "8001:443"
+      - "5000:80"
+      - "5001:443"
     env_file:
       - .env
       
+  webapi:
+    image: felipefabricio/wdf.pedidos.webapi
+    container_name: pedidos-webapi
+    build:
+      context: .
+      dockerfile: WebApi.Dockerfile
+    depends_on:
+      - mysql
+    ports:
+      - "3000:8080"
+      - "3001:8443"
+    env_file:
+      - .env
+  
   mysql:
     image: mysql:8.0.36
     container_name: mysql

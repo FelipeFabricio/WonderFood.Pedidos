@@ -21,7 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		deployment.yml = deployment.yml
 		docker-compose.yml = docker-compose.yml
-		Dockerfile = Dockerfile
+		WebApi.Dockerfile = WebApi.Dockerfile
+		Worker.Dockerfile = Worker.Dockerfile
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{F9C5B0C9-29D9-45C9-B551-E39DB548DBA1}"
@@ -39,6 +40,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WonderFood.ExternalServices", "src\WonderFood.ExternalServices\WonderFood.ExternalServices.csproj", "{9AEE2042-8843-474D-9D88-9CE9E14B3037}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WonderFood.Worker", "src\WonderFood.Worker\WonderFood.Worker.csproj", "{D095EC11-0EF7-4CFB-B4F0-829AD73D0E7F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared Settings", "Shared Settings", "{BAF6942B-0DC2-4E38-A840-23949D752D76}"
+	ProjectSection(SolutionItems) = preProject
+		appsettings.json = appsettings.json
+		appsettings.Development.json = appsettings.Development.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
