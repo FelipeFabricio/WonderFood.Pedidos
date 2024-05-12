@@ -26,7 +26,7 @@ public class PedidoControllerTests
     }
     
     [Fact]
-    [Trait("Webhooks", "Pedido")]
+    [Trait("WebApi", "Pedido")]
     public async Task ObterPedido_DeveRetornarPedido_QuandoHouverPedidoCadastrado()
     {
         //Arrange
@@ -42,7 +42,7 @@ public class PedidoControllerTests
     }
     
     [Fact]
-    [Trait("Webhooks", "Pedido")]
+    [Trait("WebApi", "Pedido")]
     public async Task ObterPedido_DeveRetornarBadRequest_QuandoUmaExceptionForLancada()
     {
         //Arrange
@@ -56,7 +56,7 @@ public class PedidoControllerTests
     }
     
     [Fact]
-    [Trait("Webhooks", "Pedido")]
+    [Trait("WebApi", "Pedido")]
     public async Task InserirPedido_DeveRetornarNoContent_QuandoCadastroPedidoForRealizado()
     {
         //Arrange
@@ -73,7 +73,7 @@ public class PedidoControllerTests
     }
     
     [Fact]
-    [Trait("Webhooks", "Pedido")]
+    [Trait("WebApi", "Pedido")]
     public async Task InserirPedido_DeveRetornarBadRequest_QuandoUmaExceptionForLancada()
     {
         //Arrange

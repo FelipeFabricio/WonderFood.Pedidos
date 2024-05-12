@@ -26,6 +26,14 @@
     </ItemGroup>
 
     <ItemGroup>
+        <SonarQubeSetting Include="sonar.coverage.exclusions">
+            <Value>
+                DependencyInjection.cs, Program.cs
+            </Value>
+        </SonarQubeSetting>
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\WonderFood.Application\WonderFood.Application.csproj" />
       <ProjectReference Include="..\WonderFood.ExternalServices\WonderFood.ExternalServices.csproj" />
       <ProjectReference Include="..\WonderFood.Infra.Sql\WonderFood.Infra.Sql.csproj" />

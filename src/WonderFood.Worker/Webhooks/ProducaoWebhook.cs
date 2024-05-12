@@ -31,7 +31,7 @@ public class ProducaoWebhook : ControllerBase
         }
         catch (Exception e)
         {
-            return StatusCode(400, new { e.Message});
+            return BadRequest(new { e.Message });
         }
     }
 }
