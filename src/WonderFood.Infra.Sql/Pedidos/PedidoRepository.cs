@@ -39,9 +39,9 @@ public class PedidoRepository : IPedidoRepository
         await _context.Pedidos.AddAsync(pedido);
     }
 
-    public Task Atualizar(Pedido pedido)
+    public async Task AtualizarStatus(Pedido pedido)
     {
-        _context.Pedidos.Update(pedido);
-        return Task.CompletedTask;
+        await _context.Pedidos.Where(p => p.Id == pedido.Id)
+            .ExecuteUpdateAsync(setters => setters.SetProperty(b => b.Status, pedido.Status));
     }
 }

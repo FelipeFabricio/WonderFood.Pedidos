@@ -28,10 +28,11 @@ public class ProcessarPagamentoPedidoCommandHandler(
 
         pedido.AlterarStatusPedido(novoStatusPedido);
 
-        await pedidoRepository.Atualizar(pedido);
+        await pedidoRepository.AtualizarStatus(pedido);
         await unitOfWork.CommitChangesAsync();
 
-        await sender.Send(new EnviarPedidoProducaoCommand(pedido), default);
+        if (novoStatusPedido == StatusPedido.PagamentoAprovado)
+            await sender.Send(new EnviarPedidoProducaoCommand(pedido), default);
         
         return Unit.Value;
     }
