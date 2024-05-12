@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
-using WonderFood.Application.Pedidos.Commands.InserirPedido;
+using WonderFood.Application.Pedidos.Commands.Inserir;
 using WonderFood.Application.Pedidos.Queries.ObterPedido;
 using WonderFood.Domain.Dtos.Pedido;
 using WonderFood.WebApi.Controllers;
@@ -26,7 +26,7 @@ public class PedidoControllerTests
     }
     
     [Fact]
-    [Trait("Controllers", "Pedido")]
+    [Trait("Webhooks", "Pedido")]
     public async Task ObterPedido_DeveRetornarPedido_QuandoHouverPedidoCadastrado()
     {
         //Arrange
@@ -42,7 +42,7 @@ public class PedidoControllerTests
     }
     
     [Fact]
-    [Trait("Controllers", "Pedido")]
+    [Trait("Webhooks", "Pedido")]
     public async Task ObterPedido_DeveRetornarBadRequest_QuandoUmaExceptionForLancada()
     {
         //Arrange
@@ -56,7 +56,7 @@ public class PedidoControllerTests
     }
     
     [Fact]
-    [Trait("Controllers", "Pedido")]
+    [Trait("Webhooks", "Pedido")]
     public async Task InserirPedido_DeveRetornarNoContent_QuandoCadastroPedidoForRealizado()
     {
         //Arrange
@@ -73,7 +73,7 @@ public class PedidoControllerTests
     }
     
     [Fact]
-    [Trait("Controllers", "Pedido")]
+    [Trait("Webhooks", "Pedido")]
     public async Task InserirPedido_DeveRetornarBadRequest_QuandoUmaExceptionForLancada()
     {
         //Arrange

@@ -8,5 +8,5 @@ public interface IPedidoRepository
     Task<Pedido?> ObterPorNumeroPedido(int numeroPedido);
     Task<Pedido?> ObterPorId(Guid id);
     Task Inserir(Pedido pedido);
-    Task Atualizar(Pedido pedido);
+    Task AtualizarStatus(Pedido pedido);
 }

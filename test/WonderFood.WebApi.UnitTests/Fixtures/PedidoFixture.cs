@@ -15,7 +15,6 @@ public class PedidoFixtureCollection : ICollectionFixture<PedidoFixture>
 
 public class PedidoFixture
 {
-    
     public InserirPedidoInputDto GerarInserirPedidoInputDto()
     {
         return new Faker<InserirPedidoInputDto>("pt_BR")

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Polly;
 using Serilog;
 using WonderFood.Application;
+using WonderFood.ExternalServices;
 using WonderFood.Infra.Sql;
 using WonderFood.Infra.Sql.Context;
 
@@ -24,6 +25,7 @@ namespace WonderFood.WebApi
        
        public void ConfigureServices(IServiceCollection services)
        {
+           services.Configure<ExternalServicesSettings>(Configuration.GetSection("ExternalServicesSettings"));
            services.AddControllers()
                .AddJsonOptions(options =>
                {
@@ -33,6 +35,7 @@ namespace WonderFood.WebApi
 
            services.AddEndpointsApiExplorer();
            services.AddApplication();
+           services.AddExternalServices();
            services.AddSqlInfrastructure(Configuration);
            services.AddSwagger();
            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -75,7 +78,7 @@ namespace WonderFood.WebApi
                    },
                    (_, timeSpan, retryCount, _) =>
                    {
-                       Log.Logger.Error($"Tentativa {retryCount} de conexão ao MySql falhou. Tentando novamente em {timeSpan.Seconds} segundos.");
+                       Log.Logger.Error("Tentativa {0} de conexão ao MySql falhou. Tentando novamente em {1} segundos.", retryCount, timeSpan.Seconds);
                    });
            retryPolicy.Execute(() => { dbContext.Database.Migrate(); });
        }

@@ -23,6 +23,7 @@ public class AutoMapperMappingProfile : Profile
         CreateMap<Pedido, InserirPedidoInputDto>().ReverseMap();
         
         CreateMap<ProdutosPedido,InserirProdutosPedidoInputDto>().ReverseMap();
+        CreateMap<Models.Events.ProdutosPedido, ProdutosPedido>().ReverseMap();
         CreateMap<ProdutosPedido, ProdutosPedidoOutputDto>()
             .ForMember(dest => dest.Nome, opt => opt.MapFrom(src => src.Produto.Nome))
             .ForMember(dest => dest.Valor, opt => opt.MapFrom(src => src.Produto.Valor))

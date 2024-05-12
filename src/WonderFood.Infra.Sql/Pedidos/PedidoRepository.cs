@@ -24,9 +24,9 @@ public class PedidoRepository : IPedidoRepository
             .FirstOrDefaultAsync(p => p.NumeroPedido == numeroPedido);
     }
 
-    public Task<Pedido?> ObterPorId(Guid id)
+    public async Task<Pedido?> ObterPorId(Guid id)
     {
-        return _context.Pedidos
+        return await _context.Pedidos
             .Include(c => c.Cliente)
             .Include(p => p.Produtos)
                 .ThenInclude(p => p.Produto)
@@ -34,15 +34,14 @@ public class PedidoRepository : IPedidoRepository
             .FirstOrDefaultAsync(p => p.Id == id);
     }
 
-    public Task Inserir(Pedido pedido)
+    public async Task Inserir(Pedido pedido)
     {
-        _context.Pedidos.Add(pedido);
-        return Task.CompletedTask;
+        await _context.Pedidos.AddAsync(pedido);
     }
 
-    public async Task Atualizar(Pedido pedido)
+    public async Task AtualizarStatus(Pedido pedido)
     {
-        _context.Pedidos.Update(pedido);
-        await _context.SaveChangesAsync();
+        await _context.Pedidos.Where(p => p.Id == pedido.Id)
+            .ExecuteUpdateAsync(setters => setters.SetProperty(b => b.Status, pedido.Status));
     }
 }

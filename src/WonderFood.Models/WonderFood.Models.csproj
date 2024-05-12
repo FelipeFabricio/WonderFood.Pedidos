@@ -11,5 +11,9 @@
         <PackageDescription>PACKAGE_DESCRIPTION</PackageDescription>
         <RepositoryUrl>https://github.com/OWNER/REPOSITORY</RepositoryUrl>
     </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\WonderFood.Domain\WonderFood.Domain.csproj" />
+    </ItemGroup>
     
 </Project>
