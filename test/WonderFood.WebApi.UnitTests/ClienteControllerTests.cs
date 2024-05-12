@@ -26,7 +26,7 @@ public class ClienteControllerTests
     }
 
     [Fact]
-    [Trait("Webhooks", "Cliente")]
+    [Trait("WebApi", "Cliente")]
     public async Task ObterClientePorId_DeveRetornarClienteEStatusOK_QuandoHouverClienteCadastrado()
     {
         //Arrange
@@ -43,7 +43,7 @@ public class ClienteControllerTests
     }
     
     [Fact]
-    [Trait("Webhooks", "Cliente")]
+    [Trait("WebApi", "Cliente")]
     public async Task ObterClientePorId_DeveRetornarBadRequest_QuandoUmaExceptionForLancada()
     {
         //Arrange
@@ -57,7 +57,7 @@ public class ClienteControllerTests
     }
     
     [Fact]
-    [Trait("Webhooks", "Cliente")]
+    [Trait("WebApi", "Cliente")]
     public async Task InserirCliente_DeveRetornarClienteCadastradoEStatusCreated_QuandoClienteCadastrado()
     {
         //Arrange
@@ -72,7 +72,7 @@ public class ClienteControllerTests
     }
     
     [Fact]
-    [Trait("Webhooks", "Cliente")]
+    [Trait("WebApi", "Cliente")]
     public async Task InserirCliente_DeveRetornarBadRequest_QuandoUmaExceptionForLancada()
     {
         //Arrange

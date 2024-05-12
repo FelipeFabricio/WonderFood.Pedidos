@@ -14,6 +14,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <SonarQubeSetting Include="sonar.coverage.exclusions">
+            <Value>
+                DependencyInjection.cs, Startup.cs, Program.cs
+            </Value>
+        </SonarQubeSetting>
+    </ItemGroup>
+    
+    <ItemGroup>
         <PackageReference Include="AspNetCore.HealthChecks.MySql" Version="7.0.0" />
         <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="7.1.0" />
         <PackageReference Include="AutoMapper" Version="12.0.1" />
@@ -34,12 +42,6 @@
       <ProjectReference Include="..\WonderFood.ExternalServices\WonderFood.ExternalServices.csproj" />
       <ProjectReference Include="..\WonderFood.Infra.Sql\WonderFood.Infra.Sql.csproj" />
       <ProjectReference Include="..\WonderFood.Application\WonderFood.Application.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Include="..\..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
     </ItemGroup>
 
 

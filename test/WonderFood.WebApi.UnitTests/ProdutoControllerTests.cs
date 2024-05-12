@@ -26,7 +26,7 @@ public class ProdutoControllerTests
     }
     
     [Fact]
-    [Trait("Webhooks", "Produto")]
+    [Trait("WebApi", "Produto")]
     public async Task ObterTodosProdutos_DeveRetornarListaProdutos_QuandoHouverProdutosCadastrados()
     {
         //Arrange
@@ -42,7 +42,7 @@ public class ProdutoControllerTests
     }
     
     [Fact]
-    [Trait("Webhooks", "Produto")]
+    [Trait("WebApi", "Produto")]
     public async Task ObterTodosProdutos_DeveRetornarBadRequest_QuandoUmaExceptionForLancada()
     {
         //Arrange
@@ -56,7 +56,7 @@ public class ProdutoControllerTests
     }
     
     [Fact]
-    [Trait("Webhooks", "Produto")]
+    [Trait("WebApi", "Produto")]
     public async Task InserirProduto_DeveRetornarNoContent_QuandoCadastroForEfetuado()
     {
         //Arrange
@@ -71,7 +71,7 @@ public class ProdutoControllerTests
     }
     
     [Fact]
-    [Trait("Webhooks", "Produto")]
+    [Trait("WebApi", "Produto")]
     public async Task InserirProduto_DeveRetornarBadRequest_QuandoUmaExceptionForLancada()
     {
         //Arrange

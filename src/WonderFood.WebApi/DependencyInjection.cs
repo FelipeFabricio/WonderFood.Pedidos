@@ -1,10 +1,8 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.OpenApi.Models;
 
 namespace WonderFood.WebApi;
 
-[ExcludeFromCodeCoverage]
 public static class DependencyInjection
 {
     public static void AddSwagger(this IServiceCollection services)
