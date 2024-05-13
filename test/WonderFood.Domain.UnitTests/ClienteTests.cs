@@ -8,6 +8,7 @@ public class ClienteTests
     [Theory]
     [InlineData("João", "joao@example.com", "11839555025")]
     [InlineData("Maria", "maria@example.com", "90906706025")]
+    [Trait("Domain","Cliente")]
     public void Construtor_DeveCriarCliente_QuandoTodosOsDadosForemValidos(string nome, string email, string cpf)
     {
         // Arrange e Act
@@ -25,6 +26,7 @@ public class ClienteTests
     [InlineData("909067060299980")]
     [InlineData("999980")]
     [InlineData("99999999999")]
+    [Trait("Domain","Cliente")]
     public void Construtor_DeveLancarArgumentException_QuandoCpfInvalido(string cpf)
     {
         // Arrange, Act & Assert
@@ -35,6 +37,7 @@ public class ClienteTests
     [InlineData("joao.example.com")]
     [InlineData("joao@example")]
     [InlineData("joao")]
+    [Trait("Domain","Cliente")]
     public void ValidarEmail_DeveLancarArgumentException_QuandoEmailInvalido(string email)
     {
         // Arrange, Act & Assert
@@ -46,6 +49,7 @@ public class ClienteTests
     [InlineData("     ")]
     [InlineData("Maria999")]
     [InlineData("A")]
+    [Trait("Domain","Cliente")]
     public void ValidarNome_DeveLancarArgumentException_QuandoNomeInvalido(string nome)
     {
         // Arrange, Act & Assert
