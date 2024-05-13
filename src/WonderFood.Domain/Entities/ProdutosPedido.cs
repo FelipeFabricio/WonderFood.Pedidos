@@ -1,5 +1,8 @@
-﻿namespace WonderFood.Domain.Entities;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace WonderFood.Domain.Entities;
+
+[ExcludeFromCodeCoverage]
 public class ProdutosPedido
 {
     public Guid PedidoId { get; set; }
