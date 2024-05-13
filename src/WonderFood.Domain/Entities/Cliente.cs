@@ -72,13 +72,8 @@ public class Cliente
         if (Regex.IsMatch(nome, @"\d"))
             throw new ArgumentException("O nome do Cliente não pode conter números.");
 
-        if (Regex.IsMatch(nome, @"[^a-zA-Z\s]"))
-            throw new ArgumentException("O nome do Cliente não pode conter caracteres especiais.");
-
         Nome = nome;
     }
-
-    public override string ToString() => $"{Cpf.Substring(0, 3)}.{Cpf.Substring(3, 3)}.{Cpf.Substring(6, 3)}-{Cpf.Substring(9, 2)}";
 }
 
     
