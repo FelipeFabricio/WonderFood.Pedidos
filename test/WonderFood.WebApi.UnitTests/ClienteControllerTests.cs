@@ -58,17 +58,18 @@ public class ClienteControllerTests
     
     [Fact]
     [Trait("WebApi", "Cliente")]
-    public async Task InserirCliente_DeveRetornarClienteCadastradoEStatusCreated_QuandoClienteCadastrado()
+    public async Task InserirCliente_DeveRetornarClienteCadastradoEStatusOk_QuandoClienteCadastrado()
     {
         //Arrange
         var clienteInput = _clienteFixture.GerarInserirClienteInputDtoValido();
-        _mediator.Send(Arg.Any<InserirClienteCommand>()).Returns(Unit.Value);
+        var clienteOutput = _clienteFixture.GerarClienteOutputDtoValido();
+        _mediator.Send(Arg.Any<InserirClienteCommand>()).Returns(clienteOutput);
     
         //Act
-        var resultado = (NoContentResult)await _sut.InserirCliente(clienteInput);
+        var resultado = (OkObjectResult)await _sut.InserirCliente(clienteInput);
     
         //Assert
-        resultado.StatusCode.Should().Be(204);
+        resultado.StatusCode.Should().Be(200);
     }
     
     [Fact]
