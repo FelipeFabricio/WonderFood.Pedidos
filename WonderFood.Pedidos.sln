@@ -19,10 +19,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
 		.gitignore = .gitignore
-		deployment.yml = deployment.yml
+		pedidos-webapi-deployment.yml = pedidos-webapi-deployment.yml
 		docker-compose.yml = docker-compose.yml
 		WebApi.Dockerfile = WebApi.Dockerfile
 		Worker.Dockerfile = Worker.Dockerfile
+		pedidos-worker-deployment.yml = pedidos-worker-deployment.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{F9C5B0C9-29D9-45C9-B551-E39DB548DBA1}"

@@ -2,23 +2,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wonderfood-app
+  name: pedidos-worker
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: wonderfood-app
+      app: pedidos-worker
   template:
     metadata:
       labels:
-        app: wonderfood-app
+        app: pedidos-worker
     spec:
       containers:
-        - name: wonderfood-app
-          image: felipefabricio/wonderfood:latest
+        - name: pedidos-worker
+          image: felipefabricio/wdf.pedidos.worker:latest
           ports:
             - containerPort: 80
-              name: wonderfood-app
+              name: pedidos-worker
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -48,16 +48,17 @@ spec:
       imagePullSecrets:
         - name: dockerhub-secret
 
+
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: wonderfood-app-service
+  name: pedidos-worker-service
 spec:
   type: LoadBalancer
   selector:
-    app: wonderfood-app
+    app: pedidos-worker
   ports:
     - protocol: TCP
       port: 80
@@ -68,12 +69,12 @@ spec:
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: wonderfood-app-hpa
+  name: pedidos-worker-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: wonderfood-app
+    name: pedidos-worker
   minReplicas: 1
   maxReplicas: 3
   metrics:
