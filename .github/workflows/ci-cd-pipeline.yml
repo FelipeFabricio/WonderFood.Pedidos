@@ -47,6 +47,7 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
   CD:
+    needs: CI
     if: github.ref == 'refs/heads/Master' && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
