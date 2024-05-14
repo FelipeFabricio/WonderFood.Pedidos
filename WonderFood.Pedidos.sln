@@ -42,12 +42,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WonderFood.ExternalServices
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WonderFood.Worker", "src\WonderFood.Worker\WonderFood.Worker.csproj", "{D095EC11-0EF7-4CFB-B4F0-829AD73D0E7F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared Settings", "Shared Settings", "{BAF6942B-0DC2-4E38-A840-23949D752D76}"
-	ProjectSection(SolutionItems) = preProject
-		appsettings.json = appsettings.json
-		appsettings.Development.json = appsettings.Development.json
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WonderFood.Worker.UnitTests", "test\WonderFood.Worker.UnitTests\WonderFood.Worker.UnitTests.csproj", "{AD5686C7-2A8E-498C-BAB9-4B81364CE188}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WonderFood.Domain.UnitTests", "test\WonderFood.Domain.UnitTests\WonderFood.Domain.UnitTests.csproj", "{27FFE081-1280-4610-8CD5-495C01ACDCB8}"
