@@ -1,11 +1,11 @@
 name: CI Pipeline
 
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - Master
   
-  workflow_dispatch:
   push:
     branches:
       - Dev
