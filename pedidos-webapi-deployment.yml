@@ -1,0 +1,91 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pedidos-webapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pedidos-webapi
+  template:
+    metadata:
+      labels:
+        app: pedidos-webapi
+    spec:
+      containers:
+        - name: pedidos-webapi
+          image: felipefabricio/wdf.pedidos.webapi:latest
+          ports:
+            - containerPort: 80
+              name: pedidos-webapi
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /_health
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /_ready
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 600
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: "512Mi"
+            requests:
+              cpu: "0.1"
+              memory: "256Mi"
+          env:
+            - name: MYSQL_CONNECTION
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-connection-secret
+                  key: connectionString
+      imagePullSecrets:
+        - name: dockerhub-secret
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: pedidos-webapi-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: pedidos-webapi
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: pedidos-webapi-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: pedidos-webapi
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 70
