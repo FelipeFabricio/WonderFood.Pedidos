@@ -2,23 +2,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pedidos-worker
+  name: pdd-worker
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pedidos-worker
+      app: pdd-worker
   template:
     metadata:
       labels:
-        app: pedidos-worker
+        app: pdd-worker
     spec:
       containers:
-        - name: pedidos-worker
+        - name: pdd-worker
           image: felipefabricio/wdf.pedidos.worker:latest
           ports:
             - containerPort: 80
-              name: pedidos-worker
+              name: pdd-worker
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -54,11 +54,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: pedidos-worker-service
+  name: pdd-worker-service
 spec:
   type: LoadBalancer
   selector:
-    app: pedidos-worker
+    app: pdd-worker
   ports:
     - protocol: TCP
       port: 80
@@ -69,12 +69,12 @@ spec:
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: pedidos-worker-hpa
+  name: pdd-worker-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: pedidos-worker
+    name: pdd-worker
   minReplicas: 1
   maxReplicas: 3
   metrics:

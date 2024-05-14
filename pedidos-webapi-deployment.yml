@@ -2,23 +2,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pedidos-webapi
+  name: pdd-webapi
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pedidos-webapi
+      app: pdd-webapi
   template:
     metadata:
       labels:
-        app: pedidos-webapi
+        app: pdd-webapi
     spec:
       containers:
-        - name: pedidos-webapi
+        - name: pdd-webapi
           image: felipefabricio/wdf.pedidos.webapi:latest
           ports:
             - containerPort: 80
-              name: pedidos-webapi
+              name: pdd-webapi
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -53,11 +53,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: pedidos-webapi-service
+  name: pdd-webapi-service
 spec:
   type: LoadBalancer
   selector:
-    app: pedidos-webapi
+    app: pdd-webapi
   ports:
     - protocol: TCP
       port: 80
@@ -68,12 +68,12 @@ spec:
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: pedidos-webapi-hpa
+  name: pdd-webapi-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: pedidos-webapi
+    name: pdd-webapi
   minReplicas: 1
   maxReplicas: 3
   metrics:
