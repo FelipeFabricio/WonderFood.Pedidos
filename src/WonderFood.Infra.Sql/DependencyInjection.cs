@@ -28,7 +28,6 @@ namespace WonderFood.Infra.Sql
             services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<WonderFoodContext>());
             
             services.AddHealthChecks().AddMySql(connectionString);
-            
         }
     }
 }
