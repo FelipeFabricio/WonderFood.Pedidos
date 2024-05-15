@@ -17,19 +17,19 @@ spec:
         - name: pdd-webapi
           image: felipefabricio/wdf.pedidos.webapi:latest
           ports:
-            - containerPort: 80
+            - containerPort: 8080
               name: pdd-webapi
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /_health
-              port: 80
+              port: 8080
             initialDelaySeconds: 30
             periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /_ready
-              port: 80
+              port: 8080
             initialDelaySeconds: 30
             periodSeconds: 600
           resources:
@@ -60,8 +60,8 @@ spec:
     app: pdd-webapi
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 8080
+      targetPort: 8080
 
 ---
 
