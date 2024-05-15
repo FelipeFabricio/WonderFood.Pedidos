@@ -1,5 +1,6 @@
 using FluentAssertions;
 using WonderFood.Domain.Entities;
+using Xunit;
 
 namespace WonderFood.Domain.UnitTests;
 

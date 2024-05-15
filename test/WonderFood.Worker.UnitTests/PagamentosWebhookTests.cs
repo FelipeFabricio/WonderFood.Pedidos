@@ -7,6 +7,7 @@ using WonderFood.Application.Pedidos.Commands.ProcessarPagamento;
 using WonderFood.Models.Enums;
 using WonderFood.Models.Events;
 using WonderFood.Worker.Webhooks;
+using Xunit;
 
 namespace WonderFood.Worker.UnitTests;
 

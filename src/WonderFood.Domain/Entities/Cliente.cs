@@ -9,9 +9,9 @@ public class Cliente
     public string Email { get; set; }
     public string Cpf { get; private set; }
 
-    public Cliente(string nome, string email, string cpf)
+    public Cliente(string nome, string email, string cpf, Guid? id = null)
     {
-        Id = Guid.NewGuid();
+        Id = id ?? Guid.NewGuid();
         ValidarNome(nome);
         ValidarEmail(email);
         ValidarCpf(cpf);
@@ -73,6 +73,11 @@ public class Cliente
             throw new ArgumentException("O nome do Cliente não pode conter números.");
 
         Nome = nome;
+    }
+
+    private Cliente()
+    {
+        
     }
 }
 

@@ -10,9 +10,9 @@ public class Produto
     public decimal Valor { get; set; }
     public CategoriaProduto Categoria { get; set; }
 
-    public Produto(string nome, decimal valor, CategoriaProduto categoria, string descricao)
+    public Produto(string nome, decimal valor, CategoriaProduto categoria, string descricao, Guid? id = null)
     {
-        Id = Guid.NewGuid();
+        Id = id ?? Guid.NewGuid();
         Categoria = categoria;
         Descricao = descricao;
         ValidarNome(nome);
@@ -33,5 +33,10 @@ public class Produto
             throw new ArgumentException("Nome do produto precisa ter no mínimo 3 caractere");
 
         Nome = nome;
+    }
+
+    private Produto()
+    {
+        
     }
 }
