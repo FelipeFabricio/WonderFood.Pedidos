@@ -48,7 +48,6 @@ spec:
       imagePullSecrets:
         - name: dockerhub-secret
 
-
 ---
 
 apiVersion: v1
@@ -56,7 +55,7 @@ kind: Service
 metadata:
   name: pdd-worker-service
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: pdd-worker
   ports:
