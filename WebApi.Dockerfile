@@ -3,7 +3,7 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8443
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/WonderFood.WebApi/WonderFood.WebApi.csproj", "src/WonderFood.WebApi/"]

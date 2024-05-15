@@ -1,8 +1,10 @@
+using System.Reflection;
 using System.Text.Json.Serialization;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using WonderFood.Application;
+using WonderFood.Application.MappingProfiles;
 using WonderFood.ExternalServices;
 using WonderFood.Infra.Sql;
 using WonderFood.Worker;
