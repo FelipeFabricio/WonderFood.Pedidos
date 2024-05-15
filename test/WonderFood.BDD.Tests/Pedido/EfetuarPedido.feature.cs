@@ -103,63 +103,16 @@ this.ScenarioInitialize(scenarioInfo);
     testRunner.Given("que o cliente possui um cadastro válido no restaurante", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Dado ");
 #line hidden
 #line 8
-    testRunner.And("o cliente está logado", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "E ");
-#line hidden
-#line 9
     testRunner.And("o Pedido possui pelo menos um produto", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "E ");
 #line hidden
-#line 10
+#line 9
     testRunner.When("o cliente efetuar o pedido", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quando ");
 #line hidden
-#line 11
+#line 10
     testRunner.Then("o cliente deverá ter seu pedido registrado no sistema com sucesso", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Então ");
 #line hidden
-#line 12
-    testRunner.And("o cliente deverá ser informado que o pedido foi registrado com sucesso", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "E ");
-#line hidden
-#line 13
+#line 11
     testRunner.And("o cliente deverá ser informado que o pedido está aguardando pagamento", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "E ");
-#line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [Xunit.SkippableFactAttribute(DisplayName="Pedido sem produtos")]
-        [Xunit.TraitAttribute("FeatureTitle", "Pedido - Efetuar Pedido no sistema")]
-        [Xunit.TraitAttribute("Description", "Pedido sem produtos")]
-        public void PedidoSemProdutos()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Pedido sem produtos", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 15
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 16
-    testRunner.Given("que o cliente possui um cadastro válido no restaurante", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Dado ");
-#line hidden
-#line 17
-    testRunner.And("o cliente está logado", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "E ");
-#line hidden
-#line 18
-    testRunner.And("o Pedido não possui produtos", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "E ");
-#line hidden
-#line 19
-    testRunner.When("o cliente efetuar o pedido", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quando ");
-#line hidden
-#line 20
-    testRunner.Then("o cliente deverá receber uma mensagem informando que o pedido não possui produtos" +
-                        "", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Então ");
-#line hidden
-#line 21
-    testRunner.And("o cliente não deverá ter seu pedido registrado no sistema", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "E ");
 #line hidden
             }
             this.ScenarioCleanup();

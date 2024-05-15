@@ -38,5 +38,4 @@ public class ObterTodosProdutosQueryHandlerTests
         result.Should().BeAssignableTo<IEnumerable<ProdutoOutputDto>>();
         result.Should().HaveCount(3);
     }
-    
 }

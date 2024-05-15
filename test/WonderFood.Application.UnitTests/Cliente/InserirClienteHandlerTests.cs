@@ -4,6 +4,7 @@ using NSubstitute;
 using WonderFood.Application.Clientes.Commands.InserirCliente;
 using WonderFood.Application.Common.Interfaces;
 using WonderFood.Application.UnitTests.Cliente.Factory;
+using WonderFood.Domain.Dtos.Cliente;
 using Xunit;
 
 namespace WonderFood.Application.UnitTests.Cliente;
@@ -34,6 +35,6 @@ public class InserirClienteHandlerTests
         // Assert
         await _clienteRepository.Received(1).InserirCliente(Arg.Any<Domain.Entities.Cliente>());
         await _unitOfWork.Received(1).CommitChangesAsync();
-        result.Should().Be(Unit.Value);
+        result.Should().BeAssignableTo<ClienteOutputDto>();
     }
 }
