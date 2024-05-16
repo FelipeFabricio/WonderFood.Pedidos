@@ -19,19 +19,7 @@ spec:
           ports:
             - containerPort: 8080
               name: pdd-webapi
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /_health
-              port: 8080
-            initialDelaySeconds: 30
-            periodSeconds: 30
-          readinessProbe:
-            httpGet:
-              path: /_ready
-              port: 8080
-            initialDelaySeconds: 30
-            periodSeconds: 600
+              protocol: TCP        
           resources:
             limits:
               cpu: "0.5"
