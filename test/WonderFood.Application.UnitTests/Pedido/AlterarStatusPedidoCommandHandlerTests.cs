@@ -2,6 +2,7 @@ using FluentAssertions;
 using MediatR;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
+using NSubstitute.ReturnsExtensions;
 using WonderFood.Application.Common.Interfaces;
 using WonderFood.Application.Pedidos.Commands.AlterarStatus;
 using WonderFood.Application.UnitTests.Pedido.Factory;
@@ -56,8 +57,7 @@ public class AlterarStatusPedidoCommandHandlerTests
             Status = StatusPedido.PagamentoAprovado
         });
 
-        _pedidoRepository.ObterPorNumeroPedido(Arg.Any<int>())!
-            .Returns(Task.FromException<Domain.Entities.Pedido>(new ArgumentException("erro")));
+        _pedidoRepository.ObterPorNumeroPedido(Arg.Any<int>()).ReturnsNull();
         
         //Act
         Func<Task> action = async () => await  _sut.Handle(command, CancellationToken.None);

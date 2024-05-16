@@ -49,4 +49,11 @@ public static class PedidosFactory
             },
         };
     }
+
+    public static Domain.Entities.Pedido CriarPedidoEntityComPagamentoAprovado()
+    {
+        var pedido = CriarPedidoEntity();
+        pedido.AlterarStatusPedido(StatusPedido.PagamentoAprovado);
+        return pedido;
+    }
 }
