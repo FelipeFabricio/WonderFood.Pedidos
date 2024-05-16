@@ -20,18 +20,6 @@ spec:
             - containerPort: 8080
               name: pdd-worker
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /_health
-              port: 8080
-            initialDelaySeconds: 30
-            periodSeconds: 30
-          readinessProbe:
-            httpGet:
-              path: /_ready
-              port: 8080
-            initialDelaySeconds: 30
-            periodSeconds: 600
           resources:
             limits:
               cpu: "0.5"
