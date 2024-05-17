@@ -17,7 +17,7 @@ spec:
         - name: pdd-webapi
           image: felipefabricio/wdf.pedidos.webapi:latest
           ports:
-            - containerPort: 80
+            - containerPort: 8080
               name: pdd-webapi
               protocol: TCP        
           resources:
@@ -48,8 +48,8 @@ spec:
     app: pdd-webapi
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 8080
+      targetPort: 8080
 
 ---
 
