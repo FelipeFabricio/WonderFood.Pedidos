@@ -63,12 +63,7 @@ namespace WonderFood.WebApi
                             "Tentativa {0} de conexão ao MySql falhou. Tentando novamente em {1} segundos.", retryCount,
                             timeSpan.Seconds);
                     });
-            retryPolicy.Execute(() =>
-            {
-                var bancoCriado = dbContext.Database.EnsureCreated();
-                if (bancoCriado)
-                    dbContext.Database.Migrate();
-            });
+            retryPolicy.Execute(() => { dbContext.Database.Migrate(); });
         }
     }
 }
