@@ -17,7 +17,7 @@ spec:
         - name: pdd-worker
           image: felipefabricio/wdf.pedidos.worker:latest
           ports:
-            - containerPort: 80
+            - containerPort: 8080
               name: pdd-worker
               protocol: TCP
           resources:
@@ -48,8 +48,8 @@ spec:
     app: pdd-worker
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 8080
+      targetPort: 8080
 
 ---
 
