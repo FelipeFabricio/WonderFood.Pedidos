@@ -1,3 +1,7 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=FelipeFabricio_wonderfood-pedidos&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=FelipeFabricio_wonderfood-pedidos)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=FelipeFabricio_wonderfood-pedidos&metric=bugs)](https://sonarcloud.io/summary/new_code?id=FelipeFabricio_wonderfood-pedidos)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=FelipeFabricio_wonderfood-pedidos&metric=coverage)](https://sonarcloud.io/summary/new_code?id=FelipeFabricio_wonderfood-pedidos)
+
 # WonderFood.Pedidos
 
 ## :information_source: Sobre
