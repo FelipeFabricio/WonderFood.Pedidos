@@ -9,6 +9,7 @@ services:
       dockerfile: Worker.Dockerfile
     depends_on:
       - mysql
+      - rabbitmq
     ports:
       - "5000:80"
       - "5001:443"
@@ -23,8 +24,9 @@ services:
       dockerfile: WebApi.Dockerfile
     depends_on:
       - mysql
+      - rabbitmq
     ports:
-      - "3000:80"
+      - "3000:8080"
       - "3001:443"
     env_file:
       - .env
@@ -39,3 +41,17 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
+
+  rabbitmq:
+      image: rabbitmq:3-management
+      container_name: wonderfood_mq
+      hostname: wonderfood_mq
+      volumes:
+        - ./.containers/queue/data/:/var/lib/rabbitmq
+        - ./.containers/queue/log/:/var/log/rabbitmq
+      ports:
+        - 5672:5672
+        - 15672:15672
+      environment:
+        RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+        RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}

@@ -1,8 +1,10 @@
 ﻿using System.Text.Json.Serialization;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Polly;
 using Serilog;
 using WonderFood.Application;
+using WonderFood.Application.Sagas;
 using WonderFood.ExternalServices;
 using WonderFood.Infra.Sql;
 using WonderFood.Infra.Sql.Context;
@@ -20,6 +22,8 @@ namespace WonderFood.WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var enviroment = Configuration["ASPNETCORE_ENVIRONMENT"];
+            
             services.Configure<ExternalServicesSettings>(Configuration.GetSection("ExternalServicesSettings"));
             services.AddControllers()
                 .AddJsonOptions(options =>
@@ -34,6 +38,38 @@ namespace WonderFood.WebApi
             services.AddSqlInfrastructure(Configuration);
             services.AddSwagger();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            
+
+            // var rabbitMqUser = Configuration["RABBITMQ_DEFAULT_USER"];
+            // var rabbitMqPassword = Configuration["RABBITMQ_DEFAULT_PASS"];
+            // var rabbitMqHost = Configuration["RABBITMQ_HOST"];
+            var rabbitMqUser = "useradmin";
+            var rabbitMqPassword = "senhaForte123!";
+            var rabbitMqHost = "amqp://wonderfood_mq:5672";
+            
+            services.AddMassTransit(busConfigurator =>
+            {
+                busConfigurator.SetKebabCaseEndpointNameFormatter();
+                busConfigurator.AddConsumers(typeof(Program).Assembly);
+                busConfigurator.AddSagaStateMachine<CriarPedidoStateMachine, CriarPedidoSagaState>()
+                    .EntityFrameworkRepository(r =>
+                    {
+                        r.ExistingDbContext<WonderFoodContext>();
+                        r.UseMySql();
+                    });
+            
+                busConfigurator.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host(rabbitMqHost, hst =>
+                    {
+                        hst.Username(rabbitMqUser);
+                        hst.Password(rabbitMqPassword);
+                    });
+            
+                    cfg.UseInMemoryOutbox(context);
+                    cfg.ConfigureEndpoints(context);
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WonderFoodContext dbContext)

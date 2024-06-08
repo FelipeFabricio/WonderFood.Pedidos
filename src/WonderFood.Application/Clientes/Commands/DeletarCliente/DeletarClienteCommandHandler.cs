@@ -1,12 +1,20 @@
 using MediatR;
-using WonderFood.Domain.Dtos.Cliente;
+using WonderFood.Application.Common.Interfaces;
 
 namespace WonderFood.Application.Clientes.Commands.DeletarCliente;
 
-public record DeletarClienteCommandHandler : IRequestHandler<DeletarClienteCommand, Unit>
+public class DeletarClienteCommandHandler(IClienteRepository clienteRepository, IUnitOfWork unitOfWork) 
+    : IRequestHandler<DeletarClienteCommand, Unit>
 {
-    public Task<Unit> Handle(DeletarClienteCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeletarClienteCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var numeroTelefoneFormatado = request.DadosCliente.NumeroTelefone.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("-", "");
+        var cliente = await clienteRepository.ObterClientePorNumeroTelefone(numeroTelefoneFormatado);
+        if(cliente is null)
+            throw new ArgumentException("Cliente não encontrado");
+        
+        await clienteRepository.DeletarCliente(cliente.Id);
+        await unitOfWork.CommitChangesAsync();
+        return Unit.Value;
     }
 }

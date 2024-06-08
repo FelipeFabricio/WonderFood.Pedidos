@@ -1,4 +1,5 @@
 using AutoMapper;
+using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using TechTalk.SpecFlow;
@@ -33,7 +34,8 @@ public class EfetuarPedidoSteps
     private readonly ServiceProvider _serviceProvider;
     private readonly InserirPedidoCommandHandler _inserirPedidoCommandHandler;
     private readonly IWonderFoodPagamentoExternal _pagamentosExternal = Substitute.For<IWonderFoodPagamentoExternal>();
-
+    private readonly IBus bus = Substitute.For<IBus>();
+    
     public EfetuarPedidoSteps()
     {
         var serviceCollection = new ServiceCollection();
@@ -68,9 +70,8 @@ public class EfetuarPedidoSteps
         _mapper = _serviceProvider.GetRequiredService<IMapper>();
 
         _inserirPedidoCommandHandler = new InserirPedidoCommandHandler(_pedidoRepository, _unitOfWork,
-            _clienteRepository, _produtoRepository, _pagamentosExternal, _mapper);
+            _clienteRepository, _produtoRepository, _pagamentosExternal, _mapper, bus);
     }
-
 
     [Given(@"que o cliente possui um cadastro válido no restaurante")]
     public async Task GivenQueOClientePossuiUmCadastroValidoNoRestaurante()
@@ -92,8 +93,7 @@ public class EfetuarPedidoSteps
             Produtos = new List<InserirProdutosPedidoInputDto>()
         };
     }
-
-
+    
     [Given(@"o Pedido possui pelo menos um produto")]
     public void GivenOPedidoPossuiPeloMenosUmProduto()
     {
@@ -112,8 +112,7 @@ public class EfetuarPedidoSteps
             }
         };
     }
-
-
+    
     [When(@"o cliente efetuar o pedido")]
     public async Task WhenOClienteEfetuarOPedido()
     {

@@ -61,7 +61,7 @@ public class ClienteController : ControllerBase
     /// <summary>
     /// Remover dados do Cliente
     /// </summary>
-    /// <response code="200">Deletado com sucesso</response>
+    /// <response code="204">Deletado com sucesso</response>
     /// <response code="400">Falha ao deletar</response>
     [HttpDelete]
     public async Task<IActionResult> DeletarCliente([FromQuery] string nome, string numeroCelular, string endereco)
@@ -69,8 +69,8 @@ public class ClienteController : ControllerBase
         try
         {
             var command = new DeletarClienteCommand(new DeletarClienteInputDto(nome, numeroCelular, endereco));
-            var response = await _mediator.Send(command);
-            return Ok(response);
+            await _mediator.Send(command);
+            return NoContent();
         }
         catch (Exception e)
         {

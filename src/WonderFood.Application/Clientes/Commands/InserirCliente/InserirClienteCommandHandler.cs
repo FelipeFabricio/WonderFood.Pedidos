@@ -10,7 +10,8 @@ public class InserirClienteCommandHandler(IClienteRepository clienteRepository, 
 {
     public async Task<ClienteOutputDto> Handle(InserirClienteCommand request, CancellationToken cancellationToken)
     {
-        var cliente = new Cliente(request.Cliente.Nome, request.Cliente.Email, request.Cliente.Cpf);
+        var cliente = new Cliente(request.Cliente.Nome, request.Cliente.Email, 
+            request.Cliente.Cpf, request.Cliente.NumeroTelefone);
 
         await clienteRepository.InserirCliente(cliente);
         await  unitOfWork.CommitChangesAsync();
@@ -19,7 +20,8 @@ public class InserirClienteCommandHandler(IClienteRepository clienteRepository, 
             Id = cliente.Id,
             Nome = cliente.Nome,
             Email = cliente.Email,
-            Cpf = cliente.Cpf
+            Cpf = cliente.Cpf,
+            NumeroTelefone = cliente.NumeroTelefone
         };
     }
 }

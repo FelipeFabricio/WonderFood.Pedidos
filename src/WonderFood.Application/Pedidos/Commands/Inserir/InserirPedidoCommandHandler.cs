@@ -1,6 +1,8 @@
 using AutoMapper;
+using MassTransit;
 using MediatR;
 using WonderFood.Application.Common.Interfaces;
+using WonderFood.Application.Sagas.Messages;
 using WonderFood.Domain.Dtos.Pedido;
 using WonderFood.Domain.Dtos.Produto;
 using WonderFood.Domain.Entities;
@@ -15,7 +17,8 @@ public class InserirPedidoCommandHandler(
     IClienteRepository clienteRepository,
     IProdutoRepository produtoRepository,
     IWonderFoodPagamentoExternal pagamentosExternal,
-    IMapper mapper)
+    IMapper mapper,
+    IBus bus)
     : IRequestHandler<InserirPedidoCommand, PedidosOutputDto>
 {
     public async Task<PedidosOutputDto> Handle(InserirPedidoCommand request, CancellationToken cancellationToken)
@@ -32,22 +35,23 @@ public class InserirPedidoCommandHandler(
         await unitOfWork.CommitChangesAsync();
         var pedidoCadastrado = await pedidoRepository.ObterPorId(pedido.Id);
         
-        await EnviarSolicitacaoPagamento(pedido);
+        await IniciarSagaCriacaoPedido(pedido);
 
         return mapper.Map<PedidosOutputDto>(pedidoCadastrado);
     }
 
-    private async Task EnviarSolicitacaoPagamento(Pedido pedido)
+    private async Task IniciarSagaCriacaoPedido(Pedido pedido)
     {
-        var pagamentoSolicitado = new PagamentoSolicitadoEvent
+        var iniciarSagaCriacaoPedido = new Events.PedidoIniciadoEvent
         {
-            IdPedido = pedido.Id,
+            PedidoId = pedido.Id,
+            NumeroPedido = pedido.NumeroPedido,
             ValorTotal = pedido.ValorTotal,
             FormaPagamento = (FormaPagamento)pedido.FormaPagamento,
-            IdCliente = pedido.ClienteId,
+            ClienteId = pedido.ClienteId,
             DataConfirmacaoPedido = DateTime.Now
         };
-        await pagamentosExternal.EnviarSolicitacaoPagamento(pagamentoSolicitado);
+        await bus.Publish(iniciarSagaCriacaoPedido);
     }
 
     private async Task ValidarCliente(Guid clienteId)

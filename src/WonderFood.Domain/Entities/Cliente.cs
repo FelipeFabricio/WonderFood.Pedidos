@@ -9,14 +9,27 @@ public class Cliente
     public string Email { get; set; }
     public string Cpf { get; private set; }
     public string NumeroTelefone { get; set; }
-    public Endereco Endereco { get; set; }
     
-    public Cliente(string nome, string email, string cpf, Guid? id = null)
+    public Cliente(string nome, string email, string cpf, string numeroTelefone, Guid? id = null)
     {
         Id = id ?? Guid.NewGuid();
         ValidarNome(nome);
         ValidarEmail(email);
         ValidarCpf(cpf);
+        ValidarNumeroTelefone(numeroTelefone);
+    }
+
+    private void ValidarNumeroTelefone(string? numeroTelefone)
+    {
+        if (string.IsNullOrWhiteSpace(numeroTelefone))
+            throw new ArgumentException("O número de telefone não pode ser nulo ou vazio.");
+
+        numeroTelefone = new string(numeroTelefone.Where(char.IsDigit).ToArray());
+        
+        if (numeroTelefone.Length != 11)
+            throw new ArgumentException("O número de telefone deve conter 11 caracteres, incluindo o DDD.");
+
+        NumeroTelefone = numeroTelefone;
     }
 
     private void ValidarCpf(string cpf)

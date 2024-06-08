@@ -19,6 +19,19 @@ public class ClienteRepository : IClienteRepository
         return await _context.Clientes.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
     }
 
+    public async Task<Cliente?> ObterClientePorNumeroTelefone(string numeroTelefone)
+    {
+        return await _context.Clientes.AsNoTracking().FirstOrDefaultAsync(x => x.NumeroTelefone == numeroTelefone);
+    }
+
+    public async Task DeletarCliente(Guid id)
+    {
+        var cliente = await ObterClientePorId(id);
+        
+        if (cliente is not null)
+            _context.Clientes.Remove(cliente);
+    }
+
     public Task InserirCliente(Cliente cliente)
     {
         _context.Clientes.Add(cliente);
