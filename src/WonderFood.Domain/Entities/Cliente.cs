@@ -8,7 +8,9 @@ public class Cliente
     public string Nome { get; set; }
     public string Email { get; set; }
     public string Cpf { get; private set; }
-
+    public string NumeroTelefone { get; set; }
+    public Endereco Endereco { get; set; }
+    
     public Cliente(string nome, string email, string cpf, Guid? id = null)
     {
         Id = id ?? Guid.NewGuid();

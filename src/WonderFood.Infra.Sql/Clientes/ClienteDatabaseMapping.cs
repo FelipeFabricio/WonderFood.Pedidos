@@ -14,5 +14,7 @@ public class ClienteDatabaseMapping : IEntityTypeConfiguration<Cliente>
         builder.Property(p => p.Nome).HasColumnType("varchar(100)").IsRequired();
         builder.Property(p => p.Cpf).HasColumnType("varchar(11)").IsRequired();
         builder.Property(p => p.Email).HasColumnType("varchar(256)").IsRequired(false);
+        builder.Property(p => p.NumeroTelefone).HasColumnType("varchar(11)").IsRequired(false);
+        builder.HasOne(p => p.Endereco).WithOne().HasForeignKey<Endereco>(p => p.ClienteId);
     }
 }
