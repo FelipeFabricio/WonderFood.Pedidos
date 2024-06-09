@@ -1,5 +1,9 @@
 version: '3.8'
 
+networks:
+  wonderfood_network:
+    external: true
+
 services:
   worker:
     image: felipefabricio/wdf.pedidos.worker
@@ -15,7 +19,9 @@ services:
       - "5001:443"
     env_file:
       - .env
-      
+    networks:
+      - wonderfood_network
+  
   webapi:
     image: felipefabricio/wdf.pedidos.webapi
     container_name: pedidos-webapi
@@ -30,6 +36,8 @@ services:
       - "3001:443"
     env_file:
       - .env
+    networks:
+      - wonderfood_network
   
   mysql:
     image: mysql:8.0.36
@@ -41,17 +49,21 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
-
+    networks:
+      - wonderfood_network
+  
   rabbitmq:
-      image: rabbitmq:3-management
-      container_name: wonderfood_mq
-      hostname: wonderfood_mq
-      volumes:
-        - ./.containers/queue/data/:/var/lib/rabbitmq
-        - ./.containers/queue/log/:/var/log/rabbitmq
-      ports:
-        - 5672:5672
-        - 15672:15672
-      environment:
-        RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
-        RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    image: rabbitmq:3-management
+    container_name: wonderfood_mq
+    hostname: wonderfood_mq
+    volumes:
+      - ./.containers/queue/data/:/var/lib/rabbitmq
+      - ./.containers/queue/log/:/var/log/rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    networks:
+      - wonderfood_network

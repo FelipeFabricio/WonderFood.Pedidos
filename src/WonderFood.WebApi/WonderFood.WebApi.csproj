@@ -37,7 +37,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\WonderFood.Domain\WonderFood.Domain.csproj" />
-      <ProjectReference Include="..\WonderFood.ExternalServices\WonderFood.ExternalServices.csproj" />
       <ProjectReference Include="..\WonderFood.Infra.Sql\WonderFood.Infra.Sql.csproj" />
       <ProjectReference Include="..\WonderFood.Application\WonderFood.Application.csproj" />
     </ItemGroup>

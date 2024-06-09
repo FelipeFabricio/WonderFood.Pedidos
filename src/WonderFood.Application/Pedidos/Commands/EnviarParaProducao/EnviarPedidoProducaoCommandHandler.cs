@@ -1,4 +1,5 @@
 using AutoMapper;
+using MassTransit;
 using MediatR;
 using WonderFood.Application.Common.Interfaces;
 using WonderFood.Domain.Entities.Enums;
@@ -7,7 +8,7 @@ using WonderFood.Models.Events;
 namespace WonderFood.Application.Pedidos.Commands.EnviarParaProducao;
 
 public class EnviarPedidoProducaoCommandHandler(IMapper mapper, IPedidoRepository pedidoRepository,
-    IWonderFoodProducaoExternal wonderFoodProducaoExternal, IUnitOfWork unitOfWork) : IRequestHandler<EnviarPedidoProducaoCommand, Unit>
+    IUnitOfWork unitOfWork, IBus bus) : IRequestHandler<EnviarPedidoProducaoCommand, Unit>
 {
     public async Task<Unit> Handle(EnviarPedidoProducaoCommand request, CancellationToken cancellationToken)
     {
@@ -20,7 +21,7 @@ public class EnviarPedidoProducaoCommandHandler(IMapper mapper, IPedidoRepositor
         await unitOfWork.CommitChangesAsync();
         
         var produtosPedido = mapper.Map<List<ProdutosPedido>>(pedido.Produtos);
-        await wonderFoodProducaoExternal.EnviarParaProducao(new IniciarProducaoCommand
+        await bus.Publish(new IniciarProducaoCommand
         {
             IdPedido = pedido.Id,
             NumeroPedido = pedido.NumeroPedido,

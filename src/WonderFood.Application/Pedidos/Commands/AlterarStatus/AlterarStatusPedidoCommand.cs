@@ -3,4 +3,4 @@ using WonderFood.Models.Events;
 
 namespace WonderFood.Application.Pedidos.Commands.AlterarStatus;
 
-public record AlterarStatusPedidoCommand(AlteracaoStatusEvent alteracaoStatus) :  IRequest<Unit>;
+public record AlterarStatusPedidoCommand(StatusPedidoAlteradoEvent alteracaoStatus) :  IRequest<Unit>;

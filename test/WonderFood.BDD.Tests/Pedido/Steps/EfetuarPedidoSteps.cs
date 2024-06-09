@@ -33,7 +33,6 @@ public class EfetuarPedidoSteps
     private readonly InMemoryDbContextFactory _dbContextFactory;
     private readonly ServiceProvider _serviceProvider;
     private readonly InserirPedidoCommandHandler _inserirPedidoCommandHandler;
-    private readonly IWonderFoodPagamentoExternal _pagamentosExternal = Substitute.For<IWonderFoodPagamentoExternal>();
     private readonly IBus bus = Substitute.For<IBus>();
     
     public EfetuarPedidoSteps()
@@ -70,7 +69,7 @@ public class EfetuarPedidoSteps
         _mapper = _serviceProvider.GetRequiredService<IMapper>();
 
         _inserirPedidoCommandHandler = new InserirPedidoCommandHandler(_pedidoRepository, _unitOfWork,
-            _clienteRepository, _produtoRepository, _pagamentosExternal, _mapper, bus);
+            _clienteRepository, _produtoRepository, _mapper, bus);
     }
 
     [Given(@"que o cliente possui um cadastro válido no restaurante")]

@@ -18,6 +18,7 @@ public class Events
     public class PagamentoConfirmadoEvent
     {
         public Guid PedidoId { get; set; }
+        public StatusPagamento StatusPagamento { get; set; }
     }    
     
     public class ProducaoPedidoIniciadaEvent

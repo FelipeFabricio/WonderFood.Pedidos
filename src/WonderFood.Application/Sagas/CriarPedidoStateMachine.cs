@@ -1,4 +1,6 @@
 using MassTransit;
+using MediatR;
+using WonderFood.Application.Pedidos.Commands.ProcessarPagamento;
 using WonderFood.Application.Sagas.Messages;
 using WonderFood.Models.Events;
 
@@ -6,6 +8,8 @@ namespace WonderFood.Application.Sagas;
 
 public class CriarPedidoStateMachine : MassTransitStateMachine<CriarPedidoSagaState>
 {
+    private readonly ISender _mediator;
+    
     #region States
 
     public State AguardandoConfirmacaoPagamento { get; set; }
@@ -26,8 +30,10 @@ public class CriarPedidoStateMachine : MassTransitStateMachine<CriarPedidoSagaSt
 
     #endregion
 
-    public CriarPedidoStateMachine()
+    public CriarPedidoStateMachine(ISender mediator)
     {
+        _mediator = mediator;
+        
         InstanceState(x => x.CurrentState);
 
         Event(() => PedidoIniciado, e => e.CorrelateById(m => m.Message.PedidoId));
@@ -56,22 +62,23 @@ public class CriarPedidoStateMachine : MassTransitStateMachine<CriarPedidoSagaSt
 
         During(AguardandoConfirmacaoPagamento,
             When(PagamentoConfirmado)
-                //envia para produção
+                .Then(context =>
+                {
+                    var command = new ProcessarPagamentoPedidoCommand(context.Message.PedidoId, context.Message.StatusPagamento);
+                    _mediator.Send(command);
+                })
                 .TransitionTo(AguardandoInicioPreparoPedido));
 
         During(AguardandoInicioPreparoPedido,
             When(ProducaoPedidoIniciada)
-                //faz nada
                 .TransitionTo(AguardandoTerminoPreparoPedido));
 
         During(AguardandoTerminoPreparoPedido,
             When(ProducaoPedidoConcluida)
-                //faz nada
                 .TransitionTo(AguardandoRetiradaPedido));
 
         During(AguardandoRetiradaPedido,
             When(PedidoRetirado)
-                //faz nada
                 .TransitionTo(PedidoConcluido)
                 .Finalize());
     }

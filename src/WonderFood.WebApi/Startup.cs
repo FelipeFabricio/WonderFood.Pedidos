@@ -5,9 +5,9 @@ using Polly;
 using Serilog;
 using WonderFood.Application;
 using WonderFood.Application.Sagas;
-using WonderFood.ExternalServices;
 using WonderFood.Infra.Sql;
 using WonderFood.Infra.Sql.Context;
+using WonderFood.Models.Events;
 
 namespace WonderFood.WebApi
 {
@@ -24,7 +24,6 @@ namespace WonderFood.WebApi
         {
             var enviroment = Configuration["ASPNETCORE_ENVIRONMENT"];
             
-            services.Configure<ExternalServicesSettings>(Configuration.GetSection("ExternalServicesSettings"));
             services.AddControllers()
                 .AddJsonOptions(options =>
                 {
@@ -34,12 +33,10 @@ namespace WonderFood.WebApi
 
             services.AddEndpointsApiExplorer();
             services.AddApplication();
-            services.AddExternalServices();
             services.AddSqlInfrastructure(Configuration);
             services.AddSwagger();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             
-
             // var rabbitMqUser = Configuration["RABBITMQ_DEFAULT_USER"];
             // var rabbitMqPassword = Configuration["RABBITMQ_DEFAULT_PASS"];
             // var rabbitMqHost = Configuration["RABBITMQ_HOST"];
@@ -65,7 +62,17 @@ namespace WonderFood.WebApi
                         hst.Username(rabbitMqUser);
                         hst.Password(rabbitMqPassword);
                     });
-            
+
+                    cfg.Publish<PagamentoSolicitadoEvent>(x =>
+                    {
+                        x.ExchangeType = "fanout";
+                    });
+                    
+                    cfg.Publish<IniciarProducaoCommand>(x =>
+                    {
+                        x.ExchangeType = "fanout";
+                    });
+                    
                     cfg.UseInMemoryOutbox(context);
                     cfg.ConfigureEndpoints(context);
                 });
