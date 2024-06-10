@@ -2,4 +2,8 @@
 
 namespace WonderFood.Models.Events;
 
-public record StatusPedidoAlteradoEvent(int numeroPedido, StatusPedido status);
+public class StatusPedidoAlteradoEvent
+{
+    public Guid PedidoId { get; set; }
+    public StatusPedido Status { get; set; }
+};

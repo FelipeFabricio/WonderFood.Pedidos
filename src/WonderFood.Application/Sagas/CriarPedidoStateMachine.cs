@@ -1,7 +1,9 @@
 using MassTransit;
 using MediatR;
+using WonderFood.Application.Pedidos.Commands.AlterarStatus;
 using WonderFood.Application.Pedidos.Commands.ProcessarPagamento;
 using WonderFood.Application.Sagas.Messages;
+using WonderFood.Domain.Entities.Enums;
 using WonderFood.Models.Events;
 
 namespace WonderFood.Application.Sagas;
@@ -71,15 +73,29 @@ public class CriarPedidoStateMachine : MassTransitStateMachine<CriarPedidoSagaSt
 
         During(AguardandoInicioPreparoPedido,
             When(ProducaoPedidoIniciada)
+                .Then(context =>
+                {
+                    var command = new AlterarStatusPedidoCommand(context.Message.PedidoId, StatusPedido.PreparoIniciado);
+                    _mediator.Send(command);
+                })
                 .TransitionTo(AguardandoTerminoPreparoPedido));
 
         During(AguardandoTerminoPreparoPedido,
             When(ProducaoPedidoConcluida)
+                .Then(context =>
+                {
+                    var command = new AlterarStatusPedidoCommand(context.Message.PedidoId, StatusPedido.ProntoParaRetirada);
+                    _mediator.Send(command);
+                })
                 .TransitionTo(AguardandoRetiradaPedido));
 
         During(AguardandoRetiradaPedido,
             When(PedidoRetirado)
-                .TransitionTo(PedidoConcluido)
-                .Finalize());
+                .Then(context =>
+                {
+                    var command = new AlterarStatusPedidoCommand(context.Message.PedidoId, StatusPedido.PedidoRetirado);
+                    _mediator.Send(command);
+                })
+                .TransitionTo(PedidoConcluido));
     }
 }

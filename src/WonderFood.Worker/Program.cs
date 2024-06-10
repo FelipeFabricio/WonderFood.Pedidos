@@ -27,6 +27,7 @@ var rabbitMqHost = "amqp://wonderfood_mq:5672";
 builder.Services.AddMassTransit(busConfigurator =>
 {
     busConfigurator.AddConsumer<PagamentoProcessadoConsumer>();
+    busConfigurator.AddConsumer<StatusPedidoAlteradoConsumer>();
     busConfigurator.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host(rabbitMqHost, hst =>
@@ -47,7 +48,7 @@ builder.Services.AddMassTransit(busConfigurator =>
         
         cfg.ReceiveEndpoint("status_alterado", e =>
         {
-            e.ConfigureConsumer<PagamentoProcessadoConsumer>(context);
+            e.ConfigureConsumer<StatusPedidoAlteradoConsumer>(context);
             e.Bind("WonderFood.Models.Events:StatusPedidoAlteradoEvent", x =>
             {
                 x.RoutingKey = "status.alterado";
