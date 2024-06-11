@@ -18,7 +18,11 @@ public class Events
     public class PagamentoConfirmadoEvent
     {
         public Guid PedidoId { get; set; }
-        public StatusPagamento StatusPagamento { get; set; }
+    }    
+    
+    public class PagamentoRecusadoEvent
+    {
+        public Guid PedidoId { get; set; }
     }    
     
     public class ProducaoPedidoIniciadaEvent
@@ -34,5 +38,11 @@ public class Events
     public class ProducaoPedidoConcluidaEvent
     {
         public Guid PedidoId { get; set; }
+    }
+    
+    public class PedidoCanceladoEvent
+    {
+        public Guid PedidoId { get; set; }
+        public string MotivoCancelamento { get; set; }
     }
 }

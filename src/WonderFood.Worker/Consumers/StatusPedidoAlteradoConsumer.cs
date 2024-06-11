@@ -32,7 +32,13 @@ public class StatusPedidoAlteradoConsumer(IBus bus) : IConsumer<StatusPedidoAlte
                 });
                 break;
             
-            //implementar pedido cancelado
+            case StatusPedido.Cancelado:
+                await bus.Publish(new Events.PedidoCanceladoEvent()
+                {
+                    PedidoId = context.Message.PedidoId,
+                    MotivoCancelamento = context.Message.MotivoCancelamento
+                });
+                break;
         }
     }
 }

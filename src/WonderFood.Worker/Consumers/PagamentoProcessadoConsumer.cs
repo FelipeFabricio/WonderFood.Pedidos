@@ -17,6 +17,9 @@ public class PagamentoProcessadoConsumer(IBus bus) : IConsumer<PagamentoProcessa
             });
         }
         
-        //Futura publicacao evento de pagamento recusado
+        await bus.Publish(new Events.PagamentoRecusadoEvent()
+        {
+            PedidoId = context.Message.IdPedido
+        });
     }
 }

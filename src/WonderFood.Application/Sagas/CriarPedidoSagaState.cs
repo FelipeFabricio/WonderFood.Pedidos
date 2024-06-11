@@ -9,4 +9,5 @@ public class CriarPedidoSagaState : SagaStateMachineInstance
     public Guid ClienteId { get; set; }
     public Guid PedidoId { get; set; }
     public int NumeroPedido { get; set; }
+    public string MotivoCancelamento { get; set; }
 }
