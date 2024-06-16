@@ -75,12 +75,12 @@ public class Pedido
                     "Não é possível alterar o status de 'PagamentoRecusado' para outro estado que não seja 'Cancelado'.");
 
             case StatusPedido.AguardandoPreparo
-                when status != StatusPedido.PreparoIniciado && status != StatusPedido.Cancelado:
+                when status != StatusPedido.PreparoIniciado && status != StatusPedido.AguardandoReembolsoPagamento &&  status != StatusPedido.Cancelado:
                 throw new ArgumentException(
                     "Não é possível alterar o status de 'AguardandoPreparo' para outro estado que não seja 'PreparoIniciado' ou 'Cancelado'.");
 
             case StatusPedido.PreparoIniciado
-                when status != StatusPedido.ProntoParaRetirada && status != StatusPedido.Cancelado:
+                when status != StatusPedido.ProntoParaRetirada && status != StatusPedido.AguardandoReembolsoPagamento &&  status != StatusPedido.Cancelado:
                 throw new ArgumentException(
                     "Não é possível alterar o status de 'PreparoIniciado' para outro estado que não seja 'ProntoParaRetirada' ou 'Cancelado'.");
 
@@ -91,7 +91,11 @@ public class Pedido
 
             case StatusPedido.PedidoRetirado:
                 throw new ArgumentException("Não é possível alterar o status de 'PedidoRetirado' para outro estado.");
-
+            
+            case StatusPedido.AguardandoReembolsoPagamento
+                when status != StatusPedido.CanceladoComReembolso && status != StatusPedido.CanceladoSemReembolso:
+                throw new ArgumentException("Não é possível alterar o status de 'AguardandoReembolsoPagamento' para outro estado que não seja 'CanceladoComReembolso' ou 'CanceladoSemReembolso'.");
+                
             case StatusPedido.Cancelado:
                 throw new ArgumentException("Não é possível alterar o status de 'Cancelado' para outro estado.");
 

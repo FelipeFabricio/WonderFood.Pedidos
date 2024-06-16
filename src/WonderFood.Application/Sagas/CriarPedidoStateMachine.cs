@@ -1,6 +1,8 @@
 using MassTransit;
 using MediatR;
 using WonderFood.Application.Pedidos.Commands.AlterarStatus;
+using WonderFood.Application.Pedidos.Commands.EnviarParaProducao;
+using WonderFood.Application.Pedidos.Commands.EnviarSolicitacaoReembolso;
 using WonderFood.Application.Pedidos.Commands.ProcessarPagamento;
 using WonderFood.Application.Sagas.Messages;
 using WonderFood.Domain.Entities.Enums;
@@ -19,8 +21,11 @@ public class CriarPedidoStateMachine : MassTransitStateMachine<CriarPedidoSagaSt
     public State AguardandoInicioPreparoPedido { get; set; }
     public State AguardandoTerminoPreparoPedido { get; set; }
     public State AguardandoRetiradaPedido { get; set; }
+    public State AguardandoReembolsoPagamento { get; set; }
     public State PedidoConcluido { get; set; }
     public State PedidoCancelado { get; set; }
+    public State PedidoCanceladoComReembolso { get; set; }
+    public State PedidoCanceladoSemReembolso { get; set; }
 
     #endregion
 
@@ -33,6 +38,8 @@ public class CriarPedidoStateMachine : MassTransitStateMachine<CriarPedidoSagaSt
     public Event<Events.ProducaoPedidoConcluidaEvent> ProducaoPedidoConcluida { get; set; }
     public Event<Events.PedidoRetiradoEvent> PedidoRetirado { get; set; }
     public Event<Events.PedidoCanceladoEvent> PedidoCanceladoEvent { get; set; }
+    public Event<Events.ReembolsoEfetuadoEvent> ReembolsoAceito { get; set; }
+    public Event<Events.ReembolsoRecusadoEvent> ReembolsoRecusado { get; set; }
 
     #endregion
 
@@ -47,6 +54,10 @@ public class CriarPedidoStateMachine : MassTransitStateMachine<CriarPedidoSagaSt
         Event(() => ProducaoPedidoIniciada, e => e.CorrelateById(m => m.Message.PedidoId));
         Event(() => ProducaoPedidoConcluida, e => e.CorrelateById(m => m.Message.PedidoId));
         Event(() => PedidoRetirado, e => e.CorrelateById(m => m.Message.PedidoId));
+        Event(() => PagamentoRecusado, e => e.CorrelateById(m => m.Message.PedidoId));
+        Event(() => PedidoCanceladoEvent, e => e.CorrelateById(m => m.Message.PedidoId));
+        Event(() => ReembolsoAceito, e => e.CorrelateById(m => m.Message.PedidoId));
+        Event(() => ReembolsoRecusado, e => e.CorrelateById(m => m.Message.PedidoId));
 
         Initially(
             When(PedidoIniciado)
@@ -78,6 +89,7 @@ public class CriarPedidoStateMachine : MassTransitStateMachine<CriarPedidoSagaSt
             When(PagamentoRecusado)
                 .Then(context =>
                 {
+                    context.Saga.MotivoCancelamento = "Pagamento recusado às " + DateTime.Now;
                     var command = new ProcessarPagamentoPedidoCommand(context.Message.PedidoId,
                         StatusPagamento.PagamentoRecusado);
                     _mediator.Send(command);
@@ -97,10 +109,11 @@ public class CriarPedidoStateMachine : MassTransitStateMachine<CriarPedidoSagaSt
                 .Then(context =>
                 {
                     context.Saga.MotivoCancelamento = context.Message.MotivoCancelamento;
-                    var command = new AlterarStatusPedidoCommand(context.Message.PedidoId, StatusPedido.Cancelado);
+
+                    var command = new EnviarSolicitacaoReembolsoCommand(context.Message.PedidoId);
                     _mediator.Send(command);
                 })
-                .TransitionTo(PedidoCancelado));
+                .TransitionTo(AguardandoReembolsoPagamento));
 
         During(AguardandoTerminoPreparoPedido,
             When(ProducaoPedidoConcluida)
@@ -115,10 +128,10 @@ public class CriarPedidoStateMachine : MassTransitStateMachine<CriarPedidoSagaSt
                 .Then(context =>
                 {
                     context.Saga.MotivoCancelamento = context.Message.MotivoCancelamento;
-                    var command = new AlterarStatusPedidoCommand(context.Message.PedidoId, StatusPedido.Cancelado);
+                    var command = new EnviarSolicitacaoReembolsoCommand(context.Message.PedidoId);
                     _mediator.Send(command);
                 })
-                .TransitionTo(PedidoCancelado));
+                .TransitionTo(AguardandoReembolsoPagamento));
 
         During(AguardandoRetiradaPedido,
             When(PedidoRetirado)
@@ -127,14 +140,22 @@ public class CriarPedidoStateMachine : MassTransitStateMachine<CriarPedidoSagaSt
                     var command = new AlterarStatusPedidoCommand(context.Message.PedidoId, StatusPedido.PedidoRetirado);
                     _mediator.Send(command);
                 })
-                .TransitionTo(PedidoConcluido),
-            When(PedidoCanceladoEvent)
+                .TransitionTo(PedidoConcluido));
+        
+        During(AguardandoReembolsoPagamento,
+            When(ReembolsoAceito)
                 .Then(context =>
                 {
-                    context.Saga.MotivoCancelamento = context.Message.MotivoCancelamento;
-                    var command = new AlterarStatusPedidoCommand(context.Message.PedidoId, StatusPedido.Cancelado);
+                    var command = new AlterarStatusPedidoCommand(context.Message.PedidoId, StatusPedido.CanceladoComReembolso);
                     _mediator.Send(command);
                 })
-                .TransitionTo(PedidoCancelado));
+                .TransitionTo(PedidoCanceladoComReembolso),
+            When(ReembolsoRecusado)
+                .Then(context =>
+                {
+                    var command = new AlterarStatusPedidoCommand(context.Message.PedidoId, StatusPedido.CanceladoSemReembolso);
+                    _mediator.Send(command);
+                })
+                .TransitionTo(PedidoCanceladoSemReembolso));
     }
 }

@@ -73,6 +73,11 @@ namespace WonderFood.WebApi
                         x.ExchangeType = "fanout";
                     });
                     
+                    cfg.Publish<ReembolsoSolicitadoEvent>(x =>
+                    {
+                        x.ExchangeType = "fanout";
+                    });
+                    
                     cfg.UseInMemoryOutbox(context);
                     cfg.ConfigureEndpoints(context);
                 });

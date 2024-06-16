@@ -20,7 +20,6 @@ public class WonderFoodContext : DbContext, IUnitOfWork
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(WonderFoodContext).Assembly);
-        modelBuilder.Entity<CriarPedidoSagaState>().HasKey(s => s.CorrelationId);
         base.OnModelCreating(modelBuilder);
     }
 

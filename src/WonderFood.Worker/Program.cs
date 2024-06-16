@@ -28,6 +28,8 @@ builder.Services.AddMassTransit(busConfigurator =>
 {
     busConfigurator.AddConsumer<PagamentoProcessadoConsumer>();
     busConfigurator.AddConsumer<StatusPedidoAlteradoConsumer>();
+    busConfigurator.AddConsumer<ReembolsoProcessadoConsumer>();
+    
     busConfigurator.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host(rabbitMqHost, hst =>
@@ -42,6 +44,16 @@ builder.Services.AddMassTransit(busConfigurator =>
             e.Bind("WonderFood.Models.Events:PagamentoProcessadoEvent", x =>
             {
                 x.RoutingKey = "pagamento.processado";
+                x.ExchangeType = "fanout";
+            });
+        });
+        
+        cfg.ReceiveEndpoint("reembolso_processado", e =>
+        {
+            e.ConfigureConsumer<ReembolsoProcessadoConsumer>(context);
+            e.Bind("WonderFood.Models.Events:ReembolsoProcessadoEvent", x =>
+            {
+                x.RoutingKey = "reembolso.processado";
                 x.ExchangeType = "fanout";
             });
         });

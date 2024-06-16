@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WonderFood.Infra.Sql.Context;
 
@@ -11,9 +12,11 @@ using WonderFood.Infra.Sql.Context;
 namespace WonderFood.Infra.Sql.Migrations
 {
     [DbContext(typeof(WonderFoodContext))]
-    partial class WonderFoodContextModelSnapshot : ModelSnapshot
+    [Migration("20240615232019_Altera tabela Saga")]
+    partial class AlteratabelaSaga
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,6 +39,7 @@ namespace WonderFood.Infra.Sql.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("MotivoCancelamento")
+                        .IsRequired()
                         .HasColumnType("varchar(200)");
 
                     b.Property<int>("NumeroPedido")

@@ -45,4 +45,14 @@ public class Events
         public Guid PedidoId { get; set; }
         public string MotivoCancelamento { get; set; }
     }
+    
+    public class ReembolsoEfetuadoEvent
+    {
+        public Guid PedidoId { get; set; }
+    }
+    
+    public class ReembolsoRecusadoEvent
+    {
+        public Guid PedidoId { get; set; }
+    }
 }

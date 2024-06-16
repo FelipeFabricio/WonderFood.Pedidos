@@ -1,4 +1,5 @@
 using MassTransit;
+using Serilog;
 using WonderFood.Application.Sagas.Messages;
 using WonderFood.Domain.Entities.Enums;
 using WonderFood.Models.Events;
@@ -9,6 +10,9 @@ public class StatusPedidoAlteradoConsumer(IBus bus) : IConsumer<StatusPedidoAlte
 {
     public async Task Consume(ConsumeContext<StatusPedidoAlteradoEvent> context)
     {
+        Log.Information("Evento: Status do pedido {PedidoId} alterado para {Status}", 
+            context.Message.PedidoId, context.Message.Status);
+        
         switch (context.Message.Status)
         {
             case StatusPedido.PreparoIniciado:
