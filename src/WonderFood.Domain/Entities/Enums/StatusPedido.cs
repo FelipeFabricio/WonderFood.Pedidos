@@ -9,5 +9,8 @@ public enum StatusPedido
     PreparoIniciado,
     ProntoParaRetirada,
     PedidoRetirado,
+    AguardandoReembolsoPagamento,
+    CanceladoComReembolso,
+    CanceladoSemReembolso,
     Cancelado
 }

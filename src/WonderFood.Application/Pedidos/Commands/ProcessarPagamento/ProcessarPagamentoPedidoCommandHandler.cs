@@ -9,22 +9,22 @@ namespace WonderFood.Application.Pedidos.Commands.ProcessarPagamento;
 public class ProcessarPagamentoPedidoCommandHandler(
     IPedidoRepository pedidoRepository,
     IUnitOfWork unitOfWork,
-    ISender sender
+    ISender mediator
 )
     : IRequestHandler<ProcessarPagamentoPedidoCommand, Unit>
 {
     public async Task<Unit> Handle(ProcessarPagamentoPedidoCommand request, CancellationToken cancellationToken)
     {
-        var novoStatusPedido = request.StatusPagamento switch
-        {
-            StatusPagamento.PagamentoAprovado => StatusPedido.PagamentoAprovado,
-            StatusPagamento.PagamentoRecusado => StatusPedido.PagamentoRecusado,
-            _ => throw new ArgumentException($"Situação Pagamento inválida: {request.StatusPagamento}")
-        };
-
         var pedido = await pedidoRepository.ObterPorId(request.IdPedido);
         if (pedido is null)
             throw new ArgumentException($"Pedido não encontrado com o Id informado: {request.IdPedido}");
+
+        StatusPedido novoStatusPedido = request.StatusPagamento switch
+        {
+            StatusPagamento.PagamentoAprovado => StatusPedido.PagamentoAprovado,
+            StatusPagamento.PagamentoRecusado => StatusPedido.Cancelado,
+            _ => throw new ArgumentException("Status de pagamento inválido")
+        };
 
         pedido.AlterarStatusPedido(novoStatusPedido);
 
@@ -32,8 +32,8 @@ public class ProcessarPagamentoPedidoCommandHandler(
         await unitOfWork.CommitChangesAsync();
 
         if (novoStatusPedido == StatusPedido.PagamentoAprovado)
-            await sender.Send(new EnviarPedidoProducaoCommand(pedido), default);
-        
+            await mediator.Send(new EnviarPedidoProducaoCommand(pedido));
+
         return Unit.Value;
     }
 }

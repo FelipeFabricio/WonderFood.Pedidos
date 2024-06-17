@@ -23,6 +23,7 @@
       <Content Include="..\..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+      <Content Remove="Webhooks\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -35,10 +36,21 @@
 
     <ItemGroup>
       <ProjectReference Include="..\WonderFood.Application\WonderFood.Application.csproj" />
-      <ProjectReference Include="..\WonderFood.ExternalServices\WonderFood.ExternalServices.csproj" />
       <ProjectReference Include="..\WonderFood.Infra.Sql\WonderFood.Infra.Sql.csproj" />
       <ProjectReference Include="..\WonderFood.Models\WonderFood.Models.csproj" />
       <ProjectReference Include="..\WonderFood.WebApi\WonderFood.WebApi.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Webhooks\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Webhooks\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Webhooks\**" />
     </ItemGroup>
 
 </Project>

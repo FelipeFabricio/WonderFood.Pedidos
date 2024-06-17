@@ -20,7 +20,8 @@ public class ObterClienteQueryHandler(IClienteRepository clienteRepository)
             Id = clienteEntity.Id,
             Nome = clienteEntity.Nome,
             Email = clienteEntity.Email,
-            Cpf = clienteEntity.Cpf
+            Cpf = clienteEntity.Cpf,
+            NumeroTelefone = clienteEntity.NumeroTelefone
         };
     }
 }

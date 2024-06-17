@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WonderFood.Infra.Sql.Context;
 
@@ -16,8 +17,37 @@ namespace WonderFood.Infra.Sql.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.16")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("WonderFood.Application.Sagas.CriarPedidoSagaState", b =>
+                {
+                    b.Property<Guid>("CorrelationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("ClienteId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CurrentState")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("MotivoCancelamento")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<int>("NumeroPedido")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("PedidoId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("CorrelationId");
+
+                    b.ToTable("CriarPedidoSagaState");
+                });
 
             modelBuilder.Entity("WonderFood.Domain.Entities.Cliente", b =>
                 {
@@ -35,6 +65,9 @@ namespace WonderFood.Infra.Sql.Migrations
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
+
+                    b.Property<string>("NumeroTelefone")
+                        .HasColumnType("varchar(11)");
 
                     b.HasKey("Id");
 
@@ -60,6 +93,8 @@ namespace WonderFood.Infra.Sql.Migrations
                     b.Property<int>("NumeroPedido")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("NumeroPedido"));
 
                     b.Property<string>("Observacao")
                         .HasColumnType("varchar(200)");

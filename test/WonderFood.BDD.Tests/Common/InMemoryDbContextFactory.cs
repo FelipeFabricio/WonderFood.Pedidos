@@ -28,6 +28,7 @@ public sealed class InMemoryDbContextFactory : IDisposable
                 "João",
                 "joao@email.com",
                 "800.449.050-68",
+                "11878767777",
                 Guid.Parse("945f7aea-ae9e-43d0-9f8f-737c2a56f710"))
         );
 

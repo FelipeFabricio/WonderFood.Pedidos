@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WonderFood.Application.Clientes.Commands.DeletarCliente;
 using WonderFood.Application.Clientes.Commands.InserirCliente;
 using WonderFood.Application.Clientes.Queries.ObterCliente;
 using WonderFood.Domain.Dtos.Cliente;
@@ -50,6 +51,26 @@ public class ClienteController : ControllerBase
             var command = new InserirClienteCommand(cliente);
             var response = await _mediator.Send(command);
             return Ok(response);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new { e.Message });
+        }
+    }
+    
+    /// <summary>
+    /// Remover dados do Cliente
+    /// </summary>
+    /// <response code="204">Deletado com sucesso</response>
+    /// <response code="400">Falha ao deletar</response>
+    [HttpDelete]
+    public async Task<IActionResult> DeletarCliente([FromQuery] string nome, string numeroCelular, string endereco)
+    {
+        try
+        {
+            var command = new DeletarClienteCommand(new DeletarClienteInputDto(nome, numeroCelular, endereco));
+            await _mediator.Send(command);
+            return NoContent();
         }
         catch (Exception e)
         {

@@ -416,3 +416,4 @@ obj/
 /test/**/coverageresults/
 /test/**/TestResults/
 /.env
+/.containers
