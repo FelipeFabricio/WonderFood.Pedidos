@@ -14,7 +14,7 @@
     <ItemGroup>
         <SonarQubeSetting Include="sonar.coverage.exclusions">
             <Value>
-                DependencyInjection.cs, MappingProfiles/*.cs, Extensions/*.cs
+                DependencyInjection.cs, MappingProfiles/*.cs, Extensions/*.cs, Sagas/*.cs
             </Value>
         </SonarQubeSetting>
     </ItemGroup>
