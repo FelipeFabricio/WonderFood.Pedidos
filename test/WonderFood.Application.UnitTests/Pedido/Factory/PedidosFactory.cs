@@ -56,4 +56,12 @@ public static class PedidosFactory
         pedido.AlterarStatusPedido(StatusPedido.PagamentoAprovado);
         return pedido;
     }
+    
+    public static Domain.Entities.Pedido CriarPedidoEntitAguardandoPreparo()
+    {
+        var pedido = CriarPedidoEntity();
+        pedido.AlterarStatusPedido(StatusPedido.PagamentoAprovado);
+        pedido.AlterarStatusPedido(StatusPedido.AguardandoPreparo);
+        return pedido;
+    }
 }
