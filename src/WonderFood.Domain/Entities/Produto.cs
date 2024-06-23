@@ -14,9 +14,18 @@ public class Produto
     {
         Id = id ?? Guid.NewGuid();
         Categoria = categoria;
-        Descricao = descricao;
+        ValidarDescricao(descricao);
         ValidarNome(nome);
         ValidarValor(valor);
+    }
+
+    private void ValidarDescricao(string descricao)
+    {
+        if(!string.IsNullOrWhiteSpace(descricao) && 
+           System.Text.RegularExpressions.Regex.IsMatch(descricao, @"[^a-zA-Z0-9\s\.\!\u00C0-\u00FF]"))
+            throw new ArgumentException("Descrição do produto não pode conter caracteres especiais");
+
+        Descricao = descricao;
     }
 
     private void ValidarValor(decimal valor)
@@ -30,7 +39,10 @@ public class Produto
     private void ValidarNome(string nome)
     {
         if(string.IsNullOrWhiteSpace(nome) || nome.Length < 3)
-            throw new ArgumentException("Nome do produto precisa ter no mínimo 3 caractere");
+            throw new ArgumentException("Nome do produto precisa ter no mínimo 3 caracteres");
+        
+        if (System.Text.RegularExpressions.Regex.IsMatch(nome, @"[^a-zA-Z0-9\s\.\!\-\u00C0-\u00FF]"))
+            throw new ArgumentException("Nome do produto não pode conter caracteres especiais");
 
         Nome = nome;
     }
