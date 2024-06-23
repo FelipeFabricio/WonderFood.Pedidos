@@ -22,8 +22,6 @@ namespace WonderFood.WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var enviroment = Configuration["ASPNETCORE_ENVIRONMENT"];
-            
             services.AddControllers()
                 .AddJsonOptions(options =>
                 {
@@ -36,7 +34,6 @@ namespace WonderFood.WebApi
             services.AddSqlInfrastructure(Configuration);
             services.AddSwagger();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            
             var rabbitMqUser = Configuration["RABBITMQ_DEFAULT_USER"];
             var rabbitMqPassword = Configuration["RABBITMQ_DEFAULT_PASS"];
             var rabbitMqHost = Configuration["RABBITMQ_HOST"];
@@ -83,6 +80,11 @@ namespace WonderFood.WebApi
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WonderFoodContext dbContext)
         {
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                await next();
+            });
             app.UseSwaggerMiddleware();
             app.UseRouting();
             app.UseAuthorization();
