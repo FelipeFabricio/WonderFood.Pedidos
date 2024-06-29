@@ -1,7 +1,6 @@
 using MassTransit;
 using MediatR;
 using WonderFood.Application.Pedidos.Commands.AlterarStatus;
-using WonderFood.Application.Pedidos.Commands.EnviarParaProducao;
 using WonderFood.Application.Pedidos.Commands.EnviarSolicitacaoReembolso;
 using WonderFood.Application.Pedidos.Commands.ProcessarPagamento;
 using WonderFood.Application.Sagas.Messages;
