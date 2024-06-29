@@ -20,6 +20,13 @@ spec:
           ports:
             - containerPort: 5672
             - containerPort: 15672
+          resources:
+            limits:
+              cpu: "1"
+              memory: "2Gi"
+            requests:
+              cpu: "0.1"
+              memory: "256Mi"
           env:
             - name: RABBITMQ_DEFAULT_USER
               valueFrom:
