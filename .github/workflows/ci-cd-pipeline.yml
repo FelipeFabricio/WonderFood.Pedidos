@@ -85,3 +85,4 @@ jobs:
         run: |
           kubectl apply -f pedidos-worker-deployment.yml --force --record
           kubectl apply -f pedidos-webapi-deployment.yml --force --record
+          kubectl apply -f rabbitmq-deployment.yml --force --record
