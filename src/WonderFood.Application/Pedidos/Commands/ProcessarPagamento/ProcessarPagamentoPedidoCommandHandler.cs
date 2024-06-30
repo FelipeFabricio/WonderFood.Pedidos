@@ -22,7 +22,7 @@ public class ProcessarPagamentoPedidoCommandHandler(
         StatusPedido novoStatusPedido = request.StatusPagamento switch
         {
             StatusPagamento.PagamentoAprovado => StatusPedido.PagamentoAprovado,
-            StatusPagamento.PagamentoRecusado => StatusPedido.Cancelado,
+            StatusPagamento.PagamentoRecusado => StatusPedido.PagamentoRecusado,
             _ => throw new ArgumentException("Status de pagamento inválido")
         };
 
