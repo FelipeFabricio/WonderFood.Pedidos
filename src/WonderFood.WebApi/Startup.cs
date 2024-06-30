@@ -90,6 +90,7 @@ namespace WonderFood.WebApi
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
             ExecuteDatabaseMigration(dbContext);
+            SeedDatabase(app);
         }
 
         private void ExecuteDatabaseMigration(WonderFoodContext dbContext)
@@ -111,6 +112,23 @@ namespace WonderFood.WebApi
                             timeSpan.Seconds);
                     });
             retryPolicy.Execute(() => { dbContext.Database.Migrate(); });
+        }
+        
+        private void SeedDatabase(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var services = serviceScope.ServiceProvider;
+                try
+                {
+                    SeedData.Initialize(services);
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Startup>>();
+                    logger.LogError(ex, "An error occurred seeding the DB.");
+                }
+            }
         }
     }
 }
