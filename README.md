@@ -20,6 +20,9 @@ Sistema responsável por toda a parte de Pedidos do restaurante WonderFood, tend
 - #### Sumário Ubíquo: https://shre.ink/DGGX
 - #### Arquitetura de Infraestrutura no Azure: https://shre.ink/DGGC
 - #### Fluxo Autenticação com Azure AD B2C: https://shre.ink/DGGv
+- #### Relatório OWASP Inicial: https://shre.ink/DGha
+- #### Relatório OWASP Final: https://shre.ink/DGhH
+- #### Relatório RIPD: https://shre.ink/DGh9
 <br>
 
 ## :hammer_and_wrench:  Tecnologias utilizadas
