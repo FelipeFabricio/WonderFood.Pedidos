@@ -14,12 +14,12 @@ Sistema responsável por toda a parte de Pedidos do restaurante WonderFood, tend
 <br>
 
 ## :scroll: Links e Documentação
-- #### Diagrama Entidade Relacional: https://encurtador.com.br/GLcnm
-- #### Fluxo de Pedido e Pagamento: https://encurtador.com.br/puvP3
-- #### Fluxo da Aplicação: https://encurtador.com.br/o4o4H
-- #### Sumário Ubíquo: https://encurtador.com.br/bfVY8
-- #### Arquitetura de Infraestrutura no Azure: https://encurtador.com.br/bZT5k
-- #### Fluxo Autenticação com Azure AD B2C: https://encurtador.com.br/vTX01
+- #### Diagrama Entidade Relacional: https://shre.ink/DGGG
+- #### Fluxo de Pedido e Pagamento: https://shre.ink/DGGi
+- #### Fluxo da Aplicação: https://shre.ink/DGGj
+- #### Sumário Ubíquo: https://shre.ink/DGGX
+- #### Arquitetura de Infraestrutura no Azure: https://shre.ink/DGGC
+- #### Fluxo Autenticação com Azure AD B2C: https://shre.ink/DGGv
 <br>
 
 ## :hammer_and_wrench:  Tecnologias utilizadas
