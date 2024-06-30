@@ -1,25 +1,33 @@
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=FelipeFabricio_WonderFood.Pagamentos&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=FelipeFabricio_WonderFood.Pagamentos)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=FelipeFabricio_WonderFood.Pagamentos&metric=bugs)](https://sonarcloud.io/summary/new_code?id=FelipeFabricio_WonderFood.Pagamentos)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=FelipeFabricio_WonderFood.Pagamentos&metric=coverage)](https://sonarcloud.io/summary/new_code?id=FelipeFabricio_WonderFood.Pagamentos)
 
-# WonderFood.Pagamentos
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=FelipeFabricio_wonderfood-pedidos&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=FelipeFabricio_wonderfood-pedidos)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=FelipeFabricio_wonderfood-pedidos&metric=bugs)](https://sonarcloud.io/summary/new_code?id=FelipeFabricio_wonderfood-pedidos)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=FelipeFabricio_wonderfood-pedidos&metric=coverage)](https://sonarcloud.io/summary/new_code?id=FelipeFabricio_wonderfood-pedidos)
+
+# WonderFood.Pedidos
 
 ## :information_source: Sobre
-Sistema responsável pela parte de pagamentos do restaurante, tendo como principais funcionalidades:
- - Recepção de solicitação do Pagamento de um pedido
-- Comunicação com a processadora de Pagamentos
-- Comunicação das alterações de Status de Pagamento para o Sistema de Pedidos
+
+Sistema responsável por toda a parte de Pedidos do restaurante WonderFood, tendo como principais funcionalidades:
+
+- Criação de Pedidos
+- Consulta do Status atual de um Pedido
+- Envia para Processamento de Pagamento
+- Envio para Produção do Pedido
 <br>
 
 ## :scroll: Links e Documentação
-- #### Modelo de Dados: https://shre.ink/DGGy
+
+
+- #### Diagrama Entidade Relacional: https://shre.ink/DGGG
 - #### Fluxo de Pedido e Pagamento: https://shre.ink/DGGi
-- #### Fluxo da Aplicação: https://shre.ink/DGGZ
+- #### Fluxo da Aplicação: https://shre.ink/DGGj
 - #### Sumário Ubíquo: https://shre.ink/DGGX
 - #### Arquitetura de Infraestrutura no Azure: https://shre.ink/DGGC
 - #### Fluxo Autenticação com Azure AD B2C: https://shre.ink/DGGv
-- #### Relatório OWASP: https://shre.ink/DGhd
-- #### Relatório RIPD: https://shre.ink/DGhk
+- #### Relatório OWASP Inicial: https://shre.ink/DGha
+- #### Relatório OWASP Final: https://shre.ink/DGhH
+- #### Relatório RIPD: https://shre.ink/DGh9
+
 <br>
 
 ## :hammer_and_wrench:  Tecnologias utilizadas
@@ -52,13 +60,15 @@ Até pensei inicialmente em trabalhar com Sagas coreografadas, porém trabalhar 
 
 **Porque Masstransit:** MassTransit é uma biblioteca para .NET que fornece uma plataforma moderna e focada no desenvolvedor para a criação de aplicações distribuídas sem complexidade. Entre os principais fatores que me fizeram optar por utilizá-lo foram:
 
--   **Facilidade de Uso**: Simplifica e **MUITO** a configuração e o gerenciamento de fluxos de trabalho das SAGAS.
--   **Integração Nativa**:  Integra-se facilmente com RabbitMQ, que foi a Message Broker escolhido por mim inicialmente.
--   **Experiência Prévia**: O fato de já ter trabalhado com a biblioteca anterioremente e ter obtido ótimos resultados e experiência durante esse período, também pesaram para a escolha.
--   **Documentação e Suporte**: Possui excelente documentação e suporte, inclusive com vídeos publicados pelo próprio criador da biblioteca.
+ -   **Facilidade de Uso**: Simplifica e **MUITO** a configuração e o gerenciamento de fluxos de trabalho das SAGAS.
+ -   **Integração Nativa**:  Integra-se facilmente com RabbitMQ, que foi a Message Broker escolhido por mim inicialmente.
+ -   **Experiência Prévia**: O fato de já ter trabalhado com a biblioteca anterioremente e ter obtido ótimos resultados e experiência durante esse período, também pesaram para a escolha.
+ -   **Documentação e Suporte**: Possui excelente documentação e suporte, inclusive com vídeos publicados pelo próprio criador da biblioteca.
+ 
 
 Links úteis:
 - **Documentação Masstransit:** https://masstransit.io/
 - **Canal do Criado da Biblioteca:** https://www.youtube.com/@PhatBoyG
+
 
 <br>
