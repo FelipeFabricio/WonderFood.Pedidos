@@ -57,8 +57,8 @@ Até pensei inicialmente em trabalhar com Sagas coreografadas, porém trabalhar 
 -   **Experiência Prévia**: O fato de já ter trabalhado com a biblioteca anterioremente e ter obtido ótimos resultados e experiência durante esse período, também pesaram para a escolha.
 -   **Documentação e Suporte**: Possui excelente documentação e suporte, inclusive com vídeos publicados pelo próprio criador da biblioteca.
 
-**Documentação Masstransit:** https://masstransit.io/
-**Canal do Criado da Biblioteca:** https://www.youtube.com/@PhatBoyG
-
+Links úteis:
+- **Documentação Masstransit:** https://masstransit.io/
+- **Canal do Criado da Biblioteca:** https://www.youtube.com/@PhatBoyG
 
 <br>
